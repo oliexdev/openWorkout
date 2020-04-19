@@ -22,8 +22,6 @@ import com.health.openworkout.core.datatypes.WorkoutSession;
 
 import java.util.List;
 
-import timber.log.Timber;
-
 public class SessionFragment extends Fragment {
     private GridView sessionsView;
 
@@ -50,7 +48,6 @@ public class SessionFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                 WorkoutSession workoutSession = (WorkoutSession)sessionsView.getItemAtPosition(position);
-                Timber.d("SELECTED WORKOUT SESSION ID " + workoutSession.getTrainingPlanId());
 
                 SessionFragmentDirections.ActionSessionFragmentToWorkoutFragment action = SessionFragmentDirections.actionSessionFragmentToWorkoutFragment();
                 action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());

@@ -11,9 +11,11 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
@@ -25,46 +27,27 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class TrainingsAdapter extends BaseAdapter {
+public class TrainingsAdapter extends RecyclerView.Adapter<TrainingsAdapter.ViewHolder> {
     private List<TrainingPlan> trainingPlanList;
-    private LayoutInflater layoutInflater;
     private Context context;
+    private static OnTrainingClickListener onTrainingClickListener;
 
     public TrainingsAdapter(Context aContext, List<TrainingPlan> trainingPlanList) {
         this.context = aContext;
         this.trainingPlanList = trainingPlanList;
-        layoutInflater = LayoutInflater.from(aContext);
     }
 
     @Override
-    public int getCount() {
-        return trainingPlanList.size();
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_training, parent, false);
+
+        ViewHolder viewHolder = new ViewHolder(view);
+
+        return viewHolder;
     }
 
     @Override
-    public Object getItem(int position) {
-        return trainingPlanList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.grid_item_training, null);
-            holder = new ViewHolder();
-            holder.imgView = convertView.findViewById(R.id.imgView);
-            holder.nameView = convertView.findViewById(R.id.nameView);
-            holder.detailedView = convertView.findViewById(R.id.detailedView);
-            holder.trophyView = convertView.findViewById(R.id.trophyView);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TrainingPlan trainingPlan = trainingPlanList.get(position);
         holder.nameView.setText(trainingPlan.getName());
 
@@ -94,13 +77,46 @@ public class TrainingsAdapter extends BaseAdapter {
 
         holder.detailedView.setText(String.format(context.getString(R.string.label_session_size_completed), trainingPlan.finishedSessionSize(), trainingPlan.getWorkoutSessionSize()));
 
-        return convertView;
     }
 
-    static class ViewHolder {
+    @Override
+    public long getItemId(int position) {
+        return trainingPlanList.get(position).getTrainingPlanId();
+    }
+
+    @Override
+    public int getItemCount() {
+        return trainingPlanList.size();
+    }
+
+    public void setOnItemClickListener(OnTrainingClickListener onTrainingClickListener) {
+        this.onTrainingClickListener = onTrainingClickListener;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgView;
         TextView nameView;
         TextView detailedView;
         TextView trophyView;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            imgView = itemView.findViewById(R.id.imgView);
+            nameView = itemView.findViewById(R.id.nameView);
+            detailedView = itemView.findViewById(R.id.detailedView);
+            trophyView = itemView.findViewById(R.id.trophyView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onTrainingClickListener.onItemClick(getAdapterPosition(), v);
+                }
+            });
+        }
+    }
+
+    public interface OnTrainingClickListener {
+        public void onItemClick(int position, View v);
     }
 }

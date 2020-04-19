@@ -46,7 +46,7 @@ public class SessionsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.grid_item_session, null);
+            convertView = layoutInflater.inflate(R.layout.item_session, null);
             holder = new ViewHolder();
             holder.imgView = (ImageView) convertView.findViewById(R.id.imgView);
             holder.nameView = (TextView) convertView.findViewById(R.id.nameView);

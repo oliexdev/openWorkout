@@ -8,12 +8,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
@@ -25,7 +25,7 @@ import java.util.List;
 public class TrainingFragment extends Fragment {
     public enum TRAINING_FRAGMENT_MODE {SELECT, EDIT}
 
-    private GridView trainingsView;
+    private RecyclerView trainingsView;
     private TRAINING_FRAGMENT_MODE fragmentMode;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -33,6 +33,9 @@ public class TrainingFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_training, container, false);
 
         trainingsView = root.findViewById(R.id.trainingsView);
+
+        trainingsView.setHasFixedSize(true);
+        trainingsView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         fragmentMode = TrainingFragmentArgs.fromBundle(getArguments()).getFragmentMode();
 
@@ -42,14 +45,15 @@ public class TrainingFragment extends Fragment {
     }
 
     public void init() {
-        List<TrainingPlan> trainingPlanList = OpenWorkout.getInstance().getTrainingPlans();
+        final List<TrainingPlan> trainingPlanList = OpenWorkout.getInstance().getTrainingPlans();
 
-        trainingsView.setAdapter(new TrainingsAdapter(getContext(), trainingPlanList));
+        TrainingsAdapter trainingsAdapter = new TrainingsAdapter(getContext(), trainingPlanList);
+        trainingsView.setAdapter(trainingsAdapter);
 
-        trainingsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        trainingsAdapter.setOnItemClickListener(new TrainingsAdapter.OnTrainingClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                TrainingPlan trainingPlan = (TrainingPlan)trainingsView.getItemAtPosition(position);
+            public void onItemClick(int position, View v) {
+                TrainingPlan trainingPlan = trainingPlanList.get(position);
 
                 switch (fragmentMode) {
                     case SELECT:
