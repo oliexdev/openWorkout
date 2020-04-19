@@ -1,0 +1,37 @@
+<!--
+  ~ Copyright (C) 2020 by olie.xdev@googlemail.com All Rights Reserved
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+  <path
+      android:pathData="m1.2438,46.6864 l24.0543,23.9206 29.3996,-0.1336 24.1879,-23.6534 -38.8877,-40.4913z"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.26458332"
+      android:fillColor="#003c91"
+      android:strokeColor="#00000000"
+      android:fillAlpha="1"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m18.8836,63.9253 l-8.9535,-8.5526 29.9342,-31.1369 30.0678,31.1369 -8.419,8.419"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.26458332"
+      android:fillColor="#33b6ea"
+      android:strokeColor="#00000000"
+      android:fillAlpha="1"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m18.8836,63.9253 l21.2479,-22.1834 21.3816,22.0497 -6.8154,6.6817 -29.3996,0.1336"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.26458332"
+      android:fillColor="#1efaa0"
+      android:strokeColor="#00000000"
+      android:fillAlpha="1"
+      android:strokeLineCap="butt"/>
+</vector>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2020 by olie.xdev@googlemail.com All Rights Reserved
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.health.openworkout.gui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_HomeFragment_to_TrainingFragment"
+            app:destination="@id/nav_trainings" />
+        <action
+            android:id="@+id/action_HomeFragment_to_WorkoutFragment"
+            app:destination="@id/nav_workout" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_trainings"
+        android:name="com.health.openworkout.gui.training.TrainingFragment"
+        android:label="@string/menu_trainings"
+        tools:layout="@layout/fragment_training">
+
+        <action
+            android:id="@+id/action_TrainingFragment_to_SessionFragment"
+            app:destination="@id/nav_sessions" />
+        <argument
+            android:name="fragment_mode"
+            app:argType="com.health.openworkout.gui.training.TrainingFragment$TRAINING_FRAGMENT_MODE"
+            android:defaultValue="EDIT" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_sessions"
+        android:name="com.health.openworkout.gui.session.SessionFragment"
+        android:label="@string/menu_sessions"
+        tools:layout="@layout/fragment_session">
+
+        <action
+            android:id="@+id/action_SessionFragment_to_WorkoutFragment"
+            app:destination="@id/nav_workout" />
+
+        <argument
+            android:name="TrainingPlanId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_workout"
+        android:name="com.health.openworkout.gui.workout.WorkoutFragment"
+        android:label="@string/menu_workout"
+        tools:layout="@layout/fragment_workout">
+        <argument
+            android:name="SessionWorkoutId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+</navigation>

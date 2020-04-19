@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2020 by olie.xdev@googlemail.com All Rights Reserved
+  -->
+
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">@android:color/holo_blue_light</color>
+    <color name="colorRed">#FF4444</color>
+    <color name="colorDarkBlue">#003c91</color>
+    <color name="colorLightBlue">#33b6ea</color>
+    <color name="colorGreen">#1efaa0</color>
+</resources>

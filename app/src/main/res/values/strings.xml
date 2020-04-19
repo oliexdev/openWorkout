@@ -1,0 +1,62 @@
+<!--
+  ~ Copyright (C) 2020 by olie.xdev@googlemail.com All Rights Reserved
+  -->
+
+<resources>
+    <string name="app_name">openWorkout</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_trainings">Trainings</string>
+    <string name="menu_sessions">Sessions</string>
+    <string name="menu_workout">Workout</string>
+
+    <string name="home_second">Home Second</string>
+
+    <string name="seconds_unit">s</string>
+    <string name="day_unit">%d. day</string>
+
+    <string name="label_session_size_completed">%d of %d sessions completed</string>
+    <string name="label_repetition_info">%d x %s repetition</string>
+
+    <string name="label_start">Start</string>
+    <string name="label_break">Take a break</string>
+    <string name="label_prepare">Prepare your workout</string>
+    <string name="label_workout">Do your workout</string>
+    <string name="speak_halftime">halftime</string>
+
+    <string name="label_male">Male</string>
+    <string name="label_female">Female</string>
+
+    <string name="workout_name_jumping_jack">Jumping Jack</string>
+    <string name="workout_name_wall_sit">Wall sit</string>
+    <string name="workout_name_push_ups">Push Ups</string>
+    <string name="workout_name_abdominal_crunch">Abdonminal crunch</string>
+    <string name="workout_name_step_up">Step up</string>
+    <string name="workout_name_squat">Squat</string>
+    <string name="workout_name_triceps_dip">Triceps dip</string>
+    <string name="workout_name_plank">Plank</string>
+    <string name="workout_name_high_knees">High knees</string>
+    <string name="workout_name_lunge">Lunge</string>
+    <string name="workout_name_push_up_rotation">Push up rotation</string>
+    <string name="workout_name_side_plank">Side plank</string>
+
+    <string name="workout_description_jumping_jack">Stand up with your legs spread and your hands touching overhead. Then as you jump, bring your legs back together and put your arms to your sides. You can speed these up or slow them down to suit your fitness level.</string>
+    <string name="workout_description_wall_sit">Stand with your back to a wall, feet hip-width apart and slightly in front of you. Lean back into the wall, and slide down like you’re sitting down into a chair. Your knees should finish above your ankles, bent at 90 degrees.</string>
+    <string name="workout_description_push_ups">Get into a "plank" position on the floor or mat, feet together with toes tucked under, hands planted flat below your shoulders. Slowly bend your elbows and lower your body toward the floor, as far down as you can go keeping back and hips level. Then press back up and repeat.</string>
+    <string name="workout_description_abdominal_crunch">Start with a basic crunch: Lie flat on your back, with your knees bent and feet on floor. Tighten your core. Press your lower back into the mat and reach toward top of knees. Return to starting position but keep core tight and repeat.</string>
+    <string name="workout_description_step_up">Stand facing a sturdy chair or bench. Step up onto the chair or bench with your left leg, coming all the way up to stand on it with both feet fully. Then step back down and come back up, starting with your right leg this time.</string>
+    <string name="workout_description_squat">Stand with your feet shoulder-width apart and toes forward. Bend your knees as you hinge at the hips, shifting them back and down like you’re about to sit in a chair. Lower yourself as far as you comfortably can, keeping most of your weight on your heels. Stand back up.</string>
+    <string name="workout_description_triceps_dip">Sit on the front edge of a stable and sturdy chair or bench, and put your palms on the edge, fingers pointing forward or slightly toward you. Ease off the chair, supporting your weight with your heels and your palms. Slowly bend your elbows as you lower yourself toward the floor, then push back up. </string>
+    <string name="workout_description_plank">Lie on your stomach on an exercise mat, with your elbows close to your sides, palms down and fingers facing forward. Lift your torso and thighs off the floor, keeping your body straight. Rest your weight on your elbows and your feet, with toes tucked toward shins. Use your core muscles, and stay in this position.</string>
+    <string name="workout_description_high_knees">Run in place, bringing your knees up as high as you can with each step. Focus on lifting your knees up and down rapidly. Try holding your palms out in front of you at waist height, working to "smack" your knee into your palm with each step.</string>
+    <string name="workout_description_lunge">Stand with your feet together. Step forward on your right foot, dropping your pelvis down toward the floor (not forward), lowering yourself until both front and back knees are bent as close to a 90-degree angle as possible. Then push back with the front leg and return to your starting position. Switch legs.</string>
+    <string name="workout_description_push_up_rotation">Start in a standard push-up position. Begin a traditional push-up, but as you come back up, shift your weight onto your left side. Rotate your upper body and extend your right arm straight up toward the ceiling. Return to your starting position, then repeat with right side.</string>
+    <string name="workout_description_side_plank">Lie on your right side on a mat, with your legs straight and your left leg stacked directly on top of the right. Keeping your ankles, knees, hips, and trunk in a straight line, push your weight up on your bent right elbow, which should be directly under your shoulder. Lift your hips, knees, and trunk off the mat. Hold the position for 15 seconds. Then switch sides.</string>
+
+    <string name="training_seven_minutes_workout">Seven minutes workout</string>
+    <string name="training_beginners_workout">Beginners workout</string>
+</resources>

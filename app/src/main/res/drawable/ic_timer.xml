@@ -1,0 +1,40 @@
+<!--
+  ~ Copyright (C) 2020 by olie.xdev@googlemail.com All Rights Reserved
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="468.293dp"
+    android:height="468.293dp"
+    android:viewportWidth="468.293"
+    android:viewportHeight="468.293">
+  <path
+      android:pathData="M364.275,140.489l32.721,-32.721c2.676,-2.676 2.676,-7.016 0,-9.692l-14.978,-14.978c-2.676,-2.676 -7.016,-2.677 -9.692,0l-32.721,32.721L364.275,140.489z"
+      android:fillColor="#64798A"/>
+  <path
+      android:pathData="M364.275,140.489l32.721,-32.721c2.676,-2.676 2.676,-7.016 0,-9.692l-6.688,-6.688l-37.567,37.567L364.275,140.489z"
+      android:fillColor="#3A556A"/>
+  <path
+      android:pathData="M104.018,140.489l-32.721,-32.721c-2.676,-2.676 -2.676,-7.016 0,-9.692l14.978,-14.978c2.676,-2.676 7.016,-2.677 9.692,0l32.721,32.721L104.018,140.489z"
+      android:fillColor="#64798A"/>
+  <path
+      android:pathData="M104.018,140.489l-32.721,-32.721c-2.676,-2.676 -2.676,-7.016 0,-9.692l6.688,-6.688l37.567,37.567L104.018,140.489z"
+      android:fillColor="#3A556A"/>
+  <path
+      android:pathData="M211.106,33.08h46.13v66.835h-46.13z"
+      android:fillColor="#D5D6DB"/>
+  <path
+      android:pathData="M234.146,270.511m-197.782,0a197.782,197.782 0,1 1,395.564 0a197.782,197.782 0,1 1,-395.564 0"
+      android:fillColor="#CE412D"/>
+  <path
+      android:pathData="M234.146,270.511m-155.192,0a155.192,155.192 0,1 1,310.384 0a155.192,155.192 0,1 1,-310.384 0"
+      android:fillColor="#EBF0F3"/>
+  <path
+      android:pathData="M184.87,9.855v29.905c0,5.443 4.412,9.855 9.855,9.855h78.842c5.443,0 9.855,-4.412 9.855,-9.855V9.855c0,-5.443 -4.412,-9.855 -9.855,-9.855h-78.842C189.283,0 184.87,4.412 184.87,9.855z"
+      android:fillColor="#3A556A"/>
+  <path
+      android:pathData="M273.567,0h-37.608v49.616h37.608c5.443,0 9.855,-4.413 9.855,-9.855V9.855C283.422,4.412 279.01,0 273.567,0z"
+      android:fillColor="#2F4859"/>
+  <path
+      android:pathData="M124.409,380.246c60.606,60.606 158.868,60.606 219.474,0s60.606,-158.868 0,-219.474"
+      android:fillColor="#E1E6E9"/>
+</vector>

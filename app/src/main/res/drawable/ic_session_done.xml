@@ -1,0 +1,37 @@
+<!--
+  ~ Copyright (C) 2020 by olie.xdev@googlemail.com All Rights Reserved
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="512dp"
+    android:height="512dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+  <path
+      android:pathData="m40,72h448v416h-448z"
+      android:fillColor="#c3c6c7"/>
+  <path
+      android:pathData="m24,56h432v400h-432z"
+      android:fillColor="#e9eef2"/>
+  <path
+      android:pathData="m240,416a112,112 0,1 1,112 -112,112.127 112.127,0 0,1 -112,112zM240,208a96,96 0,1 0,66.461 26.726,96.108 96.108,0 0,0 -66.461,-26.726z"
+      android:fillColor="#8f9e46"/>
+  <path
+      android:pathData="m24,56h432v96h-432z"
+      android:fillColor="#eb423f"/>
+  <path
+      android:pathData="m112,56v-8a8,8 0,0 0,-16 0v32a8.009,8.009 0,0 0,8 8,8 8,0 0,1 0,16 24.028,24.028 0,0 1,-24 -24v-32a24,24 0,0 1,48 0v8z"
+      android:fillColor="#6a7073"/>
+  <path
+      android:pathData="m176,56v-8a8,8 0,0 0,-16 0v32a8.009,8.009 0,0 0,8 8,8 8,0 0,1 0,16 24.028,24.028 0,0 1,-24 -24v-32a24,24 0,0 1,48 0v8z"
+      android:fillColor="#6a7073"/>
+  <path
+      android:pathData="m320,56v-8a8,8 0,0 0,-16 0v32a8.009,8.009 0,0 0,8 8,8 8,0 0,1 0,16 24.028,24.028 0,0 1,-24 -24v-32a24,24 0,0 1,48 0v8z"
+      android:fillColor="#6a7073"/>
+  <path
+      android:pathData="m384,56v-8a8,8 0,0 0,-16 0v32a8.009,8.009 0,0 0,8 8,8 8,0 0,1 0,16 24.028,24.028 0,0 1,-24 -24v-32a24,24 0,0 1,48 0v8z"
+      android:fillColor="#6a7073"/>
+  <path
+      android:pathData="m292.438,257.344a8,8 0,0 0,-11.094 2.218l-58.587,87.881 -25.1,-25.1a8,8 0,0 0,-11.314 11.314l32,32a8,8 0,0 0,5.657 2.343c0.261,0 0.525,-0.013 0.788,-0.039a8,8 0,0 0,5.868 -3.523l64,-96a8,8 0,0 0,-2.218 -11.094z"
+      android:fillColor="#8f9e46"/>
+</vector>
