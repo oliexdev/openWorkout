@@ -5,8 +5,6 @@
 package com.health.openworkout.gui.training;
 
 import android.content.Context;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,11 +65,9 @@ public class TrainingsAdapter extends RecyclerView.Adapter<TrainingsAdapter.View
         }
 
         if (trainingPlan.getCountFinishedTraining() == 0) {
-            ColorMatrix matrix = new ColorMatrix();
-            matrix.setSaturation(0);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-            holder.trophyView.getBackground().setColorFilter(filter);
+            holder.trophyView.setBackgroundResource(R.drawable.ic_trophy_disabled);
         } else {
+            holder.trophyView.setBackgroundResource(R.drawable.ic_trophy_enabled);
             holder.trophyView.setText(Integer.toString(trainingPlan.getCountFinishedTraining()));
         }
 
