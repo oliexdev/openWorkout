@@ -70,4 +70,12 @@
                 app:layout_constraintTop_toTopOf="@+id/roundCardView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/breakView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="TextView"
+        android:textSize="12sp" />
 </LinearLayout>

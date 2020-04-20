@@ -55,6 +55,20 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
             holder.doneView.setVisibility(View.INVISIBLE);
         }
 
+        if (workoutItem.isTimeMode()) {
+            holder.detailedView.setText(String.format(context.getString(R.string.label_duration_item_info), workoutItem.getWorkoutTime()));
+        } else {
+            holder.detailedView.setText(String.format(context.getString(R.string.label_repetition_item_info), workoutItem.getRepetitionCount()));
+        }
+
+        // if workout item the last in list don't show the break view text
+        if (workoutItemList.get(workoutItemList.size() - 1).getWorkoutItemId() == workoutItem.getWorkoutItemId()) {
+            holder.breakView.setVisibility(View.GONE);
+        } else {
+            holder.breakView.setVisibility(View.VISIBLE);
+            holder.breakView.setText(String.format(context.getString(R.string.label_break_item_info), workoutItem.getBreakTime()));
+        }
+
         try {
 
             String subFolder;
@@ -94,6 +108,7 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
         TextView nameView;
         TextView detailedView;
         ImageView doneView;
+        TextView breakView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,6 +117,7 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
             nameView = itemView.findViewById(R.id.nameView);
             detailedView = itemView.findViewById(R.id.detailedView);
             doneView = itemView.findViewById(R.id.doneView);
+            breakView = itemView.findViewById(R.id.breakView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

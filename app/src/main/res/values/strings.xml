@@ -22,6 +22,9 @@
 
     <string name="label_session_size_completed">%d of %d sessions completed</string>
     <string name="label_repetition_info">%d x %s repetition</string>
+    <string name="label_repetition_item_info">%dx repetition</string>
+    <string name="label_duration_item_info">%ds duration</string>
+    <string name="label_break_item_info">%ds break</string>
 
     <string name="label_start">Start</string>
     <string name="label_break">Take a break</string>
