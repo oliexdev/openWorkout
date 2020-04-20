@@ -32,6 +32,8 @@ import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.utils.SoundUtils;
 
+import timber.log.Timber;
+
 public class WorkoutSlideFragment extends Fragment {
     private enum WORKOUT_STATE {INIT, PREPARE, START, BREAK, FINISH};
     private TextView nameView;
@@ -140,18 +142,19 @@ public class WorkoutSlideFragment extends Fragment {
     }
 
     private void nextWorkout() {
-        if (workoutSession.getNextWorkoutItem() == null) {
-            onFinishSession();
-            return;
-        }
-
         // if no workout item was selected use the next not finished workout item in the session list
         if (workoutItemIdFromFragment == -1L) {
+            if (workoutSession.getNextWorkoutItem() == null) {
+                onFinishSession();
+                return;
+            }
+
             nextWorkoutItem = workoutSession.getNextWorkoutItem();
         } else {
             // otherwise use the workout item as a starting point which was selected in the workout fragment
             for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
                 if (workoutItem.getWorkoutItemId() == workoutItemIdFromFragment) {
+                    Timber.d("selected workout item " + workoutItem.getWorkoutItemId());
                     nextWorkoutItem = workoutItem;
                     workoutItemIdFromFragment = -1L;
                     break;
@@ -224,8 +227,6 @@ public class WorkoutSlideFragment extends Fragment {
     }
 
     private void onFinishWorkoutItem() {
-        SoundUtils.playSound(SoundUtils.SOUND.WORKOUT_STOP);
-
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
@@ -314,12 +315,34 @@ public class WorkoutSlideFragment extends Fragment {
         progressView.setVisibility(View.VISIBLE);
         countdownView.setText(remainingSec + getString(R.string.seconds_unit));
 
+        final int halftimeSec = remainingSec / 2;
+
         countDownTimer = new CountDownTimer(remainingSec * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 remainingSec = (int)(millisUntilFinished / 1000);
                 countdownView.setText(remainingSec + getString(R.string.seconds_unit));
-                progressView.setProgress(remainingSec);            }
+                progressView.setProgress(remainingSec);
+
+                switch (workoutState) {
+                    case PREPARE:
+                        if ((remainingSec == 3) || (remainingSec == 2) || (remainingSec == 1)) {
+                            SoundUtils.playSound(SoundUtils.SOUND.WORKOUT_COUNT_BEFORE_START);
+                        } else if (remainingSec == 0) {
+                            SoundUtils.playSound(SoundUtils.SOUND.WORKOUT_START);
+                        }
+                        break;
+                    case START:
+                        if (remainingSec == halftimeSec) {
+                            SoundUtils.textToSpeech(getContext().getString(R.string.speak_halftime));
+                        } else if ((remainingSec == 3) || (remainingSec == 2) || (remainingSec == 1)) {
+                            SoundUtils.playSound(SoundUtils.SOUND.WORKOUT_COUNT_BEFORE_START);
+                        } else if (remainingSec == 0) {
+                            SoundUtils.playSound(SoundUtils.SOUND.WORKOUT_STOP);
+                        }
+                        break;
+                }
+            }
 
             public void onFinish() {
                 nextWorkoutState();

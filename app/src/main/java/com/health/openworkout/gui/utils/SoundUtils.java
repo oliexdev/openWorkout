@@ -18,7 +18,7 @@ import java.io.IOException;
 import timber.log.Timber;
 
 public class SoundUtils {
-    public enum SOUND {WORKOUT_START, WORKOUT_STOP}
+    public enum SOUND {WORKOUT_COUNT_BEFORE_START, WORKOUT_START, WORKOUT_STOP}
     private static TextToSpeech ttS;
 
     public SoundUtils() {
@@ -29,9 +29,10 @@ public class SoundUtils {
 
         AssetManager assetManager = context.getAssets();
         MediaPlayer mediaPlayer = new MediaPlayer();
-        AssetFileDescriptor afd;
 
         try {
+            AssetFileDescriptor afd = assetManager.openFd("sound/workout.mp3");
+
             switch (sound) {
                 case WORKOUT_START:
                     afd = assetManager.openFd("sound/workout_start.mp3");
@@ -39,7 +40,7 @@ public class SoundUtils {
                 case WORKOUT_STOP:
                     afd = assetManager.openFd("sound/workout_stop.mp3");
                     break;
-                default:
+                case WORKOUT_COUNT_BEFORE_START:
                     afd = assetManager.openFd("sound/workout.mp3");
                     break;
             }
