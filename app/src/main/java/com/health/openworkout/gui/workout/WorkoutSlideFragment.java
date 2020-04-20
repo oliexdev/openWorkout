@@ -25,6 +25,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.alphamovie.lib.AlphaMovieView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
@@ -46,6 +51,7 @@ public class WorkoutSlideFragment extends Fragment {
     private TextView countdownView;
     private ProgressBar progressView;
     private FloatingActionButton nextWorkoutStepView;
+    private AdView adView;
 
     private CountDownTimer countDownTimer;
     private int remainingSec;
@@ -58,6 +64,16 @@ public class WorkoutSlideFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workoutslide, container, false);
+
+        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        adView = root.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         nameView = root.findViewById(R.id.nameView);
         videoView = root.findViewById(R.id.videoView);

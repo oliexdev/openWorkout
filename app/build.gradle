@@ -13,7 +13,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -26,7 +26,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,16 +38,25 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    // Google libraries
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.navigation:navigation-fragment:2.2.1'
-    implementation 'androidx.navigation:navigation-ui:2.2.1'
+    implementation 'androidx.navigation:navigation-fragment:2.2.2'
+    implementation 'androidx.navigation:navigation-ui:2.2.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    // Timber log library
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Room library
     implementation 'androidx.room:room-runtime:2.2.5'
+
+    // Alpha movie
     implementation 'com.alphamovie.library:alpha-movie:1.2.1'
+
+    // Test environment
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -53,4 +64,7 @@ dependencies {
 
     // Debug SQL DB use adb forward tcp:8080 tcp:8080 --> localhost:8080
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+    // Ad sense
+    implementation 'com.google.android.gms:play-services-ads:19.1.0'
 }
