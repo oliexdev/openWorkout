@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         startView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomeFragmentDirections.ActionHomeFragmentToWorkoutFragment action = HomeFragmentDirections.actionHomeFragmentToWorkoutFragment();
+                HomeFragmentDirections.ActionHomeFragmentToWorkoutFragmentSlide action = HomeFragmentDirections.actionHomeFragmentToWorkoutFragmentSlide();
                 action.setSessionWorkoutId(userTrainingPlan.getNextWorkoutSession().getWorkoutSessionId());
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
             }

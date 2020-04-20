@@ -21,20 +21,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/roundCardView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:elevation="0dp"
+                app:cardCornerRadius="30dp">
+
+                <ImageView
+                    android:id="@+id/imgView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:id="@+id/nameView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
                 android:text="TextView"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/trophyView"
-                app:layout_constraintStart_toEndOf="@+id/imgView"
+                app:layout_constraintStart_toEndOf="@id/roundCardView"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/detailedView"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textSize="12sp"
@@ -44,27 +59,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/nameView" />
 
             <ImageView
-                android:id="@+id/imgView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/nameView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_info" />
-
-            <TextView
-                android:id="@+id/trophyView"
+                android:id="@+id/doneView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="0dp"
-                android:background="@drawable/ic_trophy"
+                android:background="@drawable/ic_workout_done"
                 android:gravity="center|top"
-                android:text="0"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/imgView"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/roundCardView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imgView" />
+                app:layout_constraintTop_toTopOf="@+id/roundCardView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

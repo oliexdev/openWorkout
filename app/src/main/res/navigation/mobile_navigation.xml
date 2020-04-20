@@ -18,8 +18,8 @@
             android:id="@+id/action_HomeFragment_to_TrainingFragment"
             app:destination="@id/nav_trainings" />
         <action
-            android:id="@+id/action_HomeFragment_to_WorkoutFragment"
-            app:destination="@id/nav_workout" />
+            android:id="@+id/action_HomeFragment_to_WorkoutFragmentSlide"
+            app:destination="@id/nav_workoutslide" />
     </fragment>
 
     <fragment
@@ -60,6 +60,24 @@
         tools:layout="@layout/fragment_workout">
         <argument
             android:name="SessionWorkoutId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <action
+            android:id="@+id/action_WorkoutFragment_to_WorkoutSlideFragment"
+            app:destination="@id/nav_workoutslide" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_workoutslide"
+        android:name="com.health.openworkout.gui.workout.WorkoutSlideFragment"
+        android:label="@string/menu_workoutslide"
+        tools:layout="@layout/fragment_workoutslide">
+        <argument
+            android:name="SessionWorkoutId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <argument
+            android:name="WorkoutItemId"
             app:argType="long"
             android:defaultValue="-1L" />
     </fragment>
