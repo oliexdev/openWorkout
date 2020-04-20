@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/menu_top" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
@@ -16,5 +16,12 @@
             android:id="@+id/nav_trainings"
             android:icon="@drawable/ic_goal"
             android:title="@string/menu_trainings" />
+    </group>
+
+    <group android:id="@+id/menu_bottom" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info"
+            android:title="@string/label_about" />
     </group>
 </menu>
