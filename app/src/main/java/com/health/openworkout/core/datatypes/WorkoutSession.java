@@ -50,8 +50,10 @@ public class WorkoutSession {
         return trainingPlanId;
     }
 
-    public void addWorkout(WorkoutItem workoutItem) {
+    public WorkoutItem addWorkout(WorkoutItem workoutItem) {
         workoutItems.add(workoutItem);
+
+        return workoutItem;
     }
 
     public void setWorkoutItems(List<WorkoutItem> workoutItems) {

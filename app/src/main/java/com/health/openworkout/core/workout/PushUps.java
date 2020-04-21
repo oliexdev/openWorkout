@@ -14,6 +14,5 @@ public class PushUps extends WorkoutItem {
         setDescription(getContext().getString(R.string.workout_description_push_ups));
         setImagePath("push_ups.png");
         setVideoPath("push_ups.mp4");
-        setTimeMode(false);
     }
 }
