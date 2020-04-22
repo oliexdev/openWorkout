@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -128,6 +129,7 @@ public class WorkoutFragment extends Fragment {
             workoutsAdapter.setOnItemDeleteClickListener(new WorkoutsAdapter.OnWorkoutClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
+                    Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), workoutItemList.get(position).getName()), Toast.LENGTH_SHORT).show();
                     workoutItemList.remove(position);
 
                     workoutsAdapter.notifyItemRemoved(position);
@@ -200,8 +202,10 @@ public class WorkoutFragment extends Fragment {
                 refreshMenuVisibility();
                 saveToDatabase();
                 loadFromDatabase();
+                Toast.makeText(getContext(), String.format(getString(R.string.label_save_toast), workoutSession.getName()), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.reset:
+                Toast.makeText(getContext(), String.format(getString(R.string.label_reset_toast), workoutSession.getName()), Toast.LENGTH_SHORT).show();
                 loadFromDatabase();
                 return true;
             default:

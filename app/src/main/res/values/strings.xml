@@ -43,6 +43,11 @@
     <string name="label_delete">Delete</string>
     <string name="label_add">Add</string>
 
+    <string name="label_add_toast">%s added</string>
+    <string name="label_delete_toast">%s deleted</string>
+    <string name="label_reset_toast">%s reset</string>
+    <string name="label_save_toast">%s saved</string>
+
     <string name="label_name">Name</string>
     <string name="label_description">Description</string>
     <string name="label_preparation_time">Preparation time</string>

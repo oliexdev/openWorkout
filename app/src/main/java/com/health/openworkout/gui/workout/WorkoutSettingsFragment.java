@@ -12,11 +12,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -32,6 +34,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import timber.log.Timber;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class WorkoutSettingsFragment extends Fragment {
     @Keep
@@ -182,12 +186,20 @@ public class WorkoutSettingsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // close keyboard
+        if (getActivity().getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
+
         switch (item.getItemId()) {
             case R.id.save:
                 saveToDatabase();
+                Toast.makeText(getContext(), String.format(getString(R.string.label_save_toast), workoutItem.getName()), Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
                 return true;
             case R.id.reset:
+                Toast.makeText(getContext(), String.format(getString(R.string.label_reset_toast), workoutItem.getName()), Toast.LENGTH_SHORT).show();
                 loadFromDatabase();
                 return true;
             default:
