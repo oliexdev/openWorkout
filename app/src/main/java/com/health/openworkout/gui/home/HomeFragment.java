@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -22,12 +25,11 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.User;
-import com.health.openworkout.gui.training.TrainingFragment;
 
 public class HomeFragment extends Fragment {
     private Button startView;
     private TableRow trainingRow;
-    private TextView trainingNameView;
+    private Spinner trainingNameView;
     private ProgressBar sessionProgressBar;
     private TextView sessionView;
     private RadioGroup avatarGroup;
@@ -55,16 +57,6 @@ public class HomeFragment extends Fragment {
         });
 
         trainingRow = root.findViewById(R.id.trainingRow);
-
-        trainingRow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HomeFragmentDirections.ActionHomeFragmentToTrainingFragment action = HomeFragmentDirections.actionHomeFragmentToTrainingFragment();
-                action.setFragmentMode(TrainingFragment.TRAINING_FRAGMENT_MODE.SELECT);
-                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
-            }
-        });
-
         sessionProgressBar = root.findViewById(R.id.sessionProgressBar);
         sessionView = root.findViewById(R.id.sessionView);
         trainingNameView = root.findViewById(R.id.trainingNameView);
@@ -72,7 +64,25 @@ public class HomeFragment extends Fragment {
         user = openWorkout.getCurrentUser();
         userTrainingPlan = openWorkout.getTrainingPlan(user.getTrainingsPlanId());
 
-        trainingNameView.setText(userTrainingPlan.getName());
+        final ArrayAdapter<TrainingPlan> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_training_item, openWorkout.getTrainingPlans());
+
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_training_item);
+        trainingNameView.setAdapter(spinnerArrayAdapter);
+
+        trainingNameView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                userTrainingPlan = (TrainingPlan)trainingNameView.getSelectedItem();
+
+                user.setTrainingsPlanId(userTrainingPlan.getTrainingPlanId());
+                openWorkout.updateUser(user);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         sessionView.setText("(" + Integer.toString(userTrainingPlan.finishedSessionSize()) + "/" + userTrainingPlan.getWorkoutSessionSize()+")");
         sessionProgressBar.setMax(userTrainingPlan.getWorkoutSessionSize());

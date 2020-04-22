@@ -31,10 +31,6 @@
         <action
             android:id="@+id/action_TrainingFragment_to_SessionFragment"
             app:destination="@id/nav_sessions" />
-        <argument
-            android:name="fragment_mode"
-            app:argType="com.health.openworkout.gui.training.TrainingFragment$TRAINING_FRAGMENT_MODE"
-            android:defaultValue="EDIT" />
     </fragment>
 
     <fragment

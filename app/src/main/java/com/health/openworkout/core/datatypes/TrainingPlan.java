@@ -122,4 +122,9 @@ public class TrainingPlan {
     public void setCountFinishedTraining(int countFinishedTraining) {
         this.countFinishedTraining = countFinishedTraining;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

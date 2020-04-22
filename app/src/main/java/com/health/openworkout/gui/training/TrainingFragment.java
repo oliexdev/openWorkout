@@ -19,16 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
-import com.health.openworkout.core.datatypes.User;
 
 import java.util.List;
 
 public class TrainingFragment extends Fragment {
     @Keep
-    public enum TRAINING_FRAGMENT_MODE {SELECT, EDIT}
+    public enum TRAINING_MODE {SELECT, EDIT}
 
     private RecyclerView trainingsView;
-    private TRAINING_FRAGMENT_MODE fragmentMode;
+    private TRAINING_MODE mode;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,8 +37,6 @@ public class TrainingFragment extends Fragment {
 
         trainingsView.setHasFixedSize(true);
         trainingsView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        fragmentMode = TrainingFragmentArgs.fromBundle(getArguments()).getFragmentMode();
 
         init();
 
@@ -57,28 +54,10 @@ public class TrainingFragment extends Fragment {
             public void onItemClick(int position, View v) {
                 TrainingPlan trainingPlan = trainingPlanList.get(position);
 
-                switch (fragmentMode) {
-                    case SELECT:
-                        onSelectModeClick(trainingPlan);
-                        break;
-                    case EDIT:
-                        onEditModeClick(trainingPlan);
-                        break;
-                }
+                TrainingFragmentDirections.ActionTrainingFragmentToSessionFragment action = TrainingFragmentDirections.actionTrainingFragmentToSessionFragment();
+                action.setTrainingPlanId(trainingPlan.getTrainingPlanId());
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
             }
         });
-    }
-
-    private void onSelectModeClick(TrainingPlan trainingPlan) {
-        User user = OpenWorkout.getInstance().getCurrentUser();
-        user.setTrainingsPlanId(trainingPlan.getTrainingPlanId());
-        OpenWorkout.getInstance().updateUser(user);
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
-    }
-
-    private void onEditModeClick(TrainingPlan trainingPlan) {
-        TrainingFragmentDirections.ActionTrainingFragmentToSessionFragment action = TrainingFragmentDirections.actionTrainingFragmentToSessionFragment();
-        action.setTrainingPlanId(trainingPlan.getTrainingPlanId());
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }
 }
