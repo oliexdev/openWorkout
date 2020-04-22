@@ -25,6 +25,9 @@ public interface WorkoutItemDAO {
     @Delete
     void delete(WorkoutItem workoutItem);
 
+    @Query("SELECT * FROM WorkoutItem WHERE workoutItemId=:workoutItemId")
+    WorkoutItem get(long workoutItemId);
+
     @Query("SELECT * FROM WorkoutItem WHERE workoutSessionId = :workoutSessionId")
     List<WorkoutItem> getAll(long workoutSessionId);
 }

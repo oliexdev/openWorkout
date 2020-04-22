@@ -9,6 +9,15 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/prepView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textSize="12sp" />
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,14 +69,43 @@
 
             <ImageView
                 android:id="@+id/doneView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
                 android:background="@drawable/ic_workout_done"
                 android:gravity="center|top"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/roundCardView"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/reorderView"
                 app:layout_constraintTop_toTopOf="@+id/roundCardView" />
+
+            <ImageView
+                android:id="@+id/reorderView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/deleteView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_reorder" />
+
+            <ImageView
+                android:id="@+id/deleteView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/editView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_delete" />
+
+            <ImageView
+                android:id="@+id/editView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_edit" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -75,7 +113,14 @@
         android:id="@+id/breakView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:gravity="center"
         android:text="TextView"
         android:textSize="12sp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
 </LinearLayout>

@@ -160,6 +160,10 @@ public class OpenWorkout {
         return singleWorkoutSession;
     }
 
+    public WorkoutItem getWorkoutItem(long workoutItemId) {
+        return appDB.workoutItemDAO().get(workoutItemId);
+    }
+
     public long insertTrainingPlan(TrainingPlan trainingPlan) {
         long trainingPlanId = appDB.trainingPlanDAO().insert(trainingPlan);
         for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {
@@ -175,6 +179,23 @@ public class OpenWorkout {
         return trainingPlanId;
     }
 
+    public long insertWorkoutSession(WorkoutSession workoutSession) {
+        long workoutSessionId = appDB.workoutSessionDAO().insert(workoutSession);
+
+        for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
+            workoutItem.setWorkoutSessionId(workoutSessionId);
+            appDB.workoutItemDAO().insert(workoutItem);
+        }
+
+        return workoutSessionId;
+    }
+
+    public long insertWorkoutItem(WorkoutItem workoutItem) {
+        long workoutItemId = appDB.workoutItemDAO().insert(workoutItem);
+
+        return workoutItemId;
+    }
+
     public void deleteTrainingPlan(TrainingPlan trainingPlan) {
         for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {
             for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
@@ -184,6 +205,14 @@ public class OpenWorkout {
         }
 
         appDB.trainingPlanDAO().delete(trainingPlan);
+    }
+
+    public void deleteWorkoutSession(WorkoutSession workoutSession) {
+        for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
+            appDB.workoutItemDAO().delete(workoutItem);
+        }
+
+        appDB.workoutSessionDAO().delete(workoutSession);
     }
 
     public void updateWorkoutItem(WorkoutItem workoutItem) {

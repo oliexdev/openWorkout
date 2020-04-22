@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2020 by olie.xdev@googlemail.com All Rights Reserved
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add"
+        android:title="@string/label_add"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/reset"
+        android:title="@string/label_reset"
+        android:icon="@drawable/ic_reset"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/edit"
+        android:title="@string/label_edit"
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/save"
+        android:title="@string/label_save"
+        android:icon="@drawable/ic_save"
+        app:showAsAction="always" />
+</menu>
