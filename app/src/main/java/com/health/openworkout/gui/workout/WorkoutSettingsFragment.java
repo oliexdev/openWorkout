@@ -18,6 +18,7 @@ import android.widget.Switch;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -33,6 +34,7 @@ import java.io.InputStream;
 import timber.log.Timber;
 
 public class WorkoutSettingsFragment extends Fragment {
+    @Keep
     enum WORKOUT_MODE {VIEW, EDIT, ADD}
 
     private WORKOUT_MODE mode;

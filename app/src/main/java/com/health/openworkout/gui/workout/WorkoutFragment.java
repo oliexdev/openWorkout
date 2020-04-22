@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -28,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class WorkoutFragment extends Fragment {
+    @Keep
     enum WORKOUT_MODE {VIEW, EDIT}
 
     private RecyclerView workoutsView;

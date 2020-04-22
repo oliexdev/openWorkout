@@ -69,11 +69,10 @@
 
             <ImageView
                 android:id="@+id/doneView"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/ic_workout_done"
                 android:gravity="center|top"
-                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/roundCardView"
                 app:layout_constraintEnd_toStartOf="@+id/reorderView"
                 app:layout_constraintTop_toTopOf="@+id/roundCardView" />

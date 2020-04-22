@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -23,6 +24,7 @@ import com.health.openworkout.core.datatypes.User;
 import java.util.List;
 
 public class TrainingFragment extends Fragment {
+    @Keep
     public enum TRAINING_FRAGMENT_MODE {SELECT, EDIT}
 
     private RecyclerView trainingsView;
