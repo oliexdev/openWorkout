@@ -51,6 +51,7 @@ public class WorkoutItem {
         breakTime = 20;
         repetitionCount = 5;
         isTimeMode = true;
+        finished = false;
     }
 
     public final Context getContext() {

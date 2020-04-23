@@ -90,7 +90,6 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
 
         switch (mode) {
             case VIEW:
-                holder.doneView.setVisibility(View.VISIBLE);
                 holder.reorderView.setVisibility(View.GONE);
                 holder.deleteView.setVisibility(View.GONE);
                 holder.editView.setVisibility(View.GONE);
