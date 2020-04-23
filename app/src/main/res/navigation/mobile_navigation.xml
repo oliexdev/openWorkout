@@ -31,6 +31,28 @@
         <action
             android:id="@+id/action_TrainingFragment_to_SessionFragment"
             app:destination="@id/nav_sessions" />
+        <action
+            android:id="@+id/action_TrainingFragment_to_TrainingSettingsFragment"
+            app:destination="@id/nav_trainingsettings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_trainingsettings"
+        android:name="com.health.openworkout.gui.training.TrainingSettingsFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_trainingsettings">
+        <argument
+            android:name="TrainingPlanId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <argument
+            android:name="Mode"
+            app:argType="com.health.openworkout.gui.training.TrainingSettingsFragment$TRAINING_MODE"
+            android:defaultValue="EDIT" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="training settings"/>
     </fragment>
 
     <fragment

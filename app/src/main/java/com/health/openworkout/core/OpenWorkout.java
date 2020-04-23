@@ -91,22 +91,6 @@ public class OpenWorkout {
         return user;
     }
 
-    public void deleteTest() {
-       // SoundUtils.textToSpeech(getContext().getString(R.string.workout_name_jumping_jack));
-        List<TrainingPlan> trainingPlanList = appDB.trainingPlanDAO().getAll();
-
-        if (trainingPlanList.isEmpty()) {
-            Timber.d("Training Plan is empty");
-            return;
-        }
-
-        TrainingPlan deletionTrainingPlan = getTrainingPlan(trainingPlanList.get(0).getTrainingPlanId());
-        Timber.d("DELETE TEST " + deletionTrainingPlan.getName() + " Id " + deletionTrainingPlan.getTrainingPlanId());
-        deleteTrainingPlan(deletionTrainingPlan);
-
-        printTrainingPlans();
-    }
-
     public void printTrainingPlans() {
         Timber.d("################ TRAINING PLAN PRINTOUT #####################");
         List<TrainingPlan> trainingPlanList = appDB.trainingPlanDAO().getAll();
@@ -140,12 +124,14 @@ public class OpenWorkout {
     public TrainingPlan getTrainingPlan(long trainingPlanId) {
         TrainingPlan singleTrainingPlan = appDB.trainingPlanDAO().get(trainingPlanId);
 
-        List<WorkoutSession> workoutSessionList = appDB.workoutSessionDAO().getAll(singleTrainingPlan.getTrainingPlanId());
-        singleTrainingPlan.setWorkoutSessions(workoutSessionList);
+        if (singleTrainingPlan != null) {
+            List<WorkoutSession> workoutSessionList = appDB.workoutSessionDAO().getAll(singleTrainingPlan.getTrainingPlanId());
+            singleTrainingPlan.setWorkoutSessions(workoutSessionList);
 
-        for (WorkoutSession singleWorkoutSession : workoutSessionList) {
-            List<WorkoutItem> workoutItemList = appDB.workoutItemDAO().getAll(singleWorkoutSession.getWorkoutSessionId());
-            singleWorkoutSession.setWorkoutItems(workoutItemList);
+            for (WorkoutSession singleWorkoutSession : workoutSessionList) {
+                List<WorkoutItem> workoutItemList = appDB.workoutItemDAO().getAll(singleWorkoutSession.getWorkoutSessionId());
+                singleWorkoutSession.setWorkoutItems(workoutItemList);
+            }
         }
 
         return singleTrainingPlan;

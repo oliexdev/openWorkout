@@ -7,6 +7,7 @@ package com.health.openworkout.gui.training;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,11 +27,16 @@ import java.util.List;
 import timber.log.Timber;
 
 public class TrainingsAdapter extends RecyclerView.Adapter<TrainingsAdapter.ViewHolder> {
+    private TrainingFragment.TRAINING_MODE mode;
     private List<TrainingPlan> trainingPlanList;
     private Context context;
-    private static OnTrainingClickListener onTrainingClickListener;
+    private static OnTrainingClickListener onDefaultClickListener;
+    private static OnTrainingClickListener onEditClickListener;
+    private static OnTrainingClickListener onDeleteClickListener;
+    private static OnTrainingClickListener onReorderClickListener;
 
-    public TrainingsAdapter(Context aContext, List<TrainingPlan> trainingPlanList) {
+    public TrainingsAdapter(Context aContext, List<TrainingPlan> trainingPlanList, TrainingFragment.TRAINING_MODE mode) {
+        this.mode = mode;
         this.context = aContext;
         this.trainingPlanList = trainingPlanList;
     }
@@ -58,7 +64,8 @@ public class TrainingsAdapter extends RecyclerView.Adapter<TrainingsAdapter.View
             Timber.e(ex);
         }
 
-        if (trainingPlan.getWorkoutSessionSize() == trainingPlan.finishedSessionSize()) {
+        if (!trainingPlan.getWorkoutSessions().isEmpty() &&
+                trainingPlan.getWorkoutSessionSize() == trainingPlan.finishedSessionSize()) {
             trainingPlan.setCountFinishedTraining(trainingPlan.getCountFinishedTraining() + 1);
             trainingPlan.resetFinishedSessions();
             OpenWorkout.getInstance().updateTrainingPlan(trainingPlan);
@@ -73,6 +80,20 @@ public class TrainingsAdapter extends RecyclerView.Adapter<TrainingsAdapter.View
 
         holder.detailedView.setText(String.format(context.getString(R.string.label_session_size_completed), trainingPlan.finishedSessionSize(), trainingPlan.getWorkoutSessionSize()));
 
+        switch (mode) {
+            case VIEW:
+                holder.trophyView.setVisibility(View.VISIBLE);
+                holder.reorderView.setVisibility(View.GONE);
+                holder.deleteView.setVisibility(View.GONE);
+                holder.editView.setVisibility(View.GONE);
+                break;
+            case EDIT:
+                holder.trophyView.setVisibility(View.GONE);
+                holder.reorderView.setVisibility(View.VISIBLE);
+                holder.deleteView.setVisibility(View.VISIBLE);
+                holder.editView.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     @Override
@@ -85,8 +106,20 @@ public class TrainingsAdapter extends RecyclerView.Adapter<TrainingsAdapter.View
         return trainingPlanList.size();
     }
 
-    public void setOnItemClickListener(OnTrainingClickListener onTrainingClickListener) {
-        this.onTrainingClickListener = onTrainingClickListener;
+    public void setOnItemClickListener(OnTrainingClickListener onWorkoutClickListener) {
+        this.onDefaultClickListener = onWorkoutClickListener;
+    }
+
+    public void setOnItemEditClickListener(OnTrainingClickListener onEditClickListener) {
+        this.onEditClickListener = onEditClickListener;
+    }
+
+    public void setOnItemDeleteClickListener(OnTrainingClickListener onDeleteClickListener) {
+        this.onDeleteClickListener = onDeleteClickListener;
+    }
+
+    public void setOnItemReorderClickListener(OnTrainingClickListener onReorderClickListener) {
+        this.onReorderClickListener = onReorderClickListener;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -94,6 +127,9 @@ public class TrainingsAdapter extends RecyclerView.Adapter<TrainingsAdapter.View
         TextView nameView;
         TextView detailedView;
         TextView trophyView;
+        ImageView reorderView;
+        ImageView deleteView;
+        ImageView editView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,11 +138,46 @@ public class TrainingsAdapter extends RecyclerView.Adapter<TrainingsAdapter.View
             nameView = itemView.findViewById(R.id.nameView);
             detailedView = itemView.findViewById(R.id.detailedView);
             trophyView = itemView.findViewById(R.id.trophyView);
+            reorderView = itemView.findViewById(R.id.reorderView);
+            deleteView = itemView.findViewById(R.id.deleteView);
+            editView = itemView.findViewById(R.id.editView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onTrainingClickListener.onItemClick(getAdapterPosition(), v);
+                    if (onDefaultClickListener != null) {
+                        onDefaultClickListener.onItemClick(getAdapterPosition(), v);
+                    }
+                }
+            });
+
+            deleteView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onDeleteClickListener != null) {
+                        onDeleteClickListener.onItemClick(getAdapterPosition(), v);
+                    }
+                }
+            });
+
+            editView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onEditClickListener != null) {
+                        onEditClickListener.onItemClick(getAdapterPosition(), v);
+                    }
+                }
+            });
+
+            reorderView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                        if (onReorderClickListener != null) {
+                            onReorderClickListener.onItemClick(getAdapterPosition(), v);
+                        }
+                    }
+                    return false;
                 }
             });
         }

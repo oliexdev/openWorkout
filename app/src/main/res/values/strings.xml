@@ -43,6 +43,7 @@
     <string name="label_delete">Delete</string>
     <string name="label_add">Add</string>
 
+    <string name="label_training_plans">training plans</string>
     <string name="label_add_toast">%s added</string>
     <string name="label_delete_toast">%s deleted</string>
     <string name="label_reset_toast">%s reset</string>

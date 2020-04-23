@@ -30,10 +30,10 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
     private WorkoutFragment.WORKOUT_MODE mode;
     private final List<WorkoutItem> workoutItemList;
     private Context context;
-    private static OnWorkoutClickListener onWorkoutClickListener;
-    private static OnWorkoutClickListener onWorkoutEditClickListener;
-    private static OnWorkoutClickListener onWorkoutDeleteClickListener;
-    private static OnWorkoutClickListener onWorkoutReorderClickListener;
+    private static OnWorkoutClickListener onDefaultClickListener;
+    private static OnWorkoutClickListener onEditClickListener;
+    private static OnWorkoutClickListener onDeleteClickListener;
+    private static OnWorkoutClickListener onReorderClickListener;
 
     public WorkoutsAdapter(Context aContext, List<WorkoutItem> workoutItemList, WorkoutFragment.WORKOUT_MODE mode) {
         this.mode = mode;
@@ -115,19 +115,19 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
     }
 
     public void setOnItemClickListener(OnWorkoutClickListener onWorkoutClickListener) {
-        this.onWorkoutClickListener = onWorkoutClickListener;
+        this.onDefaultClickListener = onWorkoutClickListener;
     }
 
     public void setOnItemEditClickListener(OnWorkoutClickListener onWorkoutClickListener) {
-        this.onWorkoutEditClickListener = onWorkoutClickListener;
+        this.onEditClickListener = onWorkoutClickListener;
     }
 
     public void setOnItemDeleteClickListener(OnWorkoutClickListener onWorkoutClickListener) {
-        this.onWorkoutDeleteClickListener = onWorkoutClickListener;
+        this.onDeleteClickListener = onWorkoutClickListener;
     }
 
     public void setOnItemReorderClickListener(OnWorkoutClickListener onWorkoutClickListener) {
-        this.onWorkoutReorderClickListener = onWorkoutClickListener;
+        this.onReorderClickListener = onWorkoutClickListener;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -157,8 +157,8 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onWorkoutClickListener != null) {
-                        onWorkoutClickListener.onItemClick(getAdapterPosition(), v);
+                    if (onDefaultClickListener != null) {
+                        onDefaultClickListener.onItemClick(getAdapterPosition(), v);
                     }
                 }
             });
@@ -166,8 +166,8 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
             deleteView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onWorkoutDeleteClickListener != null) {
-                        onWorkoutDeleteClickListener.onItemClick(getAdapterPosition(), v);
+                    if (onDeleteClickListener != null) {
+                        onDeleteClickListener.onItemClick(getAdapterPosition(), v);
                     }
                 }
             });
@@ -175,8 +175,8 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
             editView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onWorkoutEditClickListener != null) {
-                        onWorkoutEditClickListener.onItemClick(getAdapterPosition(), v);
+                    if (onEditClickListener != null) {
+                        onEditClickListener.onItemClick(getAdapterPosition(), v);
                     }
                 }
             });
@@ -185,8 +185,8 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                        if (onWorkoutReorderClickListener != null) {
-                            onWorkoutReorderClickListener.onItemClick(getAdapterPosition(), v);
+                        if (onReorderClickListener != null) {
+                            onReorderClickListener.onItemClick(getAdapterPosition(), v);
                         }
                     }
                     return false;

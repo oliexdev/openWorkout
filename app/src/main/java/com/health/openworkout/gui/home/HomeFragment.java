@@ -64,17 +64,23 @@ public class HomeFragment extends Fragment {
         user = openWorkout.getCurrentUser();
         userTrainingPlan = openWorkout.getTrainingPlan(user.getTrainingsPlanId());
 
-        final ArrayAdapter<TrainingPlan> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_training_item, openWorkout.getTrainingPlans());
+        //  was user training plan deleted then get a new one
+        if (userTrainingPlan == null) {
+            userTrainingPlan = openWorkout.getTrainingPlans().get(0);
+        }
 
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_training_item);
+        final ArrayAdapter<TrainingPlan> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, openWorkout.getTrainingPlans());
+
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         trainingNameView.setAdapter(spinnerArrayAdapter);
+        trainingNameView.setSelection(0,false);
 
         trainingNameView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                userTrainingPlan = (TrainingPlan)trainingNameView.getSelectedItem();
+                TrainingPlan selectedTrainingPlan = spinnerArrayAdapter.getItem(position);
 
-                user.setTrainingsPlanId(userTrainingPlan.getTrainingPlanId());
+                user.setTrainingsPlanId(selectedTrainingPlan.getTrainingPlanId());
                 openWorkout.updateUser(user);
             }
 
@@ -83,6 +89,12 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        for (int i=0; i<spinnerArrayAdapter.getCount(); i++) {
+            if (userTrainingPlan.getTrainingPlanId() == spinnerArrayAdapter.getItem(i).getTrainingPlanId()) {
+                trainingNameView.setSelection(i);
+            }
+        }
 
         sessionView.setText("(" + Integer.toString(userTrainingPlan.finishedSessionSize()) + "/" + userTrainingPlan.getWorkoutSessionSize()+")");
         sessionProgressBar.setMax(userTrainingPlan.getWorkoutSessionSize());
