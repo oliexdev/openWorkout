@@ -18,6 +18,7 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
+import com.health.openworkout.gui.datatypes.GenericFragment;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,11 +27,11 @@ import java.util.List;
 import timber.log.Timber;
 
 public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> {
-    private GenericAdapter.FRAGMENT_MODE mode;
+    private GenericFragment.FRAGMENT_MODE mode;
     private final List<WorkoutItem> workoutItemList;
     private Context context;
 
-    public WorkoutsAdapter(Context aContext, List<WorkoutItem> workoutItemList, GenericAdapter.FRAGMENT_MODE mode) {
+    public WorkoutsAdapter(Context aContext, List<WorkoutItem> workoutItemList, GenericFragment.FRAGMENT_MODE mode) {
         super(aContext, mode);
         this.mode = mode;
         this.context = aContext;

@@ -16,15 +16,16 @@ import androidx.annotation.NonNull;
 import com.health.openworkout.R;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
+import com.health.openworkout.gui.datatypes.GenericFragment;
 
 import java.util.List;
 
 public class SessionsAdapter extends GenericAdapter<SessionsAdapter.ViewHolder> {
-    private GenericAdapter.FRAGMENT_MODE mode;
+    private GenericFragment.FRAGMENT_MODE mode;
     private List<WorkoutSession> workoutSessionList;
     private Context context;
 
-    public SessionsAdapter(Context aContext, List<WorkoutSession> workoutSessionList, GenericAdapter.FRAGMENT_MODE mode) {
+    public SessionsAdapter(Context aContext, List<WorkoutSession> workoutSessionList, GenericFragment.FRAGMENT_MODE mode) {
         super(aContext, mode);
         this.mode = mode;
         this.context = aContext;

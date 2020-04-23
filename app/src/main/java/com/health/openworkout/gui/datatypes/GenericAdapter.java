@@ -10,23 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.health.openworkout.R;
 
 public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> extends RecyclerView.Adapter<VH> {
-    @Keep
-    public enum FRAGMENT_MODE {VIEW, EDIT}
-    private FRAGMENT_MODE mode;
+    private GenericFragment.FRAGMENT_MODE mode;
     private Context context;
     private static OnGenericClickListener onDefaultClickListener;
     private static OnGenericClickListener onEditClickListener;
     private static OnGenericClickListener onDeleteClickListener;
     private static OnGenericClickListener onReorderClickListener;
 
-    public GenericAdapter(Context aContext, FRAGMENT_MODE mode) {
+    public GenericAdapter(Context aContext, GenericFragment.FRAGMENT_MODE mode) {
         this.mode = mode;
         this.context = aContext;
     }
