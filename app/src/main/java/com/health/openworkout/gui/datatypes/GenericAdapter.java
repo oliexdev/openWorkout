@@ -23,9 +23,17 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
     private static OnGenericClickListener onDeleteClickListener;
     private static OnGenericClickListener onReorderClickListener;
 
-    public GenericAdapter(Context aContext, GenericFragment.FRAGMENT_MODE mode) {
-        this.mode = mode;
+    public GenericAdapter(Context aContext) {
+        this.mode = GenericFragment.FRAGMENT_MODE.VIEW;
         this.context = aContext;
+    }
+
+    public void setMode(GenericFragment.FRAGMENT_MODE mode) {
+        this.mode = mode;
+    }
+
+    public GenericFragment.FRAGMENT_MODE getMode() {
+        return mode;
     }
 
     public abstract VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType);

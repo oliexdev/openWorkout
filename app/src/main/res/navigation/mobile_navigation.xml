@@ -47,7 +47,7 @@
             android:defaultValue="-1L" />
         <argument
             android:name="Mode"
-            app:argType="com.health.openworkout.gui.training.TrainingSettingsFragment$TRAINING_MODE"
+            app:argType="com.health.openworkout.gui.datatypes.GenericSettingsFragment$SETTING_MODE"
             android:defaultValue="EDIT" />
         <argument
             android:name="title"
@@ -89,7 +89,7 @@
             android:defaultValue="-1L" />
         <argument
             android:name="Mode"
-            app:argType="com.health.openworkout.gui.session.SessionSettingsFragment$SESSION_MODE"
+            app:argType="com.health.openworkout.gui.datatypes.GenericSettingsFragment$SETTING_MODE"
             android:defaultValue="EDIT" />
         <argument
             android:name="title"
@@ -129,7 +129,7 @@
             android:defaultValue="-1L" />
         <argument
             android:name="Mode"
-            app:argType="com.health.openworkout.gui.workout.WorkoutSettingsFragment$WORKOUT_MODE"
+            app:argType="com.health.openworkout.gui.datatypes.GenericSettingsFragment$SETTING_MODE"
             android:defaultValue="EDIT" />
         <argument
             android:name="title"

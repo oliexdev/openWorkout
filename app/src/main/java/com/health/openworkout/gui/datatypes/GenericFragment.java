@@ -25,7 +25,7 @@ public abstract class GenericFragment extends Fragment {
     @Keep
     public enum FRAGMENT_MODE {VIEW, EDIT}
 
-    protected static FRAGMENT_MODE mode = FRAGMENT_MODE.VIEW;
+    private FRAGMENT_MODE mode = FRAGMENT_MODE.VIEW;
 
     private ItemTouchHelper touchHelper;
 
@@ -57,6 +57,10 @@ public abstract class GenericFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    public FRAGMENT_MODE getMode() {
+        return mode;
     }
 
     protected abstract String getTitle();
@@ -100,7 +104,9 @@ public abstract class GenericFragment extends Fragment {
             getAdapter().setOnItemClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
-                    onSelectClick(position);
+                    if (position != -1) {
+                        onSelectClick(position);
+                    }
                 }
             });
         }
@@ -113,23 +119,29 @@ public abstract class GenericFragment extends Fragment {
             getAdapter().setOnItemEditClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
-                    onEditClick(position);
+                    if (position != -1) {
+                        onEditClick(position);
+                    }
                 }
             });
 
             getAdapter().setOnItemDeleteClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
-                    getAdapter().notifyItemRemoved(position);
+                    if (position != -1) {
+                        getAdapter().notifyItemRemoved(position);
 
-                    onDeleteClick(position);
+                        onDeleteClick(position);
+                    }
                 }
             });
 
             getAdapter().setOnItemReorderClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
-                    touchHelper.startDrag(getRecyclerView().findViewHolderForLayoutPosition(position));
+                    if (position != -1) {
+                        touchHelper.startDrag(getRecyclerView().findViewHolderForLayoutPosition(position));
+                    }
                 }
             });
         }
@@ -143,11 +155,13 @@ public abstract class GenericFragment extends Fragment {
                 return true;
             case R.id.edit:
                 mode = GenericFragment.FRAGMENT_MODE.EDIT;
+                getAdapter().setMode(mode);
                 refreshMenuVisibility();
                 loadFromDatabase();
                 return true;
             case R.id.save:
                 mode = GenericFragment.FRAGMENT_MODE.VIEW;
+                getAdapter().setMode(mode);
                 refreshMenuVisibility();
                 saveToDatabase();
                 loadFromDatabase();

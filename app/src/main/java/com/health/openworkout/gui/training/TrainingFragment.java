@@ -21,6 +21,7 @@ import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.User;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 import com.health.openworkout.gui.datatypes.GenericFragment;
+import com.health.openworkout.gui.datatypes.GenericSettingsFragment;
 
 import java.util.List;
 
@@ -54,7 +55,8 @@ public class TrainingFragment extends GenericFragment {
     protected void loadFromDatabase() {
         trainingPlanList = OpenWorkout.getInstance().getTrainingPlans();
 
-        trainingsAdapter = new TrainingsAdapter(getContext(), trainingPlanList, mode);
+        trainingsAdapter = new TrainingsAdapter(getContext(), trainingPlanList);
+        trainingsAdapter.setMode(getMode());
         trainingsView.setAdapter(trainingsAdapter);
     }
 
@@ -113,7 +115,7 @@ public class TrainingFragment extends GenericFragment {
 
         TrainingFragmentDirections.ActionTrainingFragmentToTrainingSettingsFragment action = TrainingFragmentDirections.actionTrainingFragmentToTrainingSettingsFragment();
         action.setTrainingPlanId(trainingPlan.getTrainingPlanId());
-        action.setMode(TrainingSettingsFragment.TRAINING_MODE.EDIT);
+        action.setMode(GenericSettingsFragment.SETTING_MODE.EDIT);
         action.setTitle(getString(R.string.label_edit));
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }
@@ -127,7 +129,7 @@ public class TrainingFragment extends GenericFragment {
     @Override
     protected void onAddClick() {
         TrainingFragmentDirections.ActionTrainingFragmentToTrainingSettingsFragment action = TrainingFragmentDirections.actionTrainingFragmentToTrainingSettingsFragment();
-        action.setMode(TrainingSettingsFragment.TRAINING_MODE.ADD);
+        action.setMode(GenericSettingsFragment.SETTING_MODE.ADD);
         action.setTitle(getString(R.string.label_add));
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }

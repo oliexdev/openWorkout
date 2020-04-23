@@ -21,6 +21,7 @@ import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 import com.health.openworkout.gui.datatypes.GenericFragment;
+import com.health.openworkout.gui.datatypes.GenericSettingsFragment;
 
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class SessionFragment extends GenericFragment {
 
         SessionFragmentDirections.ActionSessionsFragmentToSessionSettingsFragment action = SessionFragmentDirections.actionSessionsFragmentToSessionSettingsFragment();
         action.setWorkoutSessionId(workoutSession.getWorkoutSessionId());
-        action.setMode(SessionSettingsFragment.SESSION_MODE.EDIT);
+        action.setMode(GenericSettingsFragment.SETTING_MODE.EDIT);
         action.setTitle(getString(R.string.label_edit));
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }
@@ -96,7 +97,7 @@ public class SessionFragment extends GenericFragment {
     protected void onAddClick() {
         SessionFragmentDirections.ActionSessionsFragmentToSessionSettingsFragment action = SessionFragmentDirections.actionSessionsFragmentToSessionSettingsFragment();
         action.setTrainingPlanId(trainingPlan.getTrainingPlanId());
-        action.setMode(SessionSettingsFragment.SESSION_MODE.ADD);
+        action.setMode(GenericSettingsFragment.SETTING_MODE.ADD);
         action.setTitle(getString(R.string.label_add));
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }
@@ -108,7 +109,8 @@ public class SessionFragment extends GenericFragment {
 
         workoutSessionList = trainingPlan.getWorkoutSessions();
 
-        sessionsAdapter = new SessionsAdapter(getContext(), workoutSessionList, mode);
+        sessionsAdapter = new SessionsAdapter(getContext(), workoutSessionList);
+        sessionsAdapter.setMode(getMode());
         sessionsView.setAdapter(sessionsAdapter);
     }
 

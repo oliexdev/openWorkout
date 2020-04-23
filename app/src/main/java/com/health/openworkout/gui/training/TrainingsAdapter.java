@@ -18,7 +18,6 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
-import com.health.openworkout.gui.datatypes.GenericFragment;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,13 +26,11 @@ import java.util.List;
 import timber.log.Timber;
 
 public class TrainingsAdapter extends GenericAdapter<TrainingsAdapter.ViewHolder> {
-    private GenericFragment.FRAGMENT_MODE mode;
     private List<TrainingPlan> trainingPlanList;
     private Context context;
 
-    public TrainingsAdapter(Context aContext, List<TrainingPlan> trainingPlanList, GenericFragment.FRAGMENT_MODE mode) {
-        super(aContext, mode);
-        this.mode = mode;
+    public TrainingsAdapter(Context aContext, List<TrainingPlan> trainingPlanList) {
+        super(aContext);
         this.context = aContext;
         this.trainingPlanList = trainingPlanList;
     }
@@ -78,7 +75,7 @@ public class TrainingsAdapter extends GenericAdapter<TrainingsAdapter.ViewHolder
 
         holder.detailedView.setText(String.format(context.getString(R.string.label_session_size_completed), trainingPlan.finishedSessionSize(), trainingPlan.getWorkoutSessionSize()));
 
-        switch (mode) {
+        switch (getMode()) {
             case VIEW:
                 holder.trophyView.setVisibility(View.VISIBLE);
                 break;

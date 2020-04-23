@@ -21,6 +21,7 @@ import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 import com.health.openworkout.gui.datatypes.GenericFragment;
+import com.health.openworkout.gui.datatypes.GenericSettingsFragment;
 
 import java.util.List;
 
@@ -34,7 +35,6 @@ public class WorkoutFragment extends GenericFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workout, container, false);
-        setHasOptionsMenu(true);
 
         workoutsView = root.findViewById(R.id.workoutsView);
 
@@ -58,7 +58,8 @@ public class WorkoutFragment extends GenericFragment {
 
         workoutItemList = workoutSession.getWorkoutItems();
 
-        workoutsAdapter = new WorkoutsAdapter(getContext(), workoutItemList, mode);
+        workoutsAdapter = new WorkoutsAdapter(getContext(), workoutItemList);
+        workoutsAdapter.setMode(getMode());
         workoutsView.setAdapter(workoutsAdapter);
     }
 
@@ -107,7 +108,7 @@ public class WorkoutFragment extends GenericFragment {
         WorkoutFragmentDirections.ActionWorkoutFramgentToWorkoutSettingsFragment action = WorkoutFragmentDirections.actionWorkoutFramgentToWorkoutSettingsFragment();
         action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());
         action.setWorkoutItemId(workoutItem.getWorkoutItemId());
-        action.setMode(WorkoutSettingsFragment.WORKOUT_MODE.EDIT);
+        action.setMode(GenericSettingsFragment.SETTING_MODE.EDIT);
         action.setTitle(getString(R.string.label_edit));
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }
@@ -122,7 +123,7 @@ public class WorkoutFragment extends GenericFragment {
     protected void onAddClick() {
         WorkoutFragmentDirections.ActionWorkoutFramgentToWorkoutSettingsFragment action = WorkoutFragmentDirections.actionWorkoutFramgentToWorkoutSettingsFragment();
         action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());
-        action.setMode(WorkoutSettingsFragment.WORKOUT_MODE.ADD);
+        action.setMode(GenericSettingsFragment.SETTING_MODE.ADD);
         action.setTitle(getString(R.string.label_add));
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }

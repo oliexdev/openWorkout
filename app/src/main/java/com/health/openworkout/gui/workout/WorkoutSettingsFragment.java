@@ -7,41 +7,28 @@ package com.health.openworkout.gui.workout;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import com.alphamovie.lib.AlphaMovieView;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.WorkoutItem;
+import com.health.openworkout.gui.datatypes.GenericSettingsFragment;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import timber.log.Timber;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
-
-public class WorkoutSettingsFragment extends Fragment {
-    @Keep
-    enum WORKOUT_MODE {VIEW, EDIT, ADD}
-
-    private WORKOUT_MODE mode;
+public class WorkoutSettingsFragment extends GenericSettingsFragment {
     private WorkoutItem workoutItem;
 
     private ImageView imgView;
@@ -59,10 +46,6 @@ public class WorkoutSettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workoutsettings, container, false);
-        setHasOptionsMenu(true);
-
-        mode = WorkoutSettingsFragmentArgs.fromBundle(getArguments()).getMode();
-        long workoutItemId = WorkoutSettingsFragmentArgs.fromBundle(getArguments()).getWorkoutItemId();
 
         imgView = root.findViewById(R.id.imgView);
         nameView = root.findViewById(R.id.nameView);
@@ -84,21 +67,29 @@ public class WorkoutSettingsFragment extends Fragment {
             }
         });
 
+        setMode(WorkoutSettingsFragmentArgs.fromBundle(getArguments()).getMode());
+
+        return root;
+    }
+
+    @Override
+    protected String getTitle() {
+        return workoutItem.getName();
+    }
+
+    @Override
+    protected void loadFromDatabase(SETTING_MODE mode) {
         switch (mode) {
             case ADD:
                 workoutItem = new WorkoutItem();
                 break;
             case EDIT:
+                long workoutItemId = WorkoutSettingsFragmentArgs.fromBundle(getArguments()).getWorkoutItemId();
+
                 workoutItem = OpenWorkout.getInstance().getWorkoutItem(workoutItemId);
                 break;
         }
 
-        loadFromDatabase();
-
-        return root;
-    }
-
-    private void loadFromDatabase() {
         try {
             String subFolder;
             if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
@@ -149,7 +140,8 @@ public class WorkoutSettingsFragment extends Fragment {
         }
     }
 
-    private void saveToDatabase() {
+    @Override
+    protected void saveToDatabase(SETTING_MODE mode) {
         workoutItem.setName(nameView.getText().toString());
         workoutItem.setDescription(descriptionView.getText().toString());
         workoutItem.setPrepTime(Integer.valueOf(prepTimeView.getText().toString()));
@@ -167,43 +159,6 @@ public class WorkoutSettingsFragment extends Fragment {
             case EDIT:
                 OpenWorkout.getInstance().updateWorkoutItem(workoutItem);
                 break;
-        }
-    }
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_menu, menu);
-
-        MenuItem editMenu = menu.findItem(R.id.edit);
-        editMenu.setVisible(false);
-
-        MenuItem addMenu = menu.findItem(R.id.add);
-        addMenu.setVisible(false);
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // close keyboard
-        if (getActivity().getCurrentFocus() != null) {
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        }
-
-        switch (item.getItemId()) {
-            case R.id.save:
-                saveToDatabase();
-                Toast.makeText(getContext(), String.format(getString(R.string.label_save_toast), workoutItem.getName()), Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
-                return true;
-            case R.id.reset:
-                Toast.makeText(getContext(), String.format(getString(R.string.label_reset_toast), workoutItem.getName()), Toast.LENGTH_SHORT).show();
-                loadFromDatabase();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 }
