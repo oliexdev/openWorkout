@@ -58,7 +58,7 @@
     <fragment
         android:id="@+id/nav_sessions"
         android:name="com.health.openworkout.gui.session.SessionFragment"
-        android:label="@string/menu_sessions"
+        android:label="{title}"
         tools:layout="@layout/fragment_session">
 
         <action
@@ -69,6 +69,10 @@
             android:name="TrainingPlanId"
             app:argType="long"
             android:defaultValue="-1L" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="sessions"/>
         <action
             android:id="@+id/action_SessionsFragment_to_SessionSettingsFragment"
             app:destination="@id/nav_sessionsettings" />
@@ -100,12 +104,16 @@
     <fragment
         android:id="@+id/nav_workout"
         android:name="com.health.openworkout.gui.workout.WorkoutFragment"
-        android:label="@string/menu_workout"
+        android:label="{title}"
         tools:layout="@layout/fragment_workout">
         <argument
             android:name="SessionWorkoutId"
             app:argType="long"
             android:defaultValue="-1L" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="workout"/>
         <action
             android:id="@+id/action_WorkoutFragment_to_WorkoutSlideFragment"
             app:destination="@id/nav_workoutslide" />
@@ -140,7 +148,7 @@
     <fragment
         android:id="@+id/nav_workoutslide"
         android:name="com.health.openworkout.gui.workout.WorkoutSlideFragment"
-        android:label="@string/menu_workoutslide"
+        android:label="{title}"
         tools:layout="@layout/fragment_workoutslide">
         <argument
             android:name="SessionWorkoutId"
@@ -150,5 +158,9 @@
             android:name="WorkoutItemId"
             app:argType="long"
             android:defaultValue="-1L" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="workout slide"/>
     </fragment>
 </navigation>

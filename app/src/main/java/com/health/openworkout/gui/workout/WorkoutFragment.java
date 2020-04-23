@@ -96,6 +96,7 @@ public class WorkoutFragment extends GenericFragment {
         WorkoutItem workoutItem = workoutItemList.get(position);
 
         WorkoutFragmentDirections.ActionWorkoutFragmentToWorkoutSlideFragment action = WorkoutFragmentDirections.actionWorkoutFragmentToWorkoutSlideFragment();
+        action.setTitle(workoutSession.getName());
         action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());
         action.setWorkoutItemId(workoutItem.getWorkoutItemId());
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);

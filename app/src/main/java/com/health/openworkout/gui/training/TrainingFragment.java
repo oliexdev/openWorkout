@@ -105,6 +105,7 @@ public class TrainingFragment extends GenericFragment {
         TrainingPlan trainingPlan = trainingPlanList.get(position);
 
         TrainingFragmentDirections.ActionTrainingFragmentToSessionFragment action = TrainingFragmentDirections.actionTrainingFragmentToSessionFragment();
+        action.setTitle(trainingPlan.getName());
         action.setTrainingPlanId(trainingPlan.getTrainingPlanId());
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }

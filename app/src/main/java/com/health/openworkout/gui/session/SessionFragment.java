@@ -72,6 +72,7 @@ public class SessionFragment extends GenericFragment {
         WorkoutSession workoutSession = workoutSessionList.get(position);
 
         SessionFragmentDirections.ActionSessionFragmentToWorkoutFragment action = SessionFragmentDirections.actionSessionFragmentToWorkoutFragment();
+        action.setTitle(workoutSession.getName());
         action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }

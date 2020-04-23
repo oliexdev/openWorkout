@@ -26,6 +26,7 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.User;
+import com.health.openworkout.core.datatypes.WorkoutSession;
 
 public class HomeFragment extends Fragment {
     private Button startView;
@@ -52,8 +53,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 userTrainingPlan = openWorkout.getTrainingPlan(user.getTrainingsPlanId());
+                WorkoutSession nextUserWorkoutSession = userTrainingPlan.getNextWorkoutSession();
                 HomeFragmentDirections.ActionHomeFragmentToWorkoutFragmentSlide action = HomeFragmentDirections.actionHomeFragmentToWorkoutFragmentSlide();
-                action.setSessionWorkoutId(userTrainingPlan.getNextWorkoutSession().getWorkoutSessionId());
+                action.setTitle(nextUserWorkoutSession.getName());
+                action.setSessionWorkoutId(nextUserWorkoutSession.getWorkoutSessionId());
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
             }
         });
