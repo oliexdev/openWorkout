@@ -69,6 +69,32 @@
             android:name="TrainingPlanId"
             app:argType="long"
             android:defaultValue="-1L" />
+        <action
+            android:id="@+id/action_SessionsFragment_to_SessionSettingsFragment"
+            app:destination="@id/nav_sessionsettings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_sessionsettings"
+        android:name="com.health.openworkout.gui.session.SessionSettingsFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_sessionsettings">
+        <argument
+            android:name="TrainingPlanId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <argument
+            android:name="WorkoutSessionId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <argument
+            android:name="Mode"
+            app:argType="com.health.openworkout.gui.session.SessionSettingsFragment$SESSION_MODE"
+            android:defaultValue="EDIT" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="session settings"/>
     </fragment>
 
     <fragment
