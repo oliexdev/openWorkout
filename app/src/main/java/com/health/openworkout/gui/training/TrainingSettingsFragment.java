@@ -5,6 +5,7 @@
 package com.health.openworkout.gui.training;
 
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,13 @@ public class TrainingSettingsFragment extends GenericSettingsFragment {
         imgView = root.findViewById(R.id.imgView);
         nameView = root.findViewById(R.id.nameView);
 
+        imgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageFileDialog();
+            }
+        });
+
         setMode(TrainingSettingsFragmentArgs.fromBundle(getArguments()).getMode());
 
         return root;
@@ -45,6 +53,11 @@ public class TrainingSettingsFragment extends GenericSettingsFragment {
     @Override
     protected String getTitle() {
         return trainingPlan.getName();
+    }
+
+    @Override
+    protected void onNewImagePath(Uri uri) {
+        imgView.setImageURI(uri);
     }
 
     @Override
@@ -60,22 +73,30 @@ public class TrainingSettingsFragment extends GenericSettingsFragment {
                 break;
         }
 
-        try {
-            InputStream ims = getContext().getAssets().open("image/" + trainingPlan.getImagePath());
-            imgView.setImageDrawable(Drawable.createFromStream(ims, null));
+        if (trainingPlan.isImagePathExternal()) {
+            imgView.setImageURI(Uri.parse(trainingPlan.getImagePath()));
+        } else {
+            try {
+                InputStream ims = getContext().getAssets().open("image/" + trainingPlan.getImagePath());
+                imgView.setImageDrawable(Drawable.createFromStream(ims, null));
 
-            ims.close();
-        }
-        catch(IOException ex) {
-            Timber.e(ex);
+                ims.close();
+            } catch (IOException ex) {
+                Timber.e(ex);
+            }
         }
 
         nameView.setText(trainingPlan.getName());
     }
 
     @Override
-    protected void saveToDatabase(SETTING_MODE mode) {
+    protected boolean saveToDatabase(SETTING_MODE mode) {
         trainingPlan.setName(nameView.getText().toString());
+
+        if (!getImagePath().isEmpty()) {
+            trainingPlan.setImagePath(getImagePath());
+            trainingPlan.setImagePathExternal(true);
+        }
 
         switch (mode) {
             case ADD:
@@ -85,5 +106,7 @@ public class TrainingSettingsFragment extends GenericSettingsFragment {
                 OpenWorkout.getInstance().updateTrainingPlan(trainingPlan);
                 break;
         }
+
+        return true;
     }
 }

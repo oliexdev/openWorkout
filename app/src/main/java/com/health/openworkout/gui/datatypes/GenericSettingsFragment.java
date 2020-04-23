@@ -4,6 +4,11 @@
 
 package com.health.openworkout.gui.datatypes;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,11 +16,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Keep;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.health.openworkout.R;
 
+import java.io.File;
+
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public abstract class GenericSettingsFragment extends Fragment {
@@ -24,13 +33,25 @@ public abstract class GenericSettingsFragment extends Fragment {
 
     private SETTING_MODE mode = SETTING_MODE.EDIT;
 
+    private final int REQUEST_OPEN_IMAGE_DIALOG = 1;
+    private final int REQUEST_OPEN_VIDEO_DIALOG = 2;
+    private final int READ_STORAGE_PERMISSION_REQUEST_CODE = 3;
+
+    private String imgPath;
+    private String videoPath;
+
     public GenericSettingsFragment() {
         setHasOptionsMenu(true);
+
+        imgPath = new String();
+        videoPath = new String();
     }
 
     protected abstract String getTitle();
     protected abstract void loadFromDatabase(SETTING_MODE mode);
-    protected abstract void saveToDatabase(SETTING_MODE mode);
+    protected abstract boolean saveToDatabase(SETTING_MODE mode);
+    protected void onNewImagePath(Uri uri){};
+    protected void onNewVideoPath(Uri uri){};
 
     protected void setMode(SETTING_MODE mode) {
         this.mode = mode;
@@ -39,6 +60,12 @@ public abstract class GenericSettingsFragment extends Fragment {
 
     protected SETTING_MODE getMode() {
         return mode;
+    }
+    protected String getImagePath() {
+        return imgPath;
+    }
+    protected String getVideoPath() {
+        return videoPath;
     }
 
     @Override
@@ -64,9 +91,10 @@ public abstract class GenericSettingsFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.save:
-                saveToDatabase(mode);
-                Toast.makeText(getContext(), String.format(getString(R.string.label_save_toast), getTitle()), Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
+                if (saveToDatabase(mode)) {
+                    Toast.makeText(getContext(), String.format(getString(R.string.label_save_toast), getTitle()), Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
+                }
                 return true;
             case R.id.reset:
                 Toast.makeText(getContext(), String.format(getString(R.string.label_reset_toast), getTitle()), Toast.LENGTH_SHORT).show();
@@ -74,6 +102,69 @@ public abstract class GenericSettingsFragment extends Fragment {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void openImageFileDialog() {
+        if (checkPermissionForReadExternalStorage()) {
+            Intent intent = new Intent()
+                    .setType("image/*")
+                    .setAction(Intent.ACTION_GET_CONTENT);
+
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_image_file)), REQUEST_OPEN_IMAGE_DIALOG);
+        } else {
+            requestPermissionForReadExternalStorage();
+        }
+    }
+
+    protected void openVideoFileDialog() {
+        if (checkPermissionForReadExternalStorage()) {
+            Intent intent = new Intent()
+                    .setType("video/*")
+                    .setAction(Intent.ACTION_GET_CONTENT);
+
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video_file)), REQUEST_OPEN_VIDEO_DIALOG);
+        } else {
+            requestPermissionForReadExternalStorage();
+        }
+    }
+
+    protected boolean checkPermissionForReadExternalStorage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int result = getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED;
+        }
+        return false;
+    }
+
+    protected void requestPermissionForReadExternalStorage() {
+        try {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    READ_STORAGE_PERMISSION_REQUEST_CODE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+            File file = new File(uri.getPath());//create path from uri
+            final String[] split = file.getPath().split(":");//split the path.
+            String filePath = split[1];
+
+            if (requestCode == REQUEST_OPEN_IMAGE_DIALOG) {
+                onNewImagePath(uri);
+                imgPath = filePath;
+            }
+
+            if (requestCode == REQUEST_OPEN_VIDEO_DIALOG) {
+                onNewVideoPath(uri);
+                videoPath = filePath;
+            }
         }
     }
 }

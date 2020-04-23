@@ -5,6 +5,7 @@
 package com.health.openworkout.gui.workout;
 
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,9 +68,46 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
             }
         });
 
+        imgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageFileDialog();
+            }
+        });
+
+        videoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openVideoFileDialog();
+            }
+        });
+
         setMode(WorkoutSettingsFragmentArgs.fromBundle(getArguments()).getMode());
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        videoView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        videoView.onPause();
+    }
+
+    @Override
+    protected void onNewImagePath(Uri uri) {
+        imgView.setImageURI(uri);
+    }
+
+    @Override
+    protected void onNewVideoPath(Uri uri) {
+        videoView.setVideoFromUri(getContext(), uri);
+        videoView.setLooping(true);
     }
 
     @Override
@@ -90,34 +128,37 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
                 break;
         }
 
-        try {
-            String subFolder;
-            if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
-                subFolder = "male";
-            } else {
-                subFolder = "female";
-            }
-
-            InputStream ims = getContext().getAssets().open("image/" + subFolder + "/" + workoutItem.getImagePath());
-            imgView.setImageDrawable(Drawable.createFromStream(ims, null));
-
-            ims.close();
-        }
-        catch(IOException ex) {
-            Timber.e(ex);
-        }
-
-        if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
-            videoView.setVideoFromAssets("video/male/" + workoutItem.getVideoPath());
+        if (workoutItem.isImagePathExternal()) {
+            imgView.setImageURI(Uri.parse(workoutItem.getImagePath()));
         } else {
-            videoView.setVideoFromAssets("video/female/" + workoutItem.getVideoPath());
-        }
-        videoView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                videoView.pause();
+            try {
+                String subFolder;
+                if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
+                    subFolder = "male";
+                } else {
+                    subFolder = "female";
+                }
+
+                InputStream ims = getContext().getAssets().open("image/" + subFolder + "/" + workoutItem.getImagePath());
+                imgView.setImageDrawable(Drawable.createFromStream(ims, null));
+
+                ims.close();
+            } catch (IOException ex) {
+                Timber.e(ex);
             }
-        },100);
+        }
+
+        if (workoutItem.isVideoPathExternal()) {
+            videoView.setVideoFromUri(getContext(), Uri.parse(workoutItem.getVideoPath()));
+        } else {
+            if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
+                videoView.setVideoFromAssets("video/male/" + workoutItem.getVideoPath());
+            } else {
+                videoView.setVideoFromAssets("video/female/" + workoutItem.getVideoPath());
+            }
+        }
+        videoView.setLooping(true);
+        videoView.start();
 
         nameView.setText(workoutItem.getName());
         descriptionView.setText(workoutItem.getDescription());
@@ -141,12 +182,46 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
     }
 
     @Override
-    protected void saveToDatabase(SETTING_MODE mode) {
+    protected boolean saveToDatabase(SETTING_MODE mode) {
+        boolean checkFormat = true;
+
         workoutItem.setName(nameView.getText().toString());
         workoutItem.setDescription(descriptionView.getText().toString());
-        workoutItem.setPrepTime(Integer.valueOf(prepTimeView.getText().toString()));
-        workoutItem.setWorkoutTime(Integer.valueOf(workoutTimeView.getText().toString()));
-        workoutItem.setBreakTime(Integer.valueOf(breakTimeView.getText().toString()));
+        if (prepTimeView.getText().toString().isEmpty()) {
+            prepTimeView.setError(getString(R.string.error_empty_text));
+            checkFormat = false;
+        } else {
+            workoutItem.setPrepTime(Integer.valueOf(prepTimeView.getText().toString()));
+        }
+        if (workoutTimeView.getText().toString().isEmpty()) {
+            workoutTimeView.setError(getString(R.string.error_empty_text));
+            checkFormat = false;
+        } else {
+            workoutItem.setWorkoutTime(Integer.valueOf(workoutTimeView.getText().toString()));
+        }
+        if (breakTimeView.getText().toString().isEmpty()) {
+            breakTimeView.setError(getString(R.string.error_empty_text));
+            checkFormat = false;
+        } else {
+            workoutItem.setBreakTime(Integer.valueOf(breakTimeView.getText().toString()));
+        }
+        if (repetitionCountView.getText().toString().isEmpty()) {
+            repetitionCountView.setError(getString(R.string.error_empty_text));
+            checkFormat = false;
+        } else {
+            workoutItem.setRepetitionCount(Integer.valueOf(repetitionCountView.getText().toString()));
+        }
+
+        if (!getImagePath().isEmpty()) {
+            workoutItem.setImagePath(getImagePath());
+            workoutItem.setImagePathExternal(true);
+        }
+
+        if (!getVideoPath().isEmpty()) {
+            workoutItem.setVideoPath(getVideoPath());
+            workoutItem.setVideoPathExternal(true);
+        }
+
         workoutItem.setTimeMode(timeModeView.isChecked());
 
         switch (mode) {
@@ -160,5 +235,7 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
                 OpenWorkout.getInstance().updateWorkoutItem(workoutItem);
                 break;
         }
+
+        return checkFormat;
     }
 }

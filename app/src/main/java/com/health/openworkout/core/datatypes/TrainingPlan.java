@@ -23,16 +23,14 @@ public class TrainingPlan {
 
     @ColumnInfo
     private String name;
-
     @ColumnInfo
     private String imagePath;
-
+    @ColumnInfo
+    private boolean isImagePathExternal;
     @ColumnInfo
     private int countFinishedTraining;
-
     @Ignore
     private List<WorkoutSession> workoutSessions;
-
     @Ignore
     private final Context context;
 
@@ -113,6 +111,14 @@ public class TrainingPlan {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public boolean isImagePathExternal() {
+        return isImagePathExternal;
+    }
+
+    public void setImagePathExternal(boolean imagePathExternal) {
+        isImagePathExternal = imagePathExternal;
     }
 
     public int getCountFinishedTraining() {

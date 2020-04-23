@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f02dd68ec8aa48c8f0770df69ffe276c",
+    "identityHash": "f7b8c9528bc76eb18709ea5ccce2fa84",
     "entities": [
       {
         "tableName": "User",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "TrainingPlan",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trainingPlanId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `imagePath` TEXT, `countFinishedTraining` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trainingPlanId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `imagePath` TEXT, `isImagePathExternal` INTEGER NOT NULL, `countFinishedTraining` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "trainingPlanId",
@@ -57,6 +57,12 @@
             "columnName": "imagePath",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "isImagePathExternal",
+            "columnName": "isImagePathExternal",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "countFinishedTraining",
@@ -114,7 +120,7 @@
       },
       {
         "tableName": "WorkoutItem",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutItemId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `workoutSessionId` INTEGER NOT NULL, `name` TEXT, `description` TEXT, `imagePath` TEXT, `videoPath` TEXT, `prepTime` INTEGER NOT NULL, `workoutTime` INTEGER NOT NULL, `breakTime` INTEGER NOT NULL, `repetitionCount` INTEGER NOT NULL, `isTimeMode` INTEGER NOT NULL, `finished` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutItemId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `workoutSessionId` INTEGER NOT NULL, `name` TEXT, `description` TEXT, `imagePath` TEXT, `isImagePathExternal` INTEGER NOT NULL, `videoPath` TEXT, `isVideoPathExternal` INTEGER NOT NULL, `prepTime` INTEGER NOT NULL, `workoutTime` INTEGER NOT NULL, `breakTime` INTEGER NOT NULL, `repetitionCount` INTEGER NOT NULL, `isTimeMode` INTEGER NOT NULL, `finished` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "workoutItemId",
@@ -147,10 +153,22 @@
             "notNull": false
           },
           {
+            "fieldPath": "isImagePathExternal",
+            "columnName": "isImagePathExternal",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "videoPath",
             "columnName": "videoPath",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "isVideoPathExternal",
+            "columnName": "isVideoPathExternal",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "prepTime",
@@ -202,7 +220,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f02dd68ec8aa48c8f0770df69ffe276c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f7b8c9528bc76eb18709ea5ccce2fa84')"
     ]
   }
 }

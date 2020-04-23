@@ -64,7 +64,7 @@ public class SessionSettingsFragment extends GenericSettingsFragment {
     }
 
     @Override
-    protected void saveToDatabase(SETTING_MODE mode) {
+    protected boolean saveToDatabase(SETTING_MODE mode) {
         workoutSession.setName(nameView.getText().toString());
 
         switch (mode) {
@@ -78,6 +78,8 @@ public class SessionSettingsFragment extends GenericSettingsFragment {
                 OpenWorkout.getInstance().updateWorkoutSession(workoutSession);
                 break;
         }
+
+        return true;
     }
 
 

@@ -19,13 +19,10 @@ public class WorkoutSession {
 
     @ColumnInfo
     private long trainingPlanId;
-
     @ColumnInfo
     public String name;
-
     @ColumnInfo
     private boolean finished;
-
     @Ignore
     private List<WorkoutItem> workoutItems;
 

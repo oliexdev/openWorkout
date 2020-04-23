@@ -12,10 +12,8 @@ import androidx.room.PrimaryKey;
 public class User {
     @PrimaryKey(autoGenerate = true)
     private long userId;
-
     @ColumnInfo
     private long trainingsPlanId;
-
     @ColumnInfo
     private boolean isMale;
 

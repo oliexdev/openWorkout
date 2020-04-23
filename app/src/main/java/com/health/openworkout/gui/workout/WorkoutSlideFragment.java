@@ -7,6 +7,7 @@ package com.health.openworkout.gui.workout;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -181,10 +182,14 @@ public class WorkoutSlideFragment extends Fragment {
         int workoutItemPos = workoutSession.getWorkoutItems().indexOf(nextWorkoutItem) + 1;
         nameView.setText(nextWorkoutItem.getName() + " (" + workoutItemPos + "/" + workoutSession.getWorkoutItems().size() + ")");
 
-        if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
-            videoView.setVideoFromAssets("video/male/" + nextWorkoutItem.getVideoPath());
+        if (nextWorkoutItem.isVideoPathExternal()) {
+            videoView.setVideoFromUri(getContext(), Uri.parse(nextWorkoutItem.getVideoPath()));
         } else {
-            videoView.setVideoFromAssets("video/female/" + nextWorkoutItem.getVideoPath());
+            if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
+                videoView.setVideoFromAssets("video/male/" + nextWorkoutItem.getVideoPath());
+            } else {
+                videoView.setVideoFromAssets("video/female/" + nextWorkoutItem.getVideoPath());
+            }
         }
         videoView.setLooping(true);
         videoView.postDelayed(new Runnable() {

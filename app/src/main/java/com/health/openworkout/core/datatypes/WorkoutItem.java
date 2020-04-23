@@ -27,7 +27,11 @@ public class WorkoutItem {
     @ColumnInfo
     private String imagePath;
     @ColumnInfo
+    private boolean isImagePathExternal;
+    @ColumnInfo
     private String videoPath;
+    @ColumnInfo
+    private boolean isVideoPathExternal;
     @ColumnInfo
     private int prepTime;
     @ColumnInfo
@@ -102,12 +106,28 @@ public class WorkoutItem {
         imagePath = context.getResources().getResourceEntryName(resId);
     }
 
+    public boolean isImagePathExternal() {
+        return isImagePathExternal;
+    }
+
+    public void setImagePathExternal(boolean imagePathExternal) {
+        isImagePathExternal = imagePathExternal;
+    }
+
     public String getVideoPath() {
         return videoPath;
     }
 
     public void setVideoPath(String videoPath) {
         this.videoPath = videoPath;
+    }
+
+    public boolean isVideoPathExternal() {
+        return isVideoPathExternal;
+    }
+
+    public void setVideoPathExternal(boolean videoPathExternal) {
+        isVideoPathExternal = videoPathExternal;
     }
 
     public int getPrepTime() {

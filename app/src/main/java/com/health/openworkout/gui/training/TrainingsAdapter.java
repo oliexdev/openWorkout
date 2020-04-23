@@ -6,6 +6,7 @@ package com.health.openworkout.gui.training;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,13 +51,16 @@ public class TrainingsAdapter extends GenericAdapter<TrainingsAdapter.ViewHolder
         TrainingPlan trainingPlan = trainingPlanList.get(position);
         holder.nameView.setText(trainingPlan.getName());
 
-        try {
-            InputStream ims = context.getAssets().open("image/" + trainingPlan.getImagePath());
-            holder.imgView.setImageDrawable(Drawable.createFromStream(ims, null));
-            ims.close();
-        }
-        catch(IOException ex) {
-            Timber.e(ex);
+        if (trainingPlan.isImagePathExternal()) {
+            holder.imgView.setImageURI(Uri.parse(trainingPlan.getImagePath()));
+        } else {
+            try {
+                InputStream ims = context.getAssets().open("image/" + trainingPlan.getImagePath());
+                holder.imgView.setImageDrawable(Drawable.createFromStream(ims, null));
+                ims.close();
+            } catch (IOException ex) {
+                Timber.e(ex);
+            }
         }
 
         if (!trainingPlan.getWorkoutSessions().isEmpty() &&

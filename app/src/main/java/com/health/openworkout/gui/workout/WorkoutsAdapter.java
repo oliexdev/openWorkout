@@ -5,6 +5,8 @@
 package com.health.openworkout.gui.workout;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,22 +67,25 @@ public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> 
         holder.prepView.setText(String.format(context.getString(R.string.label_prep_duration_item_info), workoutItem.getPrepTime()));
         holder.breakView.setText(String.format(context.getString(R.string.label_break_duration_item_info), workoutItem.getBreakTime()));
 
-        try {
+        if (workoutItem.isImagePathExternal()) {
+            Bitmap img = BitmapFactory.decodeFile(workoutItem.getImagePath());
+            holder.imgView.setImageBitmap(img);
+        } else {
+            try {
+                String subFolder;
+                if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
+                    subFolder = "male";
+                } else {
+                    subFolder = "female";
+                }
 
-            String subFolder;
-            if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
-                subFolder = "male";
-            } else {
-                subFolder = "female";
+                InputStream ims = context.getAssets().open("image/" + subFolder + "/" + workoutItem.getImagePath());
+                holder.imgView.setImageDrawable(Drawable.createFromStream(ims, null));
+
+                ims.close();
+            } catch (IOException ex) {
+                Timber.e(ex);
             }
-
-            InputStream ims = context.getAssets().open("image/" + subFolder + "/" + workoutItem.getImagePath());
-            holder.imgView.setImageDrawable(Drawable.createFromStream(ims, null));
-
-            ims.close();
-        }
-        catch(IOException ex) {
-            Timber.e(ex);
         }
 
         switch (getMode()) {
