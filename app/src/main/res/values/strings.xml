@@ -62,6 +62,10 @@
     <string name="label_male">Male</string>
     <string name="label_female">Female</string>
 
+    <string name="error_no_trainings">No workout trainings found. Please create a workout training.</string>
+    <string name="error_no_sessions">No workout session in %s found. Please create a workout session.</string>
+    <string name="error_no_workout_items">No workout item in %s found. Please create a workout item.</string>
+
     <string name="workout_name_jumping_jack">Jumping Jack</string>
     <string name="workout_name_wall_sit">Wall sit</string>
     <string name="workout_name_push_ups">Push Ups</string>

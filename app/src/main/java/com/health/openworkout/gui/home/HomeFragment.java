@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -53,11 +54,24 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 userTrainingPlan = openWorkout.getTrainingPlan(user.getTrainingsPlanId());
-                WorkoutSession nextUserWorkoutSession = userTrainingPlan.getNextWorkoutSession();
-                HomeFragmentDirections.ActionHomeFragmentToWorkoutFragmentSlide action = HomeFragmentDirections.actionHomeFragmentToWorkoutFragmentSlide();
-                action.setTitle(nextUserWorkoutSession.getName());
-                action.setSessionWorkoutId(nextUserWorkoutSession.getWorkoutSessionId());
-                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
+
+                if (userTrainingPlan != null) {
+                    WorkoutSession nextUserWorkoutSession = userTrainingPlan.getNextWorkoutSession();
+                    if (nextUserWorkoutSession != null) {
+                        if (!nextUserWorkoutSession.getWorkoutItems().isEmpty()) {
+                            HomeFragmentDirections.ActionHomeFragmentToWorkoutFragmentSlide action = HomeFragmentDirections.actionHomeFragmentToWorkoutFragmentSlide();
+                            action.setTitle(nextUserWorkoutSession.getName());
+                            action.setSessionWorkoutId(nextUserWorkoutSession.getWorkoutSessionId());
+                            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
+                        } else {
+                            Toast.makeText(getContext(), String.format(getString(R.string.error_no_workout_items), nextUserWorkoutSession.getName()), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getContext(), String.format(getString(R.string.error_no_sessions), userTrainingPlan.getName()), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), R.string.error_no_trainings, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -69,9 +83,17 @@ public class HomeFragment extends Fragment {
         user = openWorkout.getCurrentUser();
         userTrainingPlan = openWorkout.getTrainingPlan(user.getTrainingsPlanId());
 
-        //  was user training plan deleted then get a new one
+        //  if user training plan was deleted
         if (userTrainingPlan == null) {
-            userTrainingPlan = openWorkout.getTrainingPlans().get(0);
+            // abort if all training plans were deleted
+            if (openWorkout.getTrainingPlans().isEmpty()) {
+                return root;
+            } else {
+                // get the first one in training plan list and update user training plan id if exist
+                userTrainingPlan = openWorkout.getTrainingPlans().get(0);
+                user.setTrainingsPlanId(userTrainingPlan.getTrainingPlanId());
+                openWorkout.updateUser(user);
+            }
         }
 
         final ArrayAdapter<TrainingPlan> spinnerArrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, openWorkout.getTrainingPlans());
