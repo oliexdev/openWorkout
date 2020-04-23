@@ -11,14 +11,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.health.openworkout.R;
@@ -28,7 +29,7 @@ import com.health.openworkout.core.datatypes.User;
 
 public class HomeFragment extends Fragment {
     private Button startView;
-    private TableRow trainingRow;
+    private ImageView detailTrainingView;
     private Spinner trainingNameView;
     private ProgressBar sessionProgressBar;
     private TextView sessionView;
@@ -57,7 +58,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        trainingRow = root.findViewById(R.id.trainingRow);
+        detailTrainingView = root.findViewById(R.id.detailTrainingView);
         sessionProgressBar = root.findViewById(R.id.sessionProgressBar);
         sessionView = root.findViewById(R.id.sessionView);
         trainingNameView = root.findViewById(R.id.trainingNameView);
@@ -129,6 +130,14 @@ public class HomeFragment extends Fragment {
                 }
 
                 openWorkout.updateUser(user);
+            }
+        });
+
+        detailTrainingView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections action = HomeFragmentDirections.actionHomeFragmentToTrainingFragment();
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
             }
         });
 
