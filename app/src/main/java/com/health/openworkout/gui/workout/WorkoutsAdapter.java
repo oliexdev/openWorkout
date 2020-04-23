@@ -7,18 +7,17 @@ package com.health.openworkout.gui.workout;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.WorkoutItem;
+import com.health.openworkout.gui.datatypes.GenericAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,23 +25,20 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHolder> {
-    private WorkoutFragment.WORKOUT_MODE mode;
+public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> {
+    private GenericAdapter.FRAGMENT_MODE mode;
     private final List<WorkoutItem> workoutItemList;
     private Context context;
-    private static OnWorkoutClickListener onDefaultClickListener;
-    private static OnWorkoutClickListener onEditClickListener;
-    private static OnWorkoutClickListener onDeleteClickListener;
-    private static OnWorkoutClickListener onReorderClickListener;
 
-    public WorkoutsAdapter(Context aContext, List<WorkoutItem> workoutItemList, WorkoutFragment.WORKOUT_MODE mode) {
+    public WorkoutsAdapter(Context aContext, List<WorkoutItem> workoutItemList, GenericAdapter.FRAGMENT_MODE mode) {
+        super(aContext, mode);
         this.mode = mode;
         this.context = aContext;
         this.workoutItemList = workoutItemList;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public WorkoutsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workout, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
@@ -52,6 +48,7 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         WorkoutItem workoutItem = workoutItemList.get(position);
         holder.nameView.setText(workoutItem.getName());
 
@@ -90,15 +87,9 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
 
         switch (mode) {
             case VIEW:
-                holder.reorderView.setVisibility(View.GONE);
-                holder.deleteView.setVisibility(View.GONE);
-                holder.editView.setVisibility(View.GONE);
                 break;
             case EDIT:
                 holder.doneView.setVisibility(View.GONE);
-                holder.reorderView.setVisibility(View.VISIBLE);
-                holder.deleteView.setVisibility(View.VISIBLE);
-                holder.editView.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -113,31 +104,12 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
         return workoutItemList.size();
     }
 
-    public void setOnItemClickListener(OnWorkoutClickListener onWorkoutClickListener) {
-        this.onDefaultClickListener = onWorkoutClickListener;
-    }
-
-    public void setOnItemEditClickListener(OnWorkoutClickListener onWorkoutClickListener) {
-        this.onEditClickListener = onWorkoutClickListener;
-    }
-
-    public void setOnItemDeleteClickListener(OnWorkoutClickListener onWorkoutClickListener) {
-        this.onDeleteClickListener = onWorkoutClickListener;
-    }
-
-    public void setOnItemReorderClickListener(OnWorkoutClickListener onWorkoutClickListener) {
-        this.onReorderClickListener = onWorkoutClickListener;
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends GenericAdapter.ViewHolder {
         TextView prepView;
         ImageView imgView;
         TextView nameView;
         TextView detailedView;
         ImageView doneView;
-        ImageView reorderView;
-        ImageView deleteView;
-        ImageView editView;
         TextView breakView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -148,53 +120,7 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.ViewHo
             nameView = itemView.findViewById(R.id.nameView);
             detailedView = itemView.findViewById(R.id.detailedView);
             doneView = itemView.findViewById(R.id.doneView);
-            reorderView = itemView.findViewById(R.id.reorderView);
-            deleteView = itemView.findViewById(R.id.deleteView);
-            editView = itemView.findViewById(R.id.editView);
             breakView = itemView.findViewById(R.id.breakView);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onDefaultClickListener != null) {
-                        onDefaultClickListener.onItemClick(getAdapterPosition(), v);
-                    }
-                }
-            });
-
-            deleteView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onDeleteClickListener != null) {
-                        onDeleteClickListener.onItemClick(getAdapterPosition(), v);
-                    }
-                }
-            });
-
-            editView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onEditClickListener != null) {
-                        onEditClickListener.onItemClick(getAdapterPosition(), v);
-                    }
-                }
-            });
-
-            reorderView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                        if (onReorderClickListener != null) {
-                            onReorderClickListener.onItemClick(getAdapterPosition(), v);
-                        }
-                    }
-                    return false;
-                }
-            });
         }
-    }
-
-    public interface OnWorkoutClickListener {
-        public void onItemClick(int position, View v);
     }
 }

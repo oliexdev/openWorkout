@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -25,14 +24,12 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.WorkoutSession;
+import com.health.openworkout.gui.datatypes.GenericAdapter;
 
 import java.util.Collections;
 import java.util.List;
 
 public class SessionFragment extends Fragment {
-    @Keep
-    public enum SESSION_MODE {VIEW, EDIT}
-
     private RecyclerView sessionsView;
 
     private TrainingPlan trainingPlan;
@@ -41,7 +38,7 @@ public class SessionFragment extends Fragment {
     private SessionsAdapter sessionsAdapter;
     private ItemTouchHelper touchHelper;
 
-    private static SESSION_MODE mode = SESSION_MODE.VIEW;
+    private static GenericAdapter.FRAGMENT_MODE mode = GenericAdapter.FRAGMENT_MODE.VIEW;
     private MenuItem saveMenu;
     private MenuItem editMenu;
 
@@ -93,10 +90,10 @@ public class SessionFragment extends Fragment {
         sessionsAdapter = new SessionsAdapter(getContext(), workoutSessionList, mode);
         sessionsView.setAdapter(sessionsAdapter);
 
-        if (mode == SESSION_MODE.VIEW) {
+        if (mode == GenericAdapter.FRAGMENT_MODE.VIEW) {
             touchHelper.attachToRecyclerView(null);
 
-            sessionsAdapter.setOnItemClickListener(new SessionsAdapter.OnSessionClickListener() {
+            sessionsAdapter.setOnItemClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
                     WorkoutSession workoutSession = workoutSessionList.get(position);
@@ -108,12 +105,12 @@ public class SessionFragment extends Fragment {
             });
         }
 
-        if (mode == SESSION_MODE.EDIT) {
+        if (mode == GenericAdapter.FRAGMENT_MODE.EDIT) {
             sessionsAdapter.setOnItemClickListener(null);
 
             touchHelper.attachToRecyclerView(sessionsView);
 
-            sessionsAdapter.setOnItemEditClickListener(new SessionsAdapter.OnSessionClickListener() {
+            sessionsAdapter.setOnItemEditClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
                     WorkoutSession workoutSession = workoutSessionList.get(position);
@@ -126,7 +123,7 @@ public class SessionFragment extends Fragment {
                 }
             });
 
-            sessionsAdapter.setOnItemDeleteClickListener(new SessionsAdapter.OnSessionClickListener() {
+            sessionsAdapter.setOnItemDeleteClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
                     Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), workoutSessionList.get(position).getName()), Toast.LENGTH_SHORT).show();
@@ -136,10 +133,10 @@ public class SessionFragment extends Fragment {
                 }
             });
 
-            sessionsAdapter.setOnItemReorderClickListener(new SessionsAdapter.OnSessionClickListener() {
+            sessionsAdapter.setOnItemReorderClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
-                    touchHelper.startDrag(sessionsView.findViewHolderForAdapterPosition(position));
+                    touchHelper.startDrag(sessionsView.findViewHolderForLayoutPosition(position));
                 }
             });
         }
@@ -193,12 +190,12 @@ public class SessionFragment extends Fragment {
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
                 return true;
             case R.id.edit:
-                mode = SESSION_MODE.EDIT;
+                mode = GenericAdapter.FRAGMENT_MODE.EDIT;
                 refreshMenuVisibility();
                 loadFromDatabase();
                 return true;
             case R.id.save:
-                mode = SESSION_MODE.VIEW;
+                mode = GenericAdapter.FRAGMENT_MODE.VIEW;
                 refreshMenuVisibility();
                 saveToDatabase();
                 loadFromDatabase();

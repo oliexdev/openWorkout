@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -25,14 +24,12 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.User;
+import com.health.openworkout.gui.datatypes.GenericAdapter;
 
 import java.util.Collections;
 import java.util.List;
 
 public class TrainingFragment extends Fragment {
-    @Keep
-    public enum TRAINING_MODE {VIEW, EDIT}
-
     private RecyclerView trainingsView;
 
     private List<TrainingPlan> trainingPlanList;
@@ -40,7 +37,7 @@ public class TrainingFragment extends Fragment {
     private TrainingsAdapter trainingsAdapter;
     private ItemTouchHelper touchHelper;
 
-    private static TRAINING_MODE mode = TRAINING_MODE.VIEW;
+    private static GenericAdapter.FRAGMENT_MODE mode = GenericAdapter.FRAGMENT_MODE.VIEW;
     private MenuItem saveMenu;
     private MenuItem editMenu;
 
@@ -88,10 +85,10 @@ public class TrainingFragment extends Fragment {
         trainingsAdapter = new TrainingsAdapter(getContext(), trainingPlanList, mode);
         trainingsView.setAdapter(trainingsAdapter);
 
-        if (mode == TRAINING_MODE.VIEW) {
+        if (mode == GenericAdapter.FRAGMENT_MODE.VIEW) {
             touchHelper.attachToRecyclerView(null);
 
-            trainingsAdapter.setOnItemClickListener(new TrainingsAdapter.OnTrainingClickListener() {
+            trainingsAdapter.setOnItemClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
                     TrainingPlan trainingPlan = trainingPlanList.get(position);
@@ -103,12 +100,12 @@ public class TrainingFragment extends Fragment {
             });
         }
 
-        if (mode == TRAINING_MODE.EDIT) {
+        if (mode == GenericAdapter.FRAGMENT_MODE.EDIT) {
             trainingsAdapter.setOnItemClickListener(null);
 
             touchHelper.attachToRecyclerView(trainingsView);
 
-            trainingsAdapter.setOnItemEditClickListener(new TrainingsAdapter.OnTrainingClickListener() {
+            trainingsAdapter.setOnItemEditClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
                     TrainingPlan trainingPlan = trainingPlanList.get(position);
@@ -121,7 +118,7 @@ public class TrainingFragment extends Fragment {
                 }
             });
 
-            trainingsAdapter.setOnItemDeleteClickListener(new TrainingsAdapter.OnTrainingClickListener() {
+            trainingsAdapter.setOnItemDeleteClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
                     Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), trainingPlanList.get(position).getName()), Toast.LENGTH_SHORT).show();
@@ -131,10 +128,10 @@ public class TrainingFragment extends Fragment {
                 }
             });
 
-            trainingsAdapter.setOnItemReorderClickListener(new TrainingsAdapter.OnTrainingClickListener() {
+            trainingsAdapter.setOnItemReorderClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
-                    touchHelper.startDrag(trainingsView.findViewHolderForAdapterPosition(position));
+                    touchHelper.startDrag(trainingsView.findViewHolderForLayoutPosition(position));
                 }
             });
         }
@@ -199,12 +196,12 @@ public class TrainingFragment extends Fragment {
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
                 return true;
             case R.id.edit:
-                mode = TRAINING_MODE.EDIT;
+                mode = GenericAdapter.FRAGMENT_MODE.EDIT;
                 refreshMenuVisibility();
                 loadFromDatabase();
                 return true;
             case R.id.save:
-                mode = TRAINING_MODE.VIEW;
+                mode = GenericAdapter.FRAGMENT_MODE.VIEW;
                 refreshMenuVisibility();
                 saveToDatabase();
                 loadFromDatabase();

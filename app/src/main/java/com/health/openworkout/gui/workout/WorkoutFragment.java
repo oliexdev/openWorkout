@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -25,14 +24,12 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
+import com.health.openworkout.gui.datatypes.GenericAdapter;
 
 import java.util.Collections;
 import java.util.List;
 
 public class WorkoutFragment extends Fragment {
-    @Keep
-    enum WORKOUT_MODE {VIEW, EDIT}
-
     private RecyclerView workoutsView;
     private WorkoutSession workoutSession;
     private List<WorkoutItem> workoutItemList;
@@ -40,7 +37,7 @@ public class WorkoutFragment extends Fragment {
     private WorkoutsAdapter workoutsAdapter;
     private ItemTouchHelper touchHelper;
 
-    private static WORKOUT_MODE mode = WORKOUT_MODE.VIEW;
+    private static GenericAdapter.FRAGMENT_MODE mode = GenericAdapter.FRAGMENT_MODE.VIEW;
     private MenuItem saveMenu;
     private MenuItem editMenu;
 
@@ -91,10 +88,10 @@ public class WorkoutFragment extends Fragment {
         workoutsAdapter = new WorkoutsAdapter(getContext(), workoutItemList, mode);
         workoutsView.setAdapter(workoutsAdapter);
 
-        if (mode == WORKOUT_MODE.VIEW) {
+        if (mode == GenericAdapter.FRAGMENT_MODE.VIEW) {
             touchHelper.attachToRecyclerView(null);
 
-            workoutsAdapter.setOnItemClickListener(new WorkoutsAdapter.OnWorkoutClickListener() {
+            workoutsAdapter.setOnItemClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
                     WorkoutItem workoutItem = workoutItemList.get(position);
@@ -107,12 +104,12 @@ public class WorkoutFragment extends Fragment {
             });
         }
 
-        if (mode == WORKOUT_MODE.EDIT) {
+        if (mode == GenericAdapter.FRAGMENT_MODE.EDIT) {
             workoutsAdapter.setOnItemClickListener(null);
 
             touchHelper.attachToRecyclerView(workoutsView);
 
-            workoutsAdapter.setOnItemEditClickListener(new WorkoutsAdapter.OnWorkoutClickListener() {
+            workoutsAdapter.setOnItemEditClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
                     WorkoutItem workoutItem = workoutItemList.get(position);
@@ -126,7 +123,7 @@ public class WorkoutFragment extends Fragment {
                 }
             });
 
-            workoutsAdapter.setOnItemDeleteClickListener(new WorkoutsAdapter.OnWorkoutClickListener() {
+            workoutsAdapter.setOnItemDeleteClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
                     Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), workoutItemList.get(position).getName()), Toast.LENGTH_SHORT).show();
@@ -136,10 +133,10 @@ public class WorkoutFragment extends Fragment {
                 }
             });
 
-            workoutsAdapter.setOnItemReorderClickListener(new WorkoutsAdapter.OnWorkoutClickListener() {
+            workoutsAdapter.setOnItemReorderClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
-                    touchHelper.startDrag(workoutsView.findViewHolderForAdapterPosition(position));
+                    touchHelper.startDrag(workoutsView.findViewHolderForLayoutPosition(position));
                 }
             });
         }
@@ -193,12 +190,12 @@ public class WorkoutFragment extends Fragment {
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
                 return true;
             case R.id.edit:
-                mode = WORKOUT_MODE.EDIT;
+                mode = GenericAdapter.FRAGMENT_MODE.EDIT;
                 refreshMenuVisibility();
                 loadFromDatabase();
                 return true;
             case R.id.save:
-                mode = WORKOUT_MODE.VIEW;
+                mode = GenericAdapter.FRAGMENT_MODE.VIEW;
                 refreshMenuVisibility();
                 saveToDatabase();
                 loadFromDatabase();
