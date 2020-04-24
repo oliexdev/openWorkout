@@ -184,19 +184,15 @@ public class OpenWorkout {
 
     public void deleteTrainingPlan(TrainingPlan trainingPlan) {
         for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {
-            for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
-                appDB.workoutItemDAO().delete(workoutItem);
-            }
-            appDB.workoutSessionDAO().delete(workoutSession);
+            appDB.workoutItemDAO().deleteAll(workoutSession.getWorkoutSessionId());
         }
 
+        appDB.workoutSessionDAO().deleteAll(trainingPlan.getTrainingPlanId());
         appDB.trainingPlanDAO().delete(trainingPlan);
     }
 
     public void deleteWorkoutSession(WorkoutSession workoutSession) {
-        for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
-            appDB.workoutItemDAO().delete(workoutItem);
-        }
+        appDB.workoutItemDAO().deleteAll(workoutSession.getWorkoutSessionId());
 
         appDB.workoutSessionDAO().delete(workoutSession);
     }
@@ -210,21 +206,10 @@ public class OpenWorkout {
     }
 
     public void updateWorkoutSession(WorkoutSession workoutSession) {
-        for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
-            appDB.workoutItemDAO().update(workoutItem);
-        }
-
         appDB.workoutSessionDAO().update(workoutSession);
     }
 
     public void updateTrainingPlan(TrainingPlan trainingPlan) {
-        for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {
-            for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
-                appDB.workoutItemDAO().update(workoutItem);
-            }
-            appDB.workoutSessionDAO().update(workoutSession);
-        }
-
         appDB.trainingPlanDAO().update(trainingPlan);
     }
 

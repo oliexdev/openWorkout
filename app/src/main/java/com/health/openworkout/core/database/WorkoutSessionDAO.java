@@ -25,6 +25,9 @@ public interface WorkoutSessionDAO {
     @Delete
     void delete(WorkoutSession workoutSession);
 
+    @Query("DELETE FROM WorkoutSession WHERE trainingPlanId = :trainingPlanId")
+    void deleteAll(long trainingPlanId);
+
     @Query("SELECT * FROM WorkoutSession WHERE workoutSessionId=:workoutSessionId")
     WorkoutSession get(long workoutSessionId);
 
