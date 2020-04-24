@@ -22,8 +22,6 @@ import androidx.navigation.Navigation;
 
 import com.health.openworkout.R;
 
-import java.io.File;
-
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -109,7 +107,7 @@ public abstract class GenericSettingsFragment extends Fragment {
         if (checkPermissionForReadExternalStorage()) {
             Intent intent = new Intent()
                     .setType("image/*")
-                    .setAction(Intent.ACTION_GET_CONTENT);
+                    .setAction(Intent.ACTION_OPEN_DOCUMENT);
 
             startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_image_file)), REQUEST_OPEN_IMAGE_DIALOG);
         } else {
@@ -121,7 +119,7 @@ public abstract class GenericSettingsFragment extends Fragment {
         if (checkPermissionForReadExternalStorage()) {
             Intent intent = new Intent()
                     .setType("video/*")
-                    .setAction(Intent.ACTION_GET_CONTENT);
+                    .setAction(Intent.ACTION_OPEN_DOCUMENT);
 
             startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video_file)), REQUEST_OPEN_VIDEO_DIALOG);
         } else {
@@ -152,18 +150,15 @@ public abstract class GenericSettingsFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             Uri uri = data.getData();
-            File file = new File(uri.getPath());//create path from uri
-            final String[] split = file.getPath().split(":");//split the path.
-            String filePath = split[1];
 
             if (requestCode == REQUEST_OPEN_IMAGE_DIALOG) {
                 onNewImagePath(uri);
-                imgPath = filePath;
+                imgPath = uri.toString();
             }
 
             if (requestCode == REQUEST_OPEN_VIDEO_DIALOG) {
                 onNewVideoPath(uri);
-                videoPath = filePath;
+                videoPath = uri.toString();
             }
         }
     }

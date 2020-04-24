@@ -52,7 +52,8 @@ public class TrainingsAdapter extends GenericAdapter<TrainingsAdapter.ViewHolder
         holder.nameView.setText(trainingPlan.getName());
 
         if (trainingPlan.isImagePathExternal()) {
-            holder.imgView.setImageURI(Uri.parse(trainingPlan.getImagePath()));
+                Uri imgUri = Uri.parse(trainingPlan.getImagePath());
+                holder.imgView.setImageURI(imgUri);
         } else {
             try {
                 InputStream ims = context.getAssets().open("image/" + trainingPlan.getImagePath());
@@ -114,4 +115,6 @@ public class TrainingsAdapter extends GenericAdapter<TrainingsAdapter.ViewHolder
             trophyView = itemView.findViewById(R.id.trophyView);
         }
     }
+
+
 }

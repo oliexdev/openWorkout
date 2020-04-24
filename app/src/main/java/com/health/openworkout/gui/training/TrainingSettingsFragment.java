@@ -74,7 +74,8 @@ public class TrainingSettingsFragment extends GenericSettingsFragment {
         }
 
         if (trainingPlan.isImagePathExternal()) {
-            imgView.setImageURI(Uri.parse(trainingPlan.getImagePath()));
+            Uri imgUri = Uri.parse(trainingPlan.getImagePath());
+            imgView.setImageURI(imgUri);
         } else {
             try {
                 InputStream ims = getContext().getAssets().open("image/" + trainingPlan.getImagePath());
