@@ -56,7 +56,7 @@ public class WorkoutSlideFragment extends Fragment {
 
     private CountDownTimer countDownTimer;
     private int remainingSec;
-    private final SoundUtils soundUtils = new SoundUtils();
+    private SoundUtils soundUtils;
 
     private WorkoutSession workoutSession;
     private WorkoutItem nextWorkoutItem;
@@ -108,6 +108,7 @@ public class WorkoutSlideFragment extends Fragment {
             }
         });
 
+        soundUtils = new SoundUtils();
         initWorkout();
 
         return root;

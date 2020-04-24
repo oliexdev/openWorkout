@@ -28,7 +28,7 @@
                 android:layout_marginEnd="8dp"
                 android:text="TextView"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/trophyView"
+                app:layout_constraintEnd_toStartOf="@id/reorderView"
                 app:layout_constraintStart_toEndOf="@+id/imgView"
                 app:layout_constraintTop_toTopOf="parent" />
 
