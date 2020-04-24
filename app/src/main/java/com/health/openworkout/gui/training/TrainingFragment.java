@@ -62,26 +62,9 @@ public class TrainingFragment extends GenericFragment {
 
     @Override
     protected void saveToDatabase() {
-        User user = OpenWorkout.getInstance().getCurrentUser();
-        long userTrainingPlanId = user.getTrainingsPlanId();
-
-        List<TrainingPlan> databaseTrainingPlanList = OpenWorkout.getInstance().getTrainingPlans();
-
-        for (TrainingPlan trainingPlan : databaseTrainingPlanList) {
-            OpenWorkout.getInstance().deleteTrainingPlan(trainingPlan);
-        }
-
-        for (TrainingPlan trainingPlan : trainingPlanList) {
-            // update user training plan id with reordered training plan ids
-            if (userTrainingPlanId == trainingPlan.getTrainingPlanId()) {
-                trainingPlan.setTrainingPlanId(0);
-                long newUserTrainingPlanId = OpenWorkout.getInstance().insertTrainingPlan(trainingPlan);
-                user.setTrainingsPlanId(newUserTrainingPlanId);
-                OpenWorkout.getInstance().updateUser(user);
-            } else {
-                trainingPlan.setTrainingPlanId(0);
-                OpenWorkout.getInstance().insertTrainingPlan(trainingPlan);
-            }
+        for (int i=0; i<trainingPlanList.size(); i++) {
+            trainingPlanList.get(i).setOrderNr(i);
+            OpenWorkout.getInstance().updateTrainingPlan(trainingPlanList.get(i));
         }
     }
 
@@ -123,7 +106,17 @@ public class TrainingFragment extends GenericFragment {
 
     @Override
     protected void onDeleteClick(int position) {
-        Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), trainingPlanList.get(position).getName()), Toast.LENGTH_SHORT).show();
+        User user = OpenWorkout.getInstance().getCurrentUser();
+        long userTrainingPlanId = user.getTrainingsPlanId();
+        TrainingPlan trainingPlanToBeDelete = trainingPlanList.get(position);
+
+        if (userTrainingPlanId == trainingPlanToBeDelete.getTrainingPlanId()) {
+            user.setTrainingsPlanId(-1);
+            OpenWorkout.getInstance().updateUser(user);
+        }
+
+        Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), trainingPlanToBeDelete.getName()), Toast.LENGTH_SHORT).show();
+        OpenWorkout.getInstance().deleteTrainingPlan(trainingPlanList.get(position));
         trainingPlanList.remove(position);
     }
 

@@ -20,6 +20,8 @@ public class WorkoutSession {
     @ColumnInfo
     private long trainingPlanId;
     @ColumnInfo
+    private long orderNr;
+    @ColumnInfo
     public String name;
     @ColumnInfo
     private boolean finished;
@@ -27,6 +29,7 @@ public class WorkoutSession {
     private List<WorkoutItem> workoutItems;
 
     public WorkoutSession() {
+        orderNr = -1L;
         workoutItems = new ArrayList<>();
         finished = false;
     }
@@ -45,6 +48,14 @@ public class WorkoutSession {
 
     public long getTrainingPlanId() {
         return trainingPlanId;
+    }
+
+    public long getOrderNr() {
+        return orderNr;
+    }
+
+    public void setOrderNr(long orderNr) {
+        this.orderNr = orderNr;
     }
 
     public WorkoutItem addWorkout(WorkoutItem workoutItem) {

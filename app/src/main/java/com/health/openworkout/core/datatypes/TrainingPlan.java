@@ -17,10 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class TrainingPlan {
+public class TrainingPlan implements Comparable<TrainingPlan> {
     @PrimaryKey(autoGenerate = true)
     private long trainingPlanId;
 
+    @ColumnInfo
+    private long orderNr;
     @ColumnInfo
     private String name;
     @ColumnInfo
@@ -37,8 +39,17 @@ public class TrainingPlan {
     public TrainingPlan() {
         context = OpenWorkout.getInstance().getContext();
 
+        orderNr = -1L;
         countFinishedTraining = 0;
         workoutSessions = new ArrayList<>();
+    }
+
+    public long getOrderNr() {
+        return orderNr;
+    }
+
+    public void setOrderNr(long orderNr) {
+        this.orderNr = orderNr;
     }
 
     public Context getContext() {
@@ -132,5 +143,14 @@ public class TrainingPlan {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public int compareTo(TrainingPlan o) {
+        if (this.orderNr == -1L || o.orderNr == -1L) {
+            return (int)(this.trainingPlanId - o.trainingPlanId);
+        }
+
+        return (int)(this.orderNr - o.orderNr);
     }
 }

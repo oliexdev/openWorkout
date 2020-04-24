@@ -14,12 +14,14 @@ import androidx.room.PrimaryKey;
 import com.health.openworkout.core.OpenWorkout;
 
 @Entity
-public class WorkoutItem {
+public class WorkoutItem implements Comparable<WorkoutItem> {
     @PrimaryKey(autoGenerate = true)
     private long workoutItemId;
 
     @ColumnInfo
     private long workoutSessionId;
+    @ColumnInfo
+    private long orderNr;
     @ColumnInfo
     private String name;
     @ColumnInfo
@@ -50,6 +52,7 @@ public class WorkoutItem {
 
     public WorkoutItem() {
         context = OpenWorkout.getInstance().getContext();
+        orderNr = -1L;
         prepTime = 5;
         workoutTime = 30;
         breakTime = 20;
@@ -76,6 +79,14 @@ public class WorkoutItem {
 
     public long getWorkoutSessionId() {
         return workoutSessionId;
+    }
+
+    public long getOrderNr() {
+        return orderNr;
+    }
+
+    public void setOrderNr(long orderNr) {
+        this.orderNr = orderNr;
     }
 
     public String getName() {
@@ -176,5 +187,14 @@ public class WorkoutItem {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    @Override
+    public int compareTo(WorkoutItem o) {
+        if (this.orderNr == -1L || o.orderNr == -1L) {
+            return (int)(this.workoutItemId - o.workoutItemId);
+        }
+
+        return (int)(this.orderNr - o.orderNr);
     }
 }

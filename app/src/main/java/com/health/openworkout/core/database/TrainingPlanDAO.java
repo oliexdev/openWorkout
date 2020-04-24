@@ -28,6 +28,6 @@ public interface TrainingPlanDAO {
     @Query("SELECT * FROM TrainingPlan WHERE trainingPlanId=:trainingPlanId")
     TrainingPlan get(long trainingPlanId);
 
-    @Query("SELECT * FROM TrainingPlan")
+    @Query("SELECT * FROM TrainingPlan ORDER BY orderNr")
     List<TrainingPlan> getAll();
 }

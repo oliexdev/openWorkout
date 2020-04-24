@@ -65,15 +65,10 @@ public class WorkoutFragment extends GenericFragment {
 
     @Override
     protected void saveToDatabase() {
-        WorkoutSession databaseWorkoutSession = OpenWorkout.getInstance().getWorkoutSession(workoutSession.getWorkoutSessionId());
-        OpenWorkout.getInstance().deleteWorkoutSession(databaseWorkoutSession);
-
-        // set workoutItem to zero to generate a new workoutItemId in the database needed for correctly reordering because the order is based on the workoutItemId otherwise the same workingItemId is again inserted
-        for (WorkoutItem workoutItem : workoutItemList) {
-            workoutItem.setWorkoutItemId(0);
+        for (int i=0; i<workoutItemList.size(); i++) {
+            workoutItemList.get(i).setOrderNr(i);
+            OpenWorkout.getInstance().updateWorkoutItem(workoutItemList.get(i));
         }
-
-        OpenWorkout.getInstance().insertWorkoutSession(workoutSession);
     }
 
     @Override
@@ -118,6 +113,7 @@ public class WorkoutFragment extends GenericFragment {
     protected void onDeleteClick(int position) {
         Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), workoutItemList.get(position).getName()), Toast.LENGTH_SHORT).show();
         workoutItemList.remove(position);
+        OpenWorkout.getInstance().deleteWorkoutItem(workoutItemList.get(position));
     }
 
     @Override

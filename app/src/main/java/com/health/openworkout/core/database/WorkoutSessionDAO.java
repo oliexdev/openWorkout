@@ -28,6 +28,6 @@ public interface WorkoutSessionDAO {
     @Query("SELECT * FROM WorkoutSession WHERE workoutSessionId=:workoutSessionId")
     WorkoutSession get(long workoutSessionId);
 
-    @Query("SELECT * FROM WorkoutSession WHERE trainingPlanId = :trainingPlanId")
+    @Query("SELECT * FROM WorkoutSession WHERE trainingPlanId = :trainingPlanId ORDER BY orderNr")
     List<WorkoutSession> getAll(long trainingPlanId);
 }

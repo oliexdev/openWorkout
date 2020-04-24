@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f7b8c9528bc76eb18709ea5ccce2fa84",
+    "identityHash": "ac9b17521d2985271934cda5bbee3a2c",
     "entities": [
       {
         "tableName": "User",
@@ -38,11 +38,17 @@
       },
       {
         "tableName": "TrainingPlan",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trainingPlanId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `imagePath` TEXT, `isImagePathExternal` INTEGER NOT NULL, `countFinishedTraining` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trainingPlanId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `orderNr` INTEGER NOT NULL, `name` TEXT, `imagePath` TEXT, `isImagePathExternal` INTEGER NOT NULL, `countFinishedTraining` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "trainingPlanId",
             "columnName": "trainingPlanId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderNr",
+            "columnName": "orderNr",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -82,7 +88,7 @@
       },
       {
         "tableName": "WorkoutSession",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutSessionId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trainingPlanId` INTEGER NOT NULL, `name` TEXT, `finished` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutSessionId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trainingPlanId` INTEGER NOT NULL, `orderNr` INTEGER NOT NULL, `name` TEXT, `finished` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "workoutSessionId",
@@ -93,6 +99,12 @@
           {
             "fieldPath": "trainingPlanId",
             "columnName": "trainingPlanId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderNr",
+            "columnName": "orderNr",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -120,7 +132,7 @@
       },
       {
         "tableName": "WorkoutItem",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutItemId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `workoutSessionId` INTEGER NOT NULL, `name` TEXT, `description` TEXT, `imagePath` TEXT, `isImagePathExternal` INTEGER NOT NULL, `videoPath` TEXT, `isVideoPathExternal` INTEGER NOT NULL, `prepTime` INTEGER NOT NULL, `workoutTime` INTEGER NOT NULL, `breakTime` INTEGER NOT NULL, `repetitionCount` INTEGER NOT NULL, `isTimeMode` INTEGER NOT NULL, `finished` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutItemId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `workoutSessionId` INTEGER NOT NULL, `orderNr` INTEGER NOT NULL, `name` TEXT, `description` TEXT, `imagePath` TEXT, `isImagePathExternal` INTEGER NOT NULL, `videoPath` TEXT, `isVideoPathExternal` INTEGER NOT NULL, `prepTime` INTEGER NOT NULL, `workoutTime` INTEGER NOT NULL, `breakTime` INTEGER NOT NULL, `repetitionCount` INTEGER NOT NULL, `isTimeMode` INTEGER NOT NULL, `finished` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "workoutItemId",
@@ -131,6 +143,12 @@
           {
             "fieldPath": "workoutSessionId",
             "columnName": "workoutSessionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderNr",
+            "columnName": "orderNr",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -220,7 +238,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f7b8c9528bc76eb18709ea5ccce2fa84')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ac9b17521d2985271934cda5bbee3a2c')"
     ]
   }
 }

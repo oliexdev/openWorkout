@@ -28,6 +28,6 @@ public interface WorkoutItemDAO {
     @Query("SELECT * FROM WorkoutItem WHERE workoutItemId=:workoutItemId")
     WorkoutItem get(long workoutItemId);
 
-    @Query("SELECT * FROM WorkoutItem WHERE workoutSessionId = :workoutSessionId")
+    @Query("SELECT * FROM WorkoutItem WHERE workoutSessionId = :workoutSessionId ORDER BY orderNr")
     List<WorkoutItem> getAll(long workoutSessionId);
 }

@@ -201,6 +201,10 @@ public class OpenWorkout {
         appDB.workoutSessionDAO().delete(workoutSession);
     }
 
+    public void deleteWorkoutItem(WorkoutItem workoutItem) {
+        appDB.workoutItemDAO().delete(workoutItem);
+    }
+
     public void updateWorkoutItem(WorkoutItem workoutItem) {
         appDB.workoutItemDAO().update(workoutItem);
     }

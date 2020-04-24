@@ -92,6 +92,7 @@ public class SessionFragment extends GenericFragment {
     protected void onDeleteClick(int position) {
         Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), workoutSessionList.get(position).getName()), Toast.LENGTH_SHORT).show();
         getItemList().remove(position);
+        OpenWorkout.getInstance().deleteWorkoutSession(workoutSessionList.get(position));
     }
 
     @Override
@@ -117,15 +118,10 @@ public class SessionFragment extends GenericFragment {
 
     @Override
     protected void saveToDatabase() {
-        TrainingPlan databaseTrainingPlan = OpenWorkout.getInstance().getTrainingPlan(trainingPlan.getTrainingPlanId());
-        OpenWorkout.getInstance().deleteTrainingPlan(databaseTrainingPlan);
-
-        // set workoutSession to zero to generate a new workoutSessionId in the database needed for correctly reordering because the order is based on the workoutSessionId otherwise the same workoutSessionId is again inserted
-        for (WorkoutSession workoutSession : workoutSessionList) {
-            workoutSession.setWorkoutSessionId(0);
+        for (int i=0; i<workoutSessionList.size(); i++) {
+            workoutSessionList.get(i).setOrderNr(i);
+            OpenWorkout.getInstance().updateWorkoutSession(workoutSessionList.get(i));
         }
-
-        OpenWorkout.getInstance().insertTrainingPlan(trainingPlan);
     }
 
     private int getNumberOfColumns() {
