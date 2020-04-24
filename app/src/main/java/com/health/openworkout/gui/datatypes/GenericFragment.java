@@ -69,9 +69,9 @@ public abstract class GenericFragment extends Fragment {
     protected abstract GenericAdapter getAdapter();
     protected abstract RecyclerView getRecyclerView();
     protected abstract List getItemList();
-    protected abstract void onSelectClick(int position);
-    protected abstract void onEditClick(int position);
-    protected abstract void onDeleteClick(int position);
+    protected abstract void onSelectCallback(int position);
+    protected abstract void onEditCallback(int position);
+    protected abstract void onDeleteCallback(int position);
     protected abstract void onAddClick();
 
     @Override
@@ -105,7 +105,7 @@ public abstract class GenericFragment extends Fragment {
                 @Override
                 public void onItemClick(int position, View v) {
                     if (position != -1) {
-                        onSelectClick(position);
+                        onSelectCallback(position);
                     }
                 }
             });
@@ -120,7 +120,7 @@ public abstract class GenericFragment extends Fragment {
                 @Override
                 public void onItemClick(int position, View v) {
                     if (position != -1) {
-                        onEditClick(position);
+                        onEditCallback(position);
                     }
                 }
             });
@@ -131,7 +131,7 @@ public abstract class GenericFragment extends Fragment {
                     if (position != -1) {
                         getAdapter().notifyItemRemoved(position);
 
-                        onDeleteClick(position);
+                        onDeleteCallback(position);
                     }
                 }
             });

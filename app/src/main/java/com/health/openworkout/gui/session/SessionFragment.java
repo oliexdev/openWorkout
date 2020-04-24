@@ -68,7 +68,7 @@ public class SessionFragment extends GenericFragment {
     }
 
     @Override
-    protected void onSelectClick(int position) {
+    protected void onSelectCallback(int position) {
         WorkoutSession workoutSession = workoutSessionList.get(position);
 
         SessionFragmentDirections.ActionSessionFragmentToWorkoutFragment action = SessionFragmentDirections.actionSessionFragmentToWorkoutFragment();
@@ -78,7 +78,7 @@ public class SessionFragment extends GenericFragment {
     }
 
     @Override
-    protected void onEditClick(int position) {
+    protected void onEditCallback(int position) {
         WorkoutSession workoutSession = workoutSessionList.get(position);
 
         SessionFragmentDirections.ActionSessionsFragmentToSessionSettingsFragment action = SessionFragmentDirections.actionSessionsFragmentToSessionSettingsFragment();
@@ -89,10 +89,10 @@ public class SessionFragment extends GenericFragment {
     }
 
     @Override
-    protected void onDeleteClick(int position) {
+    protected void onDeleteCallback(int position) {
+        OpenWorkout.getInstance().deleteWorkoutSession(workoutSessionList.get(position));
         Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), workoutSessionList.get(position).getName()), Toast.LENGTH_SHORT).show();
         getItemList().remove(position);
-        OpenWorkout.getInstance().deleteWorkoutSession(workoutSessionList.get(position));
     }
 
     @Override

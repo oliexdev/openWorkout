@@ -84,7 +84,7 @@ public class TrainingFragment extends GenericFragment {
     }
 
     @Override
-    protected void onSelectClick(int position) {
+    protected void onSelectCallback(int position) {
         TrainingPlan trainingPlan = trainingPlanList.get(position);
 
         TrainingFragmentDirections.ActionTrainingFragmentToSessionFragment action = TrainingFragmentDirections.actionTrainingFragmentToSessionFragment();
@@ -94,7 +94,7 @@ public class TrainingFragment extends GenericFragment {
     }
 
     @Override
-    protected void onEditClick(int position) {
+    protected void onEditCallback(int position) {
         TrainingPlan trainingPlan = trainingPlanList.get(position);
 
         TrainingFragmentDirections.ActionTrainingFragmentToTrainingSettingsFragment action = TrainingFragmentDirections.actionTrainingFragmentToTrainingSettingsFragment();
@@ -105,7 +105,7 @@ public class TrainingFragment extends GenericFragment {
     }
 
     @Override
-    protected void onDeleteClick(int position) {
+    protected void onDeleteCallback(int position) {
         User user = OpenWorkout.getInstance().getCurrentUser();
         long userTrainingPlanId = user.getTrainingsPlanId();
         TrainingPlan trainingPlanToBeDelete = trainingPlanList.get(position);

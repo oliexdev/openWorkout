@@ -87,7 +87,7 @@ public class WorkoutFragment extends GenericFragment {
     }
 
     @Override
-    protected void onSelectClick(int position) {
+    protected void onSelectCallback(int position) {
         WorkoutItem workoutItem = workoutItemList.get(position);
 
         WorkoutFragmentDirections.ActionWorkoutFragmentToWorkoutSlideFragment action = WorkoutFragmentDirections.actionWorkoutFragmentToWorkoutSlideFragment();
@@ -98,7 +98,7 @@ public class WorkoutFragment extends GenericFragment {
     }
 
     @Override
-    protected void onEditClick(int position) {
+    protected void onEditCallback(int position) {
         WorkoutItem workoutItem = workoutItemList.get(position);
 
         WorkoutFragmentDirections.ActionWorkoutFramgentToWorkoutSettingsFragment action = WorkoutFragmentDirections.actionWorkoutFramgentToWorkoutSettingsFragment();
@@ -110,7 +110,7 @@ public class WorkoutFragment extends GenericFragment {
     }
 
     @Override
-    protected void onDeleteClick(int position) {
+    protected void onDeleteCallback(int position) {
         Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), workoutItemList.get(position).getName()), Toast.LENGTH_SHORT).show();
         workoutItemList.remove(position);
         OpenWorkout.getInstance().deleteWorkoutItem(workoutItemList.get(position));
