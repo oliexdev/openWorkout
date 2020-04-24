@@ -56,6 +56,7 @@ public class WorkoutSlideFragment extends Fragment {
 
     private CountDownTimer countDownTimer;
     private int remainingSec;
+    private final SoundUtils soundUtils = new SoundUtils();
 
     private WorkoutSession workoutSession;
     private WorkoutItem nextWorkoutItem;
@@ -125,6 +126,8 @@ public class WorkoutSlideFragment extends Fragment {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+
+        soundUtils.release();
     }
 
     private void initWorkout() {
@@ -348,24 +351,29 @@ public class WorkoutSlideFragment extends Fragment {
                 switch (workoutState) {
                     case PREPARE:
                         if ((remainingSec == 3) || (remainingSec == 2) || (remainingSec == 1)) {
-                            SoundUtils.playSound(SoundUtils.SOUND.WORKOUT_COUNT_BEFORE_START);
-                        } else if (remainingSec == 0) {
-                            SoundUtils.playSound(SoundUtils.SOUND.WORKOUT_START);
+                            soundUtils.playSound(SoundUtils.SOUND.WORKOUT_COUNT_BEFORE_START);
                         }
                         break;
                     case START:
                         if (remainingSec == halftimeSec) {
-                            SoundUtils.textToSpeech(getContext().getString(R.string.speak_halftime));
+                            soundUtils.textToSpeech(getContext().getString(R.string.speak_halftime));
                         } else if ((remainingSec == 3) || (remainingSec == 2) || (remainingSec == 1)) {
-                            SoundUtils.playSound(SoundUtils.SOUND.WORKOUT_COUNT_BEFORE_START);
-                        } else if (remainingSec == 0) {
-                            SoundUtils.playSound(SoundUtils.SOUND.WORKOUT_STOP);
+                            soundUtils.playSound(SoundUtils.SOUND.WORKOUT_COUNT_BEFORE_START);
                         }
                         break;
                 }
             }
 
             public void onFinish() {
+                switch (workoutState) {
+                    case PREPARE:
+                        soundUtils.playSound(SoundUtils.SOUND.WORKOUT_START);
+                        break;
+                    case START:
+                        soundUtils.playSound(SoundUtils.SOUND.WORKOUT_STOP);
+                        break;
+                }
+
                 nextWorkoutState();
             }
         };
