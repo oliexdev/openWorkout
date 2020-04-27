@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class TrainingPlan implements Comparable<TrainingPlan> {
+public class TrainingPlan implements Comparable<TrainingPlan>, Cloneable {
     @PrimaryKey(autoGenerate = true)
     private long trainingPlanId;
 
@@ -42,6 +42,27 @@ public class TrainingPlan implements Comparable<TrainingPlan> {
         orderNr = -1L;
         countFinishedTraining = 0;
         workoutSessions = new ArrayList<>();
+    }
+
+    @Override
+    public TrainingPlan clone() {
+        TrainingPlan clone;
+        try {
+            clone = (TrainingPlan) super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            throw new RuntimeException("failed to clone TrainingPlan", e);
+        }
+
+        for (WorkoutSession workoutSession : clone.workoutSessions) {
+            workoutSession.setWorkoutSessionId(0);
+
+            for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
+                workoutItem.setWorkoutItemId(0);
+            }
+        }
+
+        return clone;
     }
 
     public long getOrderNr() {

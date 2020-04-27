@@ -117,6 +117,20 @@ public class WorkoutFragment extends GenericFragment {
     }
 
     @Override
+    protected void onDuplicateCallback(int position) {
+        WorkoutItem origWorkoutItem = workoutItemList.get(position);
+        WorkoutItem duplicatedWorkoutItem = origWorkoutItem.clone();
+
+        duplicatedWorkoutItem.setWorkoutItemId(0);
+        workoutItemList.add(position, duplicatedWorkoutItem);
+        saveToDatabase();
+
+        long workoutItemId = OpenWorkout.getInstance().insertWorkoutItem(duplicatedWorkoutItem);
+        duplicatedWorkoutItem.setWorkoutItemId(workoutItemId);
+        getAdapter().notifyItemInserted(position+1);
+    }
+
+    @Override
     protected void onAddClick() {
         WorkoutFragmentDirections.ActionWorkoutFramgentToWorkoutSettingsFragment action = WorkoutFragmentDirections.actionWorkoutFramgentToWorkoutSettingsFragment();
         action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());

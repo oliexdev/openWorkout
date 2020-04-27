@@ -42,6 +42,7 @@
     <string name="label_reset">Reset</string>
     <string name="label_delete">Delete</string>
     <string name="label_add">Add</string>
+    <string name="label_duplicate">Duplicate</string>
 
     <string name="label_training_plans">training plans</string>
     <string name="label_add_toast">%s added</string>

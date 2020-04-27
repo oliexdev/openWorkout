@@ -71,6 +71,7 @@ public abstract class GenericFragment extends Fragment {
     protected abstract List getItemList();
     protected abstract void onSelectCallback(int position);
     protected abstract void onEditCallback(int position);
+    protected abstract void onDuplicateCallback(int position);
     protected abstract void onDeleteCallback(int position);
     protected abstract void onAddClick();
 
@@ -121,6 +122,15 @@ public abstract class GenericFragment extends Fragment {
                 public void onItemClick(int position, View v) {
                     if (position != -1) {
                         onEditCallback(position);
+                    }
+                }
+            });
+
+            getAdapter().setOnItemDuplicateClickListener(new GenericAdapter.OnGenericClickListener() {
+                @Override
+                public void onItemClick(int position, View v) {
+                    if (position != -1) {
+                        onDuplicateCallback(position);
                     }
                 }
             });

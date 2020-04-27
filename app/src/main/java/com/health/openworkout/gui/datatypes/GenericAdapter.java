@@ -5,10 +5,12 @@
 package com.health.openworkout.gui.datatypes;
 
 import android.content.Context;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,7 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
     private static OnGenericClickListener onEditClickListener;
     private static OnGenericClickListener onDeleteClickListener;
     private static OnGenericClickListener onReorderClickListener;
+    private static OnGenericClickListener onDuplicateClickListener;
 
     public GenericAdapter(Context aContext) {
         this.mode = GenericFragment.FRAGMENT_MODE.VIEW;
@@ -45,12 +48,12 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
         switch (mode) {
             case VIEW:
                 holder.reorderView.setVisibility(View.GONE);
-                holder.deleteView.setVisibility(View.GONE);
+                holder.optionView.setVisibility(View.GONE);
                 holder.editView.setVisibility(View.GONE);
                 break;
             case EDIT:
                 holder.reorderView.setVisibility(View.VISIBLE);
-                holder.deleteView.setVisibility(View.VISIBLE);
+                holder.optionView.setVisibility(View.VISIBLE);
                 holder.editView.setVisibility(View.VISIBLE);
                 break;
         }
@@ -72,17 +75,26 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
         this.onReorderClickListener = onReorderClickListener;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public void setOnItemDuplicateClickListener(OnGenericClickListener onDuplicateClickListener) {
+        this.onDuplicateClickListener = onDuplicateClickListener;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItemClickListener {
         ImageView reorderView;
-        ImageView deleteView;
+        ImageView optionView;
         ImageView editView;
+        PopupMenu popupMenu;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             reorderView = itemView.findViewById(R.id.reorderView);
-            deleteView = itemView.findViewById(R.id.deleteView);
+            optionView = itemView.findViewById(R.id.optionView);
             editView = itemView.findViewById(R.id.editView);
+
+            popupMenu = new PopupMenu(itemView.getContext(), optionView);
+            popupMenu.setOnMenuItemClickListener(this);
+            popupMenu.getMenuInflater().inflate(R.menu.item_menu, popupMenu.getMenu());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -93,12 +105,10 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
                 }
             });
 
-            deleteView.setOnClickListener(new View.OnClickListener() {
+            optionView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onDeleteClickListener != null) {
-                        onDeleteClickListener.onItemClick(getAdapterPosition(), v);
-                    }
+                    popupMenu.show();
                 }
             });
 
@@ -122,6 +132,25 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
                     return false;
                 }
             });
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.delete:
+                    if (onDeleteClickListener != null) {
+                        onDeleteClickListener.onItemClick(getAdapterPosition(), null);
+                    }
+                    return true;
+                case R.id.duplicate:
+                    if (onDuplicateClickListener != null) {
+                        onDuplicateClickListener.onItemClick(getAdapterPosition(), null);
+                    }
+                    return true;
+            }
+
+
+            return false;
         }
     }
 

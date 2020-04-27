@@ -96,6 +96,20 @@ public class SessionFragment extends GenericFragment {
     }
 
     @Override
+    protected void onDuplicateCallback(int position) {
+        WorkoutSession origWorkoutSession = workoutSessionList.get(position);
+        WorkoutSession duplicateWorkoutSession = origWorkoutSession.clone();
+
+        duplicateWorkoutSession.setWorkoutSessionId(0);
+        workoutSessionList.add(position, duplicateWorkoutSession);
+        saveToDatabase();
+
+        long workoutSessionId = OpenWorkout.getInstance().insertWorkoutSession(duplicateWorkoutSession);
+        duplicateWorkoutSession.setWorkoutSessionId(workoutSessionId);
+        getAdapter().notifyItemInserted(position+1);
+    }
+
+    @Override
     protected void onAddClick() {
         SessionFragmentDirections.ActionSessionsFragmentToSessionSettingsFragment action = SessionFragmentDirections.actionSessionsFragmentToSessionSettingsFragment();
         action.setTrainingPlanId(trainingPlan.getTrainingPlanId());

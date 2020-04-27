@@ -14,7 +14,7 @@ import androidx.room.PrimaryKey;
 import com.health.openworkout.core.OpenWorkout;
 
 @Entity
-public class WorkoutItem implements Comparable<WorkoutItem> {
+public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
     @PrimaryKey(autoGenerate = true)
     private long workoutItemId;
 
@@ -59,6 +59,19 @@ public class WorkoutItem implements Comparable<WorkoutItem> {
         repetitionCount = 5;
         isTimeMode = true;
         finished = false;
+    }
+
+    @Override
+    public WorkoutItem clone() {
+        WorkoutItem clone;
+        try {
+            clone = (WorkoutItem) super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            throw new RuntimeException("failed to clone WorkoutItem", e);
+        }
+
+        return clone;
     }
 
     public final Context getContext() {

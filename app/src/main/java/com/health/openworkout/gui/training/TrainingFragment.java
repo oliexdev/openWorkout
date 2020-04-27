@@ -121,6 +121,20 @@ public class TrainingFragment extends GenericFragment {
     }
 
     @Override
+    protected void onDuplicateCallback(int position) {
+        TrainingPlan origTrainingPlan = trainingPlanList.get(position);
+        TrainingPlan duplicateTrainingPlan = origTrainingPlan.clone();
+
+        duplicateTrainingPlan.setTrainingPlanId(0);
+        trainingPlanList.add(position, duplicateTrainingPlan);
+        saveToDatabase();
+
+        long trainingPlanId = OpenWorkout.getInstance().insertTrainingPlan(duplicateTrainingPlan);
+        duplicateTrainingPlan.setTrainingPlanId(trainingPlanId);
+        getAdapter().notifyItemInserted(position+1);
+    }
+
+    @Override
     protected void onAddClick() {
         TrainingFragmentDirections.ActionTrainingFragmentToTrainingSettingsFragment action = TrainingFragmentDirections.actionTrainingFragmentToTrainingSettingsFragment();
         action.setMode(GenericSettingsFragment.SETTING_MODE.ADD);

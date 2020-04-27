@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                app:layout_constraintEnd_toEndOf="@+id/editView"
+                app:layout_constraintEnd_toEndOf="@+id/optionView"
                 app:layout_constraintStart_toStartOf="@+id/reorderView"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,28 +43,29 @@
                 android:id="@+id/reorderView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/deleteView"
-                app:layout_constraintTop_toTopOf="@+id/deleteView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/editView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/ic_reorder" />
 
             <ImageView
-                android:id="@+id/deleteView"
+                android:id="@+id/optionView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imgView"
-                app:srcCompat="@drawable/ic_delete" />
+                app:srcCompat="@drawable/ic_option" />
 
             <ImageView
                 android:id="@+id/editView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/deleteView"
-                app:layout_constraintTop_toTopOf="@+id/deleteView"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/optionView"
+                app:layout_constraintStart_toEndOf="@+id/reorderView"
                 app:srcCompat="@drawable/ic_edit" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

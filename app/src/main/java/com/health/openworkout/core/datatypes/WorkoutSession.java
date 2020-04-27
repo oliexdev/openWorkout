@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class WorkoutSession {
+public class WorkoutSession implements Comparable<WorkoutSession>, Cloneable {
     @PrimaryKey(autoGenerate = true)
     private long workoutSessionId;
 
@@ -32,6 +32,23 @@ public class WorkoutSession {
         orderNr = -1L;
         workoutItems = new ArrayList<>();
         finished = false;
+    }
+
+    @Override
+    public WorkoutSession clone() {
+        WorkoutSession clone;
+        try {
+            clone = (WorkoutSession) super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            throw new RuntimeException("failed to clone WorkoutSession", e);
+        }
+
+        for (WorkoutItem workoutItem : clone.workoutItems) {
+            workoutItem.setWorkoutItemId(0);
+        }
+
+        return clone;
     }
 
     public void setWorkoutSessionId(long workoutSessionId) {
@@ -100,5 +117,14 @@ public class WorkoutSession {
         for (WorkoutItem workoutItem : workoutItems) {
             workoutItem.setFinished(finished);
         }
+    }
+
+    @Override
+    public int compareTo(WorkoutSession o) {
+        if (this.orderNr == -1L || o.orderNr == -1L) {
+            return (int)(this.workoutSessionId - o.workoutSessionId);
+        }
+
+        return (int)(this.orderNr - o.orderNr);
     }
 }
