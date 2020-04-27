@@ -112,8 +112,8 @@ public class WorkoutFragment extends GenericFragment {
     @Override
     protected void onDeleteCallback(int position) {
         Toast.makeText(getContext(), String.format(getString(R.string.label_delete_toast), workoutItemList.get(position).getName()), Toast.LENGTH_SHORT).show();
-        workoutItemList.remove(position);
         OpenWorkout.getInstance().deleteWorkoutItem(workoutItemList.get(position));
+        workoutItemList.remove(position);
     }
 
     @Override
@@ -132,10 +132,8 @@ public class WorkoutFragment extends GenericFragment {
 
     @Override
     protected void onAddClick() {
-        WorkoutFragmentDirections.ActionWorkoutFramgentToWorkoutSettingsFragment action = WorkoutFragmentDirections.actionWorkoutFramgentToWorkoutSettingsFragment();
+        WorkoutFragmentDirections.ActionWorkoutFragmentToWorkoutDatabaseFragment action = WorkoutFragmentDirections.actionWorkoutFragmentToWorkoutDatabaseFragment();
         action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());
-        action.setMode(GenericSettingsFragment.SETTING_MODE.ADD);
-        action.setTitle(getString(R.string.label_add));
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }
 }

@@ -33,4 +33,7 @@ public interface WorkoutItemDAO {
 
     @Query("SELECT * FROM WorkoutItem WHERE workoutSessionId = :workoutSessionId ORDER BY orderNr")
     List<WorkoutItem> getAll(long workoutSessionId);
+
+    @Query("SELECT * FROM WorkoutItem GROUP BY name")
+    List<WorkoutItem> getAllUnique();
 }

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
@@ -27,19 +28,23 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> {
+public class WorkoutsDatabaseAdapter extends RecyclerView.Adapter<WorkoutsDatabaseAdapter.ViewHolder> {
     private final List<WorkoutItem> workoutItemList;
     private Context context;
+    private static GenericAdapter.OnGenericClickListener onItemClickListener;
 
-    public WorkoutsAdapter(Context aContext, List<WorkoutItem> workoutItemList) {
-        super(aContext);
+    public WorkoutsDatabaseAdapter(Context aContext, List<WorkoutItem> workoutItemList) {
         this.context = aContext;
         this.workoutItemList = workoutItemList;
     }
 
+    public void setOnItemClickListener(GenericAdapter.OnGenericClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     @Override
-    public WorkoutsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workout, parent, false);
+    public WorkoutsDatabaseAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workoutdatabase, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
 
@@ -48,24 +53,14 @@ public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
         WorkoutItem workoutItem = workoutItemList.get(position);
         holder.nameView.setText(workoutItem.getName());
-
-        if (workoutItem.isFinished()) {
-            holder.doneView.setVisibility(View.VISIBLE);
-        } else {
-            holder.doneView.setVisibility(View.INVISIBLE);
-        }
 
         if (workoutItem.isTimeMode()) {
             holder.detailedView.setText(String.format(context.getString(R.string.label_work_duration_item_info), workoutItem.getWorkoutTime()));
         } else {
             holder.detailedView.setText(String.format(context.getString(R.string.label_repetition_item_info), workoutItem.getRepetitionCount()));
         }
-
-        holder.prepView.setText(String.format(context.getString(R.string.label_prep_duration_item_info), workoutItem.getPrepTime()));
-        holder.breakView.setText(String.format(context.getString(R.string.label_break_duration_item_info), workoutItem.getBreakTime()));
 
         if (workoutItem.isImagePathExternal()) {
             Bitmap img = BitmapFactory.decodeFile(workoutItem.getImagePath());
@@ -88,14 +83,6 @@ public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> 
                 Timber.e(ex);
             }
         }
-
-        switch (getMode()) {
-            case VIEW:
-                break;
-            case EDIT:
-                holder.doneView.setVisibility(View.GONE);
-                break;
-        }
     }
 
     @Override
@@ -108,23 +95,25 @@ public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> 
         return workoutItemList.size();
     }
 
-    static class ViewHolder extends GenericAdapter.ViewHolder {
-        TextView prepView;
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgView;
         TextView nameView;
         TextView detailedView;
-        ImageView doneView;
-        TextView breakView;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            prepView = itemView.findViewById(R.id.prepView);
             imgView = itemView.findViewById(R.id.imgView);
             nameView = itemView.findViewById(R.id.nameView);
             detailedView = itemView.findViewById(R.id.detailedView);
-            doneView = itemView.findViewById(R.id.doneView);
-            breakView = itemView.findViewById(R.id.breakView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClick(getAdapterPosition(), v);
+                }
+            });
         }
     }
 }

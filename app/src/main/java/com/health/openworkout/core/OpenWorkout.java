@@ -150,6 +150,10 @@ public class OpenWorkout {
         return appDB.workoutItemDAO().get(workoutItemId);
     }
 
+    public List<WorkoutItem> getAllUniqueWorkoutItems() {
+        return appDB.workoutItemDAO().getAllUnique();
+    }
+
     public long insertTrainingPlan(TrainingPlan trainingPlan) {
         long trainingPlanId = appDB.trainingPlanDAO().insert(trainingPlan);
         for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {

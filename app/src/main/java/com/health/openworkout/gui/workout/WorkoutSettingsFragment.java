@@ -17,6 +17,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 
 import com.alphamovie.lib.AlphaMovieView;
 import com.health.openworkout.R;
@@ -117,13 +118,18 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
 
     @Override
     protected void loadFromDatabase(SETTING_MODE mode) {
+        long workoutItemId = WorkoutSettingsFragmentArgs.fromBundle(getArguments()).getWorkoutItemId();
+
         switch (mode) {
             case ADD:
-                workoutItem = new WorkoutItem();
+                if (workoutItemId != -1L) {
+                    workoutItem = OpenWorkout.getInstance().getWorkoutItem(workoutItemId).clone();
+                    workoutItem.setWorkoutItemId(0);
+                } else {
+                    workoutItem = new WorkoutItem();
+                }
                 break;
             case EDIT:
-                long workoutItemId = WorkoutSettingsFragmentArgs.fromBundle(getArguments()).getWorkoutItemId();
-
                 workoutItem = OpenWorkout.getInstance().getWorkoutItem(workoutItemId);
                 break;
         }
@@ -230,6 +236,7 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
 
                 workoutItem.setWorkoutSessionId(workoutSessionId);
                 OpenWorkout.getInstance().insertWorkoutItem(workoutItem);
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
                 break;
             case EDIT:
                 OpenWorkout.getInstance().updateWorkoutItem(workoutItem);

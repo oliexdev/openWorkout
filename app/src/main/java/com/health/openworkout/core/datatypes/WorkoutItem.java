@@ -11,6 +11,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 
 @Entity
@@ -52,6 +53,8 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
 
     public WorkoutItem() {
         context = OpenWorkout.getInstance().getContext();
+        name = context.getString(R.string.label_blank);
+        description = context.getString(R.string.label_blank);
         orderNr = -1L;
         prepTime = 5;
         workoutTime = 30;
@@ -59,6 +62,10 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
         repetitionCount = 5;
         isTimeMode = true;
         finished = false;
+        isVideoPathExternal = false;
+        videoPath = new String();
+        isImagePathExternal = false;
+        imagePath = new String();
     }
 
     @Override

@@ -120,6 +120,27 @@
         <action
             android:id="@+id/action_WorkoutFramgent_to_WorkoutSettingsFragment"
             app:destination="@id/nav_workoutsettings" />
+        <action
+            android:id="@+id/action_WorkoutFragment_to_WorkoutDatabaseFragment"
+            app:destination="@id/nav_workoutdatabase" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_workoutdatabase"
+        android:name="com.health.openworkout.gui.workout.WorkoutDatabaseFragment"
+        android:label="@string/menu_workoutdatabase"
+        tools:layout="@layout/fragment_workoutdatabase">
+        <argument
+            android:name="SessionWorkoutId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="WorkoutItemId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_WorkoutDatabaseFragment_to_WorkoutSettingsFragment"
+            app:destination="@id/nav_workoutsettings" />
     </fragment>
 
     <fragment

@@ -15,6 +15,7 @@
     <string name="menu_workout">Workout</string>
     <string name="menu_workoutslide">Workout slide</string>
     <string name="menu_workoutsettings">Workout settings</string>
+    <string name="menu_workoutdatabase">Workout item database</string>
 
     <string name="home_second">Home Second</string>
 
@@ -50,6 +51,7 @@
     <string name="label_reset_toast">%s reset</string>
     <string name="label_save_toast">%s saved</string>
 
+    <string name="label_blank">Empty</string>
     <string name="label_name">Name</string>
     <string name="label_description">Description</string>
     <string name="label_preparation_time">Preparation time</string>
