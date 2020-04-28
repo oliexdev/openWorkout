@@ -78,6 +78,7 @@ fastlane/test_output
 fastlane/readme.md
 fastlane/README.md
 Gemfile
+Gemfile.lock
 
 # Version control
 vcs.xml
@@ -90,5 +91,3 @@ lint/tmp/
 # lint/reports/
 
 /app/release/output.json
-
-
