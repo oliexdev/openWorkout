@@ -5,7 +5,7 @@
 apply plugin: 'com.android.application'
 apply plugin: "androidx.navigation.safeargs"
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystorePropertiesFile = rootProject.file("../openWorkout.keystore")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
