@@ -18,22 +18,34 @@ opt_out_usage
 default_platform(:android)
 
 platform :android do 
-  desc "Generate release version"
-  lane :release do |options|
-    gradle(task: "clean")
-    gradle(
-        task: "assemble",
-        build_type: "Release",
-    )
-  end
+    desc "Generate release version"
+    lane :release do |options|
+        gradle(task: "clean")
+        gradle(
+            task: "assemble",
+            build_type: "Release",
+        )
+    end
 
-  desc "Deploy a new version to the Google Play"
-  lane :deployRelease do
-    gradle(task: "clean")
-    gradle(
-        task: "assemble",
-        build_type: "Release"
-    )
-    upload_to_play_store
-  end
+    desc "Deploy a new version to Google Play"
+    lane :deployRelease do
+        gradle(task: "clean")
+        gradle(
+            task: "assemble",
+            build_type: "Release"
+        )
+        upload_to_play_store
+    end
+
+    desc "Deploy a new version to GitHub"
+    lane :deployGitHubRelease do |options|
+        set_github_release(
+            repository_name: "oliexdev/openWorkout",
+            api_token: ENV["OLIEXDEV_GITHUB_API_TOKEN"],
+            name: "openWorkout " + options[:version] + " release",
+            tag_name: "v"+options[:version],
+            description: (File.read("metadata/android/en-GB/changelogs/" + options["versionCode"] + ".txt") rescue "No changelog provided"),
+            upload_assets: [ "app/build/outputs/apk/openWorkout-" + options[:version] + "-release.apk" ]
+        )
+    end
 end

@@ -1,0 +1,2 @@
+* added option to duplicate items
+* added input dialog for auto generate sessions
