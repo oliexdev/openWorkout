@@ -55,6 +55,8 @@ captures/
 *.jks
 *.keystore
 /app/src/main/res/values/apikeys.xml
+/keystore.properties
+/fastlane_secrect_keys.json
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
@@ -74,6 +76,8 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+fastlane/README.md
+Gemfile
 
 # Version control
 vcs.xml
@@ -86,3 +90,5 @@ lint/tmp/
 # lint/reports/
 
 /app/release/output.json
+
+
