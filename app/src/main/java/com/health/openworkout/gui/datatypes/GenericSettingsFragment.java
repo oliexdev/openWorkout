@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Keep;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -33,7 +32,8 @@ public abstract class GenericSettingsFragment extends Fragment {
 
     private final int REQUEST_OPEN_IMAGE_DIALOG = 1;
     private final int REQUEST_OPEN_VIDEO_DIALOG = 2;
-    private final int READ_STORAGE_PERMISSION_REQUEST_CODE = 3;
+    private final int READ_STORAGE_IMAGE_PERMISSION_REQUEST_CODE = 3;
+    private final int READ_STORAGE_VIDEO_PERMISSION_REQUEST_CODE = 4;
 
     private String imgPath;
     private String videoPath;
@@ -111,7 +111,7 @@ public abstract class GenericSettingsFragment extends Fragment {
 
             startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_image_file)), REQUEST_OPEN_IMAGE_DIALOG);
         } else {
-            requestPermissionForReadExternalStorage();
+            requestImagePermissionForReadExternalStorage();
         }
     }
 
@@ -123,7 +123,7 @@ public abstract class GenericSettingsFragment extends Fragment {
 
             startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video_file)), REQUEST_OPEN_VIDEO_DIALOG);
         } else {
-            requestPermissionForReadExternalStorage();
+            requestVideoPermissionForReadExternalStorage();
         }
     }
 
@@ -135,10 +135,20 @@ public abstract class GenericSettingsFragment extends Fragment {
         return false;
     }
 
-    protected void requestPermissionForReadExternalStorage() {
+    protected void requestImagePermissionForReadExternalStorage() {
         try {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    READ_STORAGE_PERMISSION_REQUEST_CODE);
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    READ_STORAGE_IMAGE_PERMISSION_REQUEST_CODE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    protected void requestVideoPermissionForReadExternalStorage() {
+        try {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    READ_STORAGE_VIDEO_PERMISSION_REQUEST_CODE);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -146,17 +156,33 @@ public abstract class GenericSettingsFragment extends Fragment {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case READ_STORAGE_IMAGE_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openImageFileDialog();
+                }
+                break;
+            case READ_STORAGE_VIDEO_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openVideoFileDialog();
+                }
+                break;
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            Uri uri = data.getData();
-
             if (requestCode == REQUEST_OPEN_IMAGE_DIALOG) {
+                Uri uri = data.getData();
                 onNewImagePath(uri);
                 imgPath = uri.toString();
             }
 
             if (requestCode == REQUEST_OPEN_VIDEO_DIALOG) {
+                Uri uri = data.getData();
                 onNewVideoPath(uri);
                 videoPath = uri.toString();
             }
