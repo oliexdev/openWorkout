@@ -4,10 +4,16 @@
 
 package com.health.openworkout.gui.session;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -111,11 +117,38 @@ public class SessionFragment extends GenericFragment {
 
     @Override
     protected void onAddClick() {
-        SessionFragmentDirections.ActionSessionsFragmentToSessionSettingsFragment action = SessionFragmentDirections.actionSessionsFragmentToSessionSettingsFragment();
-        action.setTrainingPlanId(trainingPlan.getTrainingPlanId());
-        action.setMode(GenericSettingsFragment.SETTING_MODE.ADD);
-        action.setTitle(getString(R.string.label_add));
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        alert.setTitle(getString(R.string.label_input_create_days));
+        final EditText input = new EditText(getContext());
+        input.setText("3", TextView.BufferType.EDITABLE);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setRawInputType(Configuration.KEYBOARD_12KEY);
+        alert.setView(input);
+        alert.setPositiveButton(getString(R.string.label_ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if (!input.getText().toString().isEmpty()) {
+                    int startNr = trainingPlan.getWorkoutSessions().size() + 1;
+                    int offsetNr = Integer.valueOf(input.getText().toString());
+
+                    for (int nr=startNr; nr < (startNr + offsetNr); nr++) {
+                        WorkoutSession workoutSession = new WorkoutSession();
+                        workoutSession.setName(String.format(getString(R.string.day_unit), nr));
+                        workoutSession.setTrainingPlanId(trainingPlan.getTrainingPlanId());
+                        trainingPlan.addWorkoutSession(workoutSession);
+                        OpenWorkout.getInstance().insertWorkoutSession(workoutSession);
+                        getAdapter().notifyItemInserted(nr);
+                    }
+
+                    loadFromDatabase();
+                }
+            }
+        });
+        alert.setNegativeButton(getString(R.string.label_cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // empty
+            }
+        });
+        alert.show();
     }
 
     @Override

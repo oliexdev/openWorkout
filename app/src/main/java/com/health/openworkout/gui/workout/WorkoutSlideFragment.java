@@ -38,8 +38,6 @@ import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.utils.SoundUtils;
 
-import timber.log.Timber;
-
 public class WorkoutSlideFragment extends Fragment {
     private enum WORKOUT_STATE {INIT, PREPARE, START, BREAK, FINISH};
     private TextView nameView;
@@ -175,7 +173,6 @@ public class WorkoutSlideFragment extends Fragment {
             // otherwise use the workout item as a starting point which was selected in the workout fragment
             for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
                 if (workoutItem.getWorkoutItemId() == workoutItemIdFromFragment) {
-                    Timber.d("selected workout item " + workoutItem.getWorkoutItemId());
                     nextWorkoutItem = workoutItem;
                     workoutItemIdFromFragment = -1L;
                     break;

@@ -5,9 +5,8 @@
 package com.health.openworkout.gui.workout;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,8 +67,7 @@ public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> 
         holder.breakView.setText(String.format(context.getString(R.string.label_break_duration_item_info), workoutItem.getBreakTime()));
 
         if (workoutItem.isImagePathExternal()) {
-            Bitmap img = BitmapFactory.decodeFile(workoutItem.getImagePath());
-            holder.imgView.setImageBitmap(img);
+            holder.imgView.setImageURI(Uri.parse(workoutItem.getImagePath()));
         } else {
             try {
                 String subFolder;
