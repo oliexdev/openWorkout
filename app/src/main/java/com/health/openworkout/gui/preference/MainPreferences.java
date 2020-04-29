@@ -11,7 +11,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.DialogFragment;
-import androidx.preference.CheckBoxPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -22,7 +21,7 @@ import com.health.openworkout.core.alarm.AlarmHandler;
 import com.health.openworkout.core.alarm.ReminderBootReceiver;
 
 public class MainPreferences extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private CheckBoxPreference reminderEnable;
+    private SwitchPreferenceCompat reminderEnable;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

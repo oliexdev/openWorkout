@@ -18,9 +18,9 @@
     <string name="menu_workoutsettings">Workout settings</string>
     <string name="menu_workoutdatabase">Workout item database</string>
 
+    <string name="preference_reminder_general">General</string>
+    <string name="preference_reminder_title">Reminder</string>
     <string name="preference_enable_dark_theme">Dark theme mode</string>
-    <string name="preference_is_enabled">enabled</string>
-    <string name="preference_is_disabled">disabled</string>
     <string name="preference_reminder">Reminder</string>
     <string name="preference_reminder_days">Days</string>
     <string name="preference_reminder_time">Time</string>

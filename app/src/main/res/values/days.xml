@@ -20,5 +20,10 @@
         <item>Sunday</item>
     </string-array>
 
-    <string-array name="days_default"/>
+    <string-array name="days_default">
+        <item>Monday</item>
+        <item>Wednesday</item>
+        <item>Friday</item>
+    </string-array>
+
 </resources>

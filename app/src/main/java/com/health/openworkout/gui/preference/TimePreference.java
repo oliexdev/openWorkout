@@ -16,7 +16,7 @@ import java.util.Calendar;
 
 public class TimePreference extends DialogPreference {
 
-    private long timeInMillis = Calendar.getInstance().getTimeInMillis();
+    private long timeInMillis;
 
     public TimePreference(Context context) {
         this(context, null);
@@ -47,7 +47,11 @@ public class TimePreference extends DialogPreference {
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
-        return a.getInt(index, 0);
+        Calendar defaultTime = Calendar.getInstance();
+        defaultTime.set(Calendar.HOUR_OF_DAY, 16);
+        defaultTime.set(Calendar.MINUTE, 0);
+
+        return defaultTime.getTimeInMillis();
     }
 
     @Override
@@ -57,8 +61,8 @@ public class TimePreference extends DialogPreference {
 
 
     @Override
-    protected void onSetInitialValue(Object defaultValue) {
-        setTimeInMillis(getPersistedLong(timeInMillis));
+    protected void onSetInitialValue(boolean restore, Object defaultValue) {
+        setTimeInMillis(restore ? getPersistedLong(timeInMillis) : (long) defaultValue);
     }
 
     @Override

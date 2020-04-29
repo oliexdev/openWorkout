@@ -6,39 +6,48 @@
 <PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreferenceCompat
-        app:key="darkTheme"
-        app:title="@string/preference_enable_dark_theme"
-        app:useSimpleSummaryProvider="true"
-        app:defaultValue="false"/>
+    <PreferenceCategory
+        app:key="generalCategory"
+        app:title="@string/preference_reminder_general">
 
-    <CheckBoxPreference
-        app:defaultValue="false"
-        app:key="reminderEnable"
-        app:summaryOff="@string/preference_is_disabled"
-        app:summaryOn="@string/preference_is_enabled"
-        app:title="@string/preference_reminder"/>
+        <SwitchPreferenceCompat
+            app:key="darkTheme"
+            app:title="@string/preference_enable_dark_theme"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="false"/>
+    </PreferenceCategory>
 
-    <MultiSelectListPreference
-        app:defaultValue="@array/days_default"
-        app:dependency="reminderEnable"
-        app:dialogTitle="@string/preference_reminder_days"
-        app:entries="@array/days_entries"
-        app:entryValues="@array/days_values"
-        app:key="reminderDays"
-        app:title="@string/preference_reminder_days" />
+    <PreferenceCategory
+        app:key="reminderCategory"
+        app:title="@string/preference_reminder_title"
+        app:initialExpandedChildrenCount="1">
 
-    <com.health.openworkout.gui.preference.TimePreference
-        app:dependency="reminderEnable"
-        app:key="reminderTime"
-        app:title="@string/preference_reminder_time"
-        style="@style/AppPreference.DialogPreference" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="reminderEnable"
+            app:title="@string/preference_reminder"/>
 
-    <EditTextPreference
-        app:defaultValue="@string/preference_reminder_default_text"
-        app:dependency="reminderEnable"
-        app:key="reminderNotifyText"
-        app:useSimpleSummaryProvider="true"
-        app:title="@string/preference_reminder_text" />
+        <MultiSelectListPreference
+            app:defaultValue="@array/days_default"
+            app:dependency="reminderEnable"
+            app:dialogTitle="@string/preference_reminder_days"
+            app:entries="@array/days_entries"
+            app:entryValues="@array/days_values"
+            app:key="reminderDays"
+            app:title="@string/preference_reminder_days" />
 
+        <com.health.openworkout.gui.preference.TimePreference
+            app:dependency="reminderEnable"
+            app:key="reminderTime"
+            app:defaultValue="0"
+            app:title="@string/preference_reminder_time"
+            style="@style/AppPreference.DialogPreference" />
+
+        <EditTextPreference
+            app:defaultValue="@string/preference_reminder_default_text"
+            app:dependency="reminderEnable"
+            app:key="reminderNotifyText"
+            app:useSimpleSummaryProvider="true"
+            app:title="@string/preference_reminder_text" />
+    </PreferenceCategory>
 </PreferenceScreen>
