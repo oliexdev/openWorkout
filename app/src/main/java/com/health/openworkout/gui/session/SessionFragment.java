@@ -112,7 +112,6 @@ public class SessionFragment extends GenericFragment {
 
         long workoutSessionId = OpenWorkout.getInstance().insertWorkoutSession(duplicateWorkoutSession);
         duplicateWorkoutSession.setWorkoutSessionId(workoutSessionId);
-        getAdapter().notifyItemInserted(position+1);
     }
 
     @Override

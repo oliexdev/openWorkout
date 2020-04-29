@@ -4,10 +4,12 @@
 
 package com.health.openworkout.gui.datatypes;
 
+import android.os.AsyncTask;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Keep;
@@ -75,6 +77,19 @@ public abstract class GenericFragment extends Fragment {
     protected abstract void onDeleteCallback(int position);
     protected abstract void onAddClick();
 
+    private ProgressBar getProgressBar() {
+        if (getView() != null) {
+            return getView().findViewById(R.id.progressBar);
+        }
+
+        return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_menu, menu);
@@ -128,9 +143,24 @@ public abstract class GenericFragment extends Fragment {
 
             getAdapter().setOnItemDuplicateClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
-                public void onItemClick(int position, View v) {
+                public void onItemClick(final int position, View v) {
                     if (position != -1) {
-                        onDuplicateCallback(position);
+                        getProgressBar().setVisibility(View.VISIBLE);
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void ... params) {
+                                onDuplicateCallback(position);
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void o) {
+                                if (getProgressBar() != null) {
+                                    getProgressBar().setVisibility(View.GONE);
+                                    getAdapter().notifyItemInserted(position+1);
+                                }
+                            }
+                        }.execute();
                     }
                 }
             });

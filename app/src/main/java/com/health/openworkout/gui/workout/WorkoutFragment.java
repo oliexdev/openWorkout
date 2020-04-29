@@ -127,7 +127,6 @@ public class WorkoutFragment extends GenericFragment {
 
         long workoutItemId = OpenWorkout.getInstance().insertWorkoutItem(duplicatedWorkoutItem);
         duplicatedWorkoutItem.setWorkoutItemId(workoutItemId);
-        getAdapter().notifyItemInserted(position+1);
     }
 
     @Override

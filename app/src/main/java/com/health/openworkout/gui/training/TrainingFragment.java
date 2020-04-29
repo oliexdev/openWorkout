@@ -131,7 +131,6 @@ public class TrainingFragment extends GenericFragment {
 
         long trainingPlanId = OpenWorkout.getInstance().insertTrainingPlan(duplicateTrainingPlan);
         duplicateTrainingPlan.setTrainingPlanId(trainingPlanId);
-        getAdapter().notifyItemInserted(position+1);
     }
 
     @Override

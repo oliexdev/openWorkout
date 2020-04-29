@@ -33,11 +33,11 @@
             <ImageView
                 android:id="@+id/reorderView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:tint="?attr/colorControlNormal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:tint="?attr/colorControlNormal"
                 app:srcCompat="@drawable/ic_reorder" />
 
             <androidx.cardview.widget.CardView
@@ -93,7 +93,7 @@
             <ImageView
                 android:id="@+id/editView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/optionView"
@@ -103,11 +103,11 @@
             <ImageView
                 android:id="@+id/optionView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:tint="?attr/colorControlNormal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:tint="?attr/colorControlNormal"
                 app:srcCompat="@drawable/ic_option" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
