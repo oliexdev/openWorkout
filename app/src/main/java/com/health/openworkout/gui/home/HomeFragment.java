@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -30,7 +29,7 @@ import com.health.openworkout.core.datatypes.User;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 
 public class HomeFragment extends Fragment {
-    private Button startView;
+    private ImageView startView;
     private ImageView detailTrainingView;
     private Spinner trainingNameView;
     private ProgressBar sessionProgressBar;
@@ -48,7 +47,6 @@ public class HomeFragment extends Fragment {
         openWorkout = OpenWorkout.getInstance();
 
         startView = root.findViewById(R.id.startView);
-        startView.setText("\n" + getString(R.string.label_start));
 
         startView.setOnClickListener(new View.OnClickListener() {
             @Override

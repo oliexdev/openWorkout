@@ -13,9 +13,12 @@
     <string name="menu_trainings">Trainings</string>
     <string name="menu_sessions">Sessions</string>
     <string name="menu_workout">Workout</string>
+    <string name="menu_settings">Settings</string>
     <string name="menu_workoutslide">Workout slide</string>
     <string name="menu_workoutsettings">Workout settings</string>
     <string name="menu_workoutdatabase">Workout item database</string>
+
+    <string name="preference_enable_dark_theme">Dark theme mode</string>
 
     <string name="seconds_unit">s</string>
     <string name="day_unit">%d. day</string>

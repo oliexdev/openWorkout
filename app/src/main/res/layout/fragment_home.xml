@@ -10,7 +10,7 @@
     android:layout_height="match_parent"
     tools:context=".gui.home.HomeFragment">
 
-    <Button
+    <ImageView
         android:id="@+id/startView"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -19,13 +19,25 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/ic_timer"
         android:clickable="true"
+        android:focusable="true"
         android:foreground="@drawable/ripple_timer"
-        android:singleLine="false"
-        android:text="@string/label_start"
-        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/startTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="@string/label_start"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/startView"
+        app:layout_constraintEnd_toEndOf="@+id/startView"
+        app:layout_constraintStart_toStartOf="@+id/startView"
+        app:layout_constraintTop_toTopOf="@+id/startView" />
 
     <TableLayout
         android:layout_width="0dp"
@@ -64,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:tint="?attr/colorControlNormal"
                 android:src="@drawable/ic_view" />
         </TableRow>
 

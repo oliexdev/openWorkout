@@ -23,6 +23,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.health.openworkout.gui.preference.MainPreferences"
+        android:label="@string/menu_settings">
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_trainings"
         android:name="com.health.openworkout.gui.training.TrainingFragment"
         android:label="@string/menu_trainings"

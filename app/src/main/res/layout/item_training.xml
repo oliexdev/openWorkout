@@ -28,6 +28,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imgView"
                 app:layout_constraintTop_toTopOf="@+id/nameView"
+                android:tint="?attr/colorControlNormal"
                 app:srcCompat="@drawable/ic_reorder" />
 
             <TextView
@@ -93,6 +94,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:tint="?attr/colorControlNormal"
                 app:srcCompat="@drawable/ic_option" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

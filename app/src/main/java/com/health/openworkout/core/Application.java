@@ -4,6 +4,11 @@
 
 package com.health.openworkout.core;
 
+import android.content.SharedPreferences;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
+
 import com.health.openworkout.BuildConfig;
 
 import timber.log.Timber;
@@ -26,6 +31,13 @@ public class Application extends android.app.Application {
         super.onCreate();
 
         Timber.plant(new TimberLogAdapter());
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isDarkMode = sharedPreferences.getBoolean("darkTheme", false);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
 
         // Create openWorkout instance
         OpenWorkout.createInstance(getApplicationContext());
