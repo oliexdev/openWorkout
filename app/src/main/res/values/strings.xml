@@ -19,6 +19,21 @@
     <string name="menu_workoutdatabase">Workout item database</string>
 
     <string name="preference_enable_dark_theme">Dark theme mode</string>
+    <string name="preference_is_enabled">enabled</string>
+    <string name="preference_is_disabled">disabled</string>
+    <string name="preference_reminder">Reminder</string>
+    <string name="preference_reminder_days">Days</string>
+    <string name="preference_reminder_time">Time</string>
+    <string name="preference_reminder_text">Notification text</string>
+    <string name="preference_reminder_default_text">Time for your workout</string>
+
+    <string name="Monday">Monday</string>
+    <string name="Tuesday">Tuesday</string>
+    <string name="Wednesday">Wednesday</string>
+    <string name="Thursday">Thursday</string>
+    <string name="Friday">Friday</string>
+    <string name="Saturday">Saturday</string>
+    <string name="Sunday">Sunday</string>
 
     <string name="seconds_unit">s</string>
     <string name="day_unit">%d. day</string>
