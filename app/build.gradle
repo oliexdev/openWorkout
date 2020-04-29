@@ -83,9 +83,6 @@ dependencies {
     // Room library
     implementation 'androidx.room:room-runtime:2.2.5'
 
-    // Alpha movie
-    implementation 'com.alphamovie.library:alpha-movie:1.2.1'
-
     // Test environment
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     testImplementation 'junit:junit:4.12'

@@ -6,7 +6,9 @@ package com.health.openworkout.gui.workout;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,12 +22,15 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import com.alphamovie.lib.AlphaMovieView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -40,8 +45,10 @@ import com.health.openworkout.gui.utils.SoundUtils;
 
 public class WorkoutSlideFragment extends Fragment {
     private enum WORKOUT_STATE {INIT, PREPARE, START, BREAK, FINISH};
+    private ConstraintLayout constraintLayout;
     private TextView nameView;
-    private AlphaMovieView videoView;
+    private CardView videoCardView;
+    private VideoView videoView;
     private ImageView infoView;
     private TextView descriptionView;
     private TextView stateInfoView;
@@ -75,9 +82,39 @@ public class WorkoutSlideFragment extends Fragment {
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
+        constraintLayout = root.findViewById(R.id.constraintLayout);
         nameView = root.findViewById(R.id.nameView);
+        videoCardView = root.findViewById(R.id.videoCardView);
         videoView = root.findViewById(R.id.videoView);
         infoView = root.findViewById(R.id.infoView);
+
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            ViewGroup.LayoutParams layoutParams = videoCardView.getLayoutParams();
+            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            layoutParams.width = 0;
+            videoCardView.setLayoutParams(layoutParams);
+        } else {
+            ViewGroup.LayoutParams layoutParams = videoCardView.getLayoutParams();
+            layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            layoutParams.height = 0;
+
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(constraintLayout);
+            constraintSet.connect(R.id.videoCardView, ConstraintSet.BOTTOM, R.id.descriptionView, ConstraintSet.TOP,8);
+            constraintSet.connect(R.id.descriptionView, ConstraintSet.BOTTOM, R.id.stateInfoView, ConstraintSet.TOP, 8);
+            constraintSet.applyTo(constraintLayout);
+
+            videoCardView.setLayoutParams(layoutParams);
+        }
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+                mp.setLooping(true);
+            }
+        });
 
         infoView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,13 +152,11 @@ public class WorkoutSlideFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        videoView.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        videoView.onPause();
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
@@ -184,21 +219,17 @@ public class WorkoutSlideFragment extends Fragment {
         nameView.setText(nextWorkoutItem.getName() + " (" + workoutItemPos + "/" + workoutSession.getWorkoutItems().size() + ")");
 
         if (nextWorkoutItem.isVideoPathExternal()) {
-            videoView.setVideoFromUri(getContext(), Uri.parse(nextWorkoutItem.getVideoPath()));
+            videoView.setVideoURI(Uri.parse(nextWorkoutItem.getVideoPath()));
         } else {
             if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
-                videoView.setVideoFromAssets("video/male/" + nextWorkoutItem.getVideoPath());
+                videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/male/" + nextWorkoutItem.getVideoPath());
             } else {
-                videoView.setVideoFromAssets("video/female/" + nextWorkoutItem.getVideoPath());
+                videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/female/" + nextWorkoutItem.getVideoPath());
             }
         }
-        videoView.setLooping(true);
-        videoView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                videoView.pause();
-            }
-        },100);
+
+        videoCardView.animate().alpha(1.0f);
+        videoView.seekTo(100);
 
         descriptionView.setText(nextWorkoutItem.getDescription());
     }

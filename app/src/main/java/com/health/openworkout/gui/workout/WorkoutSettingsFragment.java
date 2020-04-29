@@ -5,6 +5,7 @@
 package com.health.openworkout.gui.workout;
 
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,11 +16,11 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 
-import com.alphamovie.lib.AlphaMovieView;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.WorkoutItem;
@@ -43,7 +44,7 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
     private Switch timeModeView;
     private TableRow workoutTimeRow;
     private TableRow repetitionCountRow;
-    private AlphaMovieView videoView;
+    private VideoView videoView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +61,13 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
         workoutTimeRow = root.findViewById(R.id.workoutTimeRow);
         repetitionCountRow = root.findViewById(R.id.repetitionCoundRow);
         videoView = root.findViewById(R.id.videoView);
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
 
         timeModeView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -89,26 +97,14 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        videoView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        videoView.onPause();
-    }
-
-    @Override
     protected void onNewImagePath(Uri uri) {
         imgView.setImageURI(uri);
     }
 
     @Override
     protected void onNewVideoPath(Uri uri) {
-        videoView.setVideoFromUri(getContext(), uri);
-        videoView.setLooping(true);
+        videoView.setVideoURI(uri);
+        videoView.start();
     }
 
     @Override
@@ -155,15 +151,15 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
         }
 
         if (workoutItem.isVideoPathExternal()) {
-            videoView.setVideoFromUri(getContext(), Uri.parse(workoutItem.getVideoPath()));
+            videoView.setVideoURI(Uri.parse(workoutItem.getVideoPath()));
         } else {
             if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
-                videoView.setVideoFromAssets("video/male/" + workoutItem.getVideoPath());
+                videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/male/" + workoutItem.getVideoPath());
             } else {
-                videoView.setVideoFromAssets("video/female/" + workoutItem.getVideoPath());
+                videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/female/" + workoutItem.getVideoPath());
             }
         }
-        videoView.setLooping(true);
+
         videoView.start();
 
         nameView.setText(workoutItem.getName());

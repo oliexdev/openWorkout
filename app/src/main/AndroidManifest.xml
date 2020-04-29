@@ -32,6 +32,11 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/APP_ID"/>
 
+        <provider
+            android:name=".gui.utils.VideoProvider"
+            android:authorities="com.health.openworkout.videoprovider"
+            android:exported="false" />
+
         <receiver android:name=".core.alarm.ReminderBootReceiver" android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

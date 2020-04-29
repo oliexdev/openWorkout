@@ -184,7 +184,7 @@
                         android:layout_marginBottom="10dp"
                         app:cardCornerRadius="10dp">
 
-                    <com.alphamovie.lib.AlphaMovieView
+                    <VideoView
                         android:id="@+id/videoView"
                         android:layout_width="wrap_content"
                         android:layout_height="150dp"
