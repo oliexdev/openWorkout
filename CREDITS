@@ -1,6 +1,12 @@
 openWorkout uses open source components. You can find the source code of their open source projects along with license information below.
 I acknowledge and I am grateful to these developers for their contributions to open source.
 
+Project: CustomActivityOnCrash
+Copyright 2014-2017 Eduard Ereza Martínez
+Apache License, Version 2.0
+License: https://www.apache.org/licenses/LICENSE-2.0
+Website: https://github.com/Ereza/CustomActivityOnCrash
+
 Project: Timber
 Copyright 2013 Jake Wharton
 Apache License, Version 2.0
