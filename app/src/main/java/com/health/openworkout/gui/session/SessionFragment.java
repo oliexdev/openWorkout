@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
+import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 import com.health.openworkout.gui.datatypes.GenericFragment;
@@ -148,6 +149,20 @@ public class SessionFragment extends GenericFragment {
             }
         });
         alert.show();
+    }
+
+    @Override
+    protected void onResetClick() {
+        for (WorkoutSession workoutSession : workoutSessionList) {
+            workoutSession.setFinished(false);
+
+            for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
+                workoutItem.setFinished(false);
+                OpenWorkout.getInstance().updateWorkoutItem(workoutItem);
+            }
+
+            OpenWorkout.getInstance().updateWorkoutSession(workoutSession);
+        }
     }
 
     @Override

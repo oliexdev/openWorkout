@@ -19,6 +19,8 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.User;
+import com.health.openworkout.core.datatypes.WorkoutItem;
+import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 import com.health.openworkout.gui.datatypes.GenericFragment;
 import com.health.openworkout.gui.datatypes.GenericSettingsFragment;
@@ -139,5 +141,25 @@ public class TrainingFragment extends GenericFragment {
         action.setMode(GenericSettingsFragment.SETTING_MODE.ADD);
         action.setTitle(getString(R.string.label_add));
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
+    }
+
+    @Override
+    protected void onResetClick() {
+        for (TrainingPlan trainingPlan : trainingPlanList) {
+            trainingPlan.setCountFinishedTraining(0);
+
+            for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {
+                workoutSession.setFinished(false);
+
+                for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
+                    workoutItem.setFinished(false);
+                    OpenWorkout.getInstance().updateWorkoutItem(workoutItem);
+                }
+
+                OpenWorkout.getInstance().updateWorkoutSession(workoutSession);
+            }
+
+            OpenWorkout.getInstance().updateTrainingPlan(trainingPlan);
+        }
     }
 }

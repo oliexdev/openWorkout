@@ -217,6 +217,10 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+
+        if (!finished) {
+            elapsedTime = 0L;
+        }
     }
 
     @Override

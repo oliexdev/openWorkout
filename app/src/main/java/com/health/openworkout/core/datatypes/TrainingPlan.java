@@ -111,12 +111,6 @@ public class TrainingPlan implements Comparable<TrainingPlan>, Cloneable {
         return finishedSize;
     }
 
-    public void resetFinishedSessions() {
-        for (WorkoutSession workoutSession : workoutSessions) {
-            workoutSession.setFinished(false);
-        }
-    }
-
     public int getWorkoutSessionSize() {
         return workoutSessions.size();
     }

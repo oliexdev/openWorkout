@@ -153,7 +153,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        custom:adSize="SMART_BANNER"
+        custom:adSize="BANNER"
         custom:adUnitId="@string/MOB_ID" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

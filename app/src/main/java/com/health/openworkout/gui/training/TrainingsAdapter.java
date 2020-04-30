@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
+import com.health.openworkout.core.datatypes.WorkoutItem;
+import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 
 import java.io.IOException;
@@ -66,9 +68,19 @@ public class TrainingsAdapter extends GenericAdapter<TrainingsAdapter.ViewHolder
 
         if (!trainingPlan.getWorkoutSessions().isEmpty() &&
                 trainingPlan.getWorkoutSessionSize() == trainingPlan.finishedSessionSize()) {
+
             trainingPlan.setCountFinishedTraining(trainingPlan.getCountFinishedTraining() + 1);
-            trainingPlan.resetFinishedSessions();
-            OpenWorkout.getInstance().updateTrainingPlan(trainingPlan);
+
+            for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {
+                workoutSession.setFinished(false);
+
+                for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
+                    workoutItem.setFinished(false);
+                    OpenWorkout.getInstance().updateWorkoutItem(workoutItem);
+                }
+
+                OpenWorkout.getInstance().updateWorkoutSession(workoutSession);
+            }
         }
 
         if (trainingPlan.getCountFinishedTraining() == 0) {

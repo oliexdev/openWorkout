@@ -4,6 +4,7 @@
 
 package com.health.openworkout.gui.datatypes;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -76,6 +78,7 @@ public abstract class GenericFragment extends Fragment {
     protected abstract void onDuplicateCallback(int position);
     protected abstract void onDeleteCallback(int position);
     protected abstract void onAddClick();
+    protected abstract void onResetClick();
 
     private ProgressBar getProgressBar() {
         if (getView() != null) {
@@ -208,8 +211,42 @@ public abstract class GenericFragment extends Fragment {
                 Toast.makeText(getContext(), String.format(getString(R.string.label_save_toast), getTitle()), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.reset:
-                Toast.makeText(getContext(), String.format(getString(R.string.label_reset_toast), getTitle()), Toast.LENGTH_SHORT).show();
-                loadFromDatabase();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                getProgressBar().setVisibility(View.VISIBLE);
+                                new AsyncTask<Void, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(Void ... params) {
+                                        onResetClick();
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Void o) {
+                                        if (getProgressBar() != null) {
+                                            getProgressBar().setVisibility(View.GONE);
+                                        }
+                                        loadFromDatabase();
+
+                                        Toast.makeText(getActivity(), String.format(getString(R.string.label_reset_toast), getTitle()), Toast.LENGTH_SHORT).show();
+                                    }
+                                }.execute();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                builder.setMessage(getString(R.string.label_really_reset_dialog)).setPositiveButton(getString(R.string.label_ok), dialogClickListener)
+                        .setNegativeButton(getString(R.string.label_cancel), dialogClickListener).show();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

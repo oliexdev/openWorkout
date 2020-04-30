@@ -123,10 +123,6 @@ public class WorkoutSession implements Comparable<WorkoutSession>, Cloneable {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
-
-        for (WorkoutItem workoutItem : workoutItems) {
-            workoutItem.setFinished(finished);
-        }
     }
 
     @Override

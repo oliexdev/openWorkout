@@ -135,4 +135,12 @@ public class WorkoutFragment extends GenericFragment {
         action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }
+
+    @Override
+    protected void onResetClick() {
+        for (WorkoutItem workoutItem : workoutItemList) {
+            workoutItem.setFinished(false);
+            OpenWorkout.getInstance().updateWorkoutItem(workoutItem);
+        }
+    }
 }
