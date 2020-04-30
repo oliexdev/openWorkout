@@ -43,6 +43,8 @@ import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.utils.SoundUtils;
 
+import java.util.Calendar;
+
 public class WorkoutSlideFragment extends Fragment {
     private enum WORKOUT_STATE {INIT, PREPARE, START, BREAK, FINISH};
     private ConstraintLayout constraintLayout;
@@ -60,6 +62,7 @@ public class WorkoutSlideFragment extends Fragment {
     private AdView adView;
 
     private CountDownTimer countDownTimer;
+    private Calendar startTime;
     private int remainingSec;
     private SoundUtils soundUtils;
 
@@ -138,7 +141,6 @@ public class WorkoutSlideFragment extends Fragment {
         nextWorkoutStepView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFinishWorkoutItem();
                 nextWorkoutState();
             }
         });
@@ -216,6 +218,8 @@ public class WorkoutSlideFragment extends Fragment {
         }
 
         int workoutItemPos = workoutSession.getWorkoutItems().indexOf(nextWorkoutItem) + 1;
+        startTime = Calendar.getInstance();
+
         nameView.setText(nextWorkoutItem.getName() + " (" + workoutItemPos + "/" + workoutSession.getWorkoutItems().size() + ")");
 
         if (nextWorkoutItem.isVideoPathExternal()) {
@@ -280,9 +284,10 @@ public class WorkoutSlideFragment extends Fragment {
     }
 
     private void onFinishWorkoutItem() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
+        Calendar stopTime = Calendar.getInstance();
+
+        long diffTimeInSec = (stopTime.getTimeInMillis() - startTime.getTimeInMillis()) / 1000L;
+        nextWorkoutItem.setElapsedTime(diffTimeInSec);
 
         nextWorkoutItem.setFinished(true);
         OpenWorkout.getInstance().updateWorkoutItem(nextWorkoutItem);
@@ -291,7 +296,10 @@ public class WorkoutSlideFragment extends Fragment {
     private void onFinishSession() {
         workoutSession.setFinished(true);
         OpenWorkout.getInstance().updateWorkoutSession(workoutSession);
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
+
+        WorkoutSlideFragmentDirections.ActionNavWorkoutSlideFragmentToTrophyFragment action = WorkoutSlideFragmentDirections.actionNavWorkoutSlideFragmentToTrophyFragment();
+        action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }
 
 
@@ -362,6 +370,10 @@ public class WorkoutSlideFragment extends Fragment {
     }
 
     private void activateCountdownTimer(int sec) {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
         remainingSec = sec;
         progressView.setMax(remainingSec);
         progressView.setProgress(remainingSec);

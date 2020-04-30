@@ -83,12 +83,12 @@
                 android:id="@+id/doneView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/ic_workout_done"
                 android:gravity="center|top"
-                app:layout_constraintBottom_toBottomOf="@+id/roundCardView"
-                app:layout_constraintEnd_toStartOf="@+id/reorderView"
-                app:layout_constraintTop_toTopOf="@+id/roundCardView"
-                app:layout_constraintVertical_bias="0.555" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/editView"

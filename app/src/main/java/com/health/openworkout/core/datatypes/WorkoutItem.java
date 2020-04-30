@@ -28,6 +28,8 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
     @ColumnInfo
     private String description;
     @ColumnInfo
+    private long elapsedTime; // in sec
+    @ColumnInfo
     private String imagePath;
     @ColumnInfo
     private boolean isImagePathExternal;
@@ -36,11 +38,11 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
     @ColumnInfo
     private boolean isVideoPathExternal;
     @ColumnInfo
-    private int prepTime;
+    private int prepTime; // in sec
     @ColumnInfo
-    private int workoutTime;
+    private int workoutTime; // in sec
     @ColumnInfo
-    private int breakTime;
+    private int breakTime; // in sec
     @ColumnInfo
     private int repetitionCount;
     @ColumnInfo
@@ -123,6 +125,14 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public void setElapsedTime(long elapsedTime) {
+        this.elapsedTime = elapsedTime;
     }
 
     public String getImagePath() {

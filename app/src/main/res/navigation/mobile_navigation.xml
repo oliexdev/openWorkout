@@ -189,5 +189,19 @@
             android:name="title"
             app:argType="string"
             android:defaultValue="workout slide"/>
+        <action
+            android:id="@+id/action_nav_WorkoutSlideFragment_to_TrophyFragment"
+            app:destination="@id/nav_trophy" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_trophy"
+        android:name="com.health.openworkout.gui.datatypes.TrophyFragment"
+        android:label="@string/menu_trophy"
+        tools:layout="@layout/fragment_trophy">
+        <argument
+            android:name="SessionWorkoutId"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 </navigation>

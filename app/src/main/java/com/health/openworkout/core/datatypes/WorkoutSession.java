@@ -99,6 +99,16 @@ public class WorkoutSession implements Comparable<WorkoutSession>, Cloneable {
         return null;
     }
 
+    public long getElapsedSessionTime() {
+        long elapsedSessionTime = 0;
+
+        for (WorkoutItem workoutItem : workoutItems) {
+            elapsedSessionTime += workoutItem.getElapsedTime();
+        }
+
+        return elapsedSessionTime;
+    }
+
     public String getName() {
         return name;
     }

@@ -19,7 +19,7 @@ import java.util.Locale;
 import timber.log.Timber;
 
 public class SoundUtils {
-    public enum SOUND {WORKOUT_COUNT_BEFORE_START, WORKOUT_START, WORKOUT_STOP}
+    public enum SOUND {WORKOUT_COUNT_BEFORE_START, WORKOUT_START, WORKOUT_STOP, SESSION_COMPLETED}
 
     private final int NUMBER_OF_SIMULTANEOUS_SOUNDS = 4;
     private final float LEFT_VOLUME_VALUE = 1.0f;
@@ -32,7 +32,7 @@ public class SoundUtils {
     private TextToSpeech ttS;
     private boolean ttsInit;
 
-    private int soundIdBeforeStart, soundIdWorkoutStart, soundIdWorkoutStop;
+    private int soundIdBeforeStart, soundIdWorkoutStart, soundIdWorkoutStop, soundIdSessionCompleted;
 
     private Context context;
     private AssetManager assetManager;
@@ -73,6 +73,8 @@ public class SoundUtils {
             soundIdWorkoutStart = soundPool.load(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength(),1);
             afd = assetManager.openFd("sound/workout_stop.mp3");
             soundIdWorkoutStop = soundPool.load(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength(),1);
+            afd = assetManager.openFd("sound/session_completed.mp3");
+            soundIdSessionCompleted = soundPool.load(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength(),1);
         } catch (IOException ex) {
             Timber.e(ex);
         }
@@ -88,6 +90,9 @@ public class SoundUtils {
                 break;
             case WORKOUT_STOP:
                 soundPool.play(soundIdWorkoutStop, LEFT_VOLUME_VALUE , RIGHT_VOLUME_VALUE, SOUND_PLAY_PRIORITY , MUSIC_LOOP ,PLAY_RATE);
+                break;
+            case SESSION_COMPLETED:
+                soundPool.play(soundIdSessionCompleted, LEFT_VOLUME_VALUE , RIGHT_VOLUME_VALUE, SOUND_PLAY_PRIORITY , MUSIC_LOOP ,PLAY_RATE);
                 break;
         }
     }
