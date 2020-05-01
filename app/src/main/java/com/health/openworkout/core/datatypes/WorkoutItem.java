@@ -55,8 +55,8 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
 
     public WorkoutItem() {
         context = OpenWorkout.getInstance().getContext();
-        name = context.getString(R.string.label_blank);
-        description = context.getString(R.string.label_blank);
+        name = "<" + context.getString(R.string.label_blank) + ">";
+        description = "<" + context.getString(R.string.label_blank) + ">";
         orderNr = -1L;
         prepTime = 5;
         workoutTime = 30;
@@ -65,9 +65,9 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
         isTimeMode = true;
         finished = false;
         isVideoPathExternal = false;
-        videoPath = new String();
+        videoPath = "idle.mp4";
         isImagePathExternal = false;
-        imagePath = new String();
+        imagePath = "idle.png";
     }
 
     @Override

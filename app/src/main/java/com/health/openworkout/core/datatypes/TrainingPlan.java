@@ -11,6 +11,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 
 import java.util.ArrayList;
@@ -42,6 +43,9 @@ public class TrainingPlan implements Comparable<TrainingPlan>, Cloneable {
         orderNr = -1L;
         countFinishedTraining = 0;
         workoutSessions = new ArrayList<>();
+        isImagePathExternal = false;
+        name = "<" + context.getString(R.string.label_blank) + ">";
+        imagePath = "defaultTraining.png";
     }
 
     @Override

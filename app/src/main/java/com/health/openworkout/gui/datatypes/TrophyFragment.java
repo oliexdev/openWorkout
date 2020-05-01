@@ -61,6 +61,7 @@ public class TrophyFragment extends Fragment {
             public void onClick(View v) {
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
             }
         });
 
