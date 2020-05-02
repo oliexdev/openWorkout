@@ -38,7 +38,10 @@ public class AlarmEntry implements Comparable<AlarmEntry> {
         alarmCal.set(Calendar.DAY_OF_WEEK, getDayOfWeek());
 
         // Check we aren't setting it in the past which would trigger it to fire instantly
-        if (alarmCal.before(Calendar.getInstance())) alarmCal.add(Calendar.DAY_OF_YEAR, 7);
+        if (alarmCal.before(Calendar.getInstance())) {
+            alarmCal.add(Calendar.DAY_OF_YEAR, 7);
+        }
+
         return alarmCal;
     }
 

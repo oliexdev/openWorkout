@@ -3,51 +3,16 @@
   ~ Copyright (C) 2020 by olie.xdev@googlemail.com All Rights Reserved
   -->
 
-<PreferenceScreen
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
-        app:key="generalCategory"
-        app:title="@string/preference_reminder_general">
+    <SwitchPreferenceCompat
+        app:key="darkTheme"
+        app:title="@string/preference_enable_dark_theme"
+        app:useSimpleSummaryProvider="true"
+        app:defaultValue="false"/>
 
-        <SwitchPreferenceCompat
-            app:key="darkTheme"
-            app:title="@string/preference_enable_dark_theme"
-            app:useSimpleSummaryProvider="true"
-            app:defaultValue="false"/>
-    </PreferenceCategory>
+    <Preference
+        app:key="reminder"
+        app:title="@string/preference_reminder" />
 
-    <PreferenceCategory
-        app:key="reminderCategory"
-        app:title="@string/preference_reminder_title"
-        app:initialExpandedChildrenCount="1">
-
-        <SwitchPreferenceCompat
-            app:defaultValue="false"
-            app:key="reminderEnable"
-            app:title="@string/preference_reminder"/>
-
-        <MultiSelectListPreference
-            app:defaultValue="@array/days_default"
-            app:dependency="reminderEnable"
-            app:dialogTitle="@string/preference_reminder_days"
-            app:entries="@array/days_entries"
-            app:entryValues="@array/days_values"
-            app:key="reminderDays"
-            app:title="@string/preference_reminder_days" />
-
-        <com.health.openworkout.gui.preference.TimePreference
-            app:dependency="reminderEnable"
-            app:key="reminderTime"
-            app:defaultValue="0"
-            app:title="@string/preference_reminder_time"
-            style="@style/AppPreference.DialogPreference" />
-
-        <EditTextPreference
-            app:defaultValue="@string/preference_reminder_default_text"
-            app:dependency="reminderEnable"
-            app:key="reminderNotifyText"
-            app:useSimpleSummaryProvider="true"
-            app:title="@string/preference_reminder_text" />
-    </PreferenceCategory>
 </PreferenceScreen>

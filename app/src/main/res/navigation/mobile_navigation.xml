@@ -23,9 +23,18 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_settings"
+        android:id="@+id/nav_main_preferences"
         android:name="com.health.openworkout.gui.preference.MainPreferences"
         android:label="@string/menu_settings">
+        <action
+            android:id="@+id/action_MainPreferencesFragment_to_ReminderPreferencesFragment"
+            app:destination="@id/nav_reminder_preferences" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_reminder_preferences"
+        android:name="com.health.openworkout.gui.preference.ReminderPreferences"
+        android:label="@string/preference_reminder">
     </fragment>
 
     <fragment
