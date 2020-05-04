@@ -1,1 +1,13 @@
 openWorkout is a simple workout trainer that puts your privacy first.
+
+# Features
+
+* Pre configured 7 minutes workout plan and beginners training plan
+* Animated selectable female and male character
+* Detailed information for each exercise
+* Integrated workout reminder function
+* Doesn't require you to create an account,
+* Respects your privacy 
+* Add your own individual training plan and workout items
+* Full configuable workout items
+* Optional dark theme selectable
