@@ -1,0 +1,4 @@
+* added selectable dark mode
+* implemented an optional reminder function
+* displays a simple trophy screen at the end of a completed workout session
+* GUI layout improvement
