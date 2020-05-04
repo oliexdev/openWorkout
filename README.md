@@ -1,4 +1,4 @@
-<img src="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/icon.png" alt="openWorkout logo" width="64" height="64"> openWorkout
+<img align="left" src="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/icon.png" alt="openWorkout logo" width="64" height="64"> openWorkout
 =========
 
 Simple workout trainer that puts your privacy first 
