@@ -27,7 +27,6 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -94,20 +93,13 @@ public class WorkoutSlideFragment extends Fragment {
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             ViewGroup.LayoutParams layoutParams = videoCardView.getLayoutParams();
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             layoutParams.width = 0;
+            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             videoCardView.setLayoutParams(layoutParams);
         } else {
             ViewGroup.LayoutParams layoutParams = videoCardView.getLayoutParams();
             layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
             layoutParams.height = 0;
-
-            ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone(constraintLayout);
-            constraintSet.connect(R.id.videoCardView, ConstraintSet.BOTTOM, R.id.descriptionView, ConstraintSet.TOP,8);
-            constraintSet.connect(R.id.descriptionView, ConstraintSet.BOTTOM, R.id.stateInfoView, ConstraintSet.TOP, 8);
-            constraintSet.applyTo(constraintLayout);
-
             videoCardView.setLayoutParams(layoutParams);
         }
 

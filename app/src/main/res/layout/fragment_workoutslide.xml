@@ -26,12 +26,13 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/videoCardView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:alpha="0"
         app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameView">
@@ -117,8 +118,8 @@
         android:singleLine="false"
         android:text="TextView"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/videoCardView"
+        app:layout_constraintStart_toStartOf="@id/videoCardView"
         app:layout_constraintTop_toBottomOf="@+id/videoCardView" />
 
     <ScrollView
@@ -130,8 +131,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@id/stateInfoView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/videoCardView"
+        app:layout_constraintStart_toStartOf="@id/videoCardView"
         app:layout_constraintTop_toBottomOf="@id/descriptionView">
 
         <LinearLayout
@@ -155,5 +156,12 @@
         app:layout_constraintStart_toStartOf="parent"
         custom:adSize="BANNER"
         custom:adUnitId="@string/MOB_ID" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

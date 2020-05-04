@@ -189,8 +189,8 @@ public class SessionFragment extends GenericFragment {
         View view = View.inflate(getContext(), R.layout.item_session, null);
         view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int width = view.getMeasuredWidth();
-        int count = getResources().getDisplayMetrics().widthPixels / width;
-        int remaining = getResources().getDisplayMetrics().widthPixels - width * count;
+        int count = (getResources().getDisplayMetrics().widthPixels - sessionsView.getPaddingLeft() - sessionsView.getPaddingRight()) / width;
+        int remaining = (getResources().getDisplayMetrics().widthPixels - sessionsView.getPaddingLeft() - sessionsView.getPaddingRight()) - width * count;
         if (remaining > width - 15)
             count++;
         return count;
