@@ -21,6 +21,7 @@ import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.User;
 import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
+import com.health.openworkout.core.utils.PackageUtils;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 import com.health.openworkout.gui.datatypes.GenericFragment;
 import com.health.openworkout.gui.datatypes.GenericSettingsFragment;
@@ -161,5 +162,12 @@ public class TrainingFragment extends GenericFragment {
 
             OpenWorkout.getInstance().updateTrainingPlan(trainingPlan);
         }
+    }
+
+    @Override
+    protected void onExportClick(int position) {
+        PackageUtils packageUtils = new PackageUtils(getContext());
+
+        packageUtils.exportTrainingPlan(trainingPlanList.get(position));
     }
 }

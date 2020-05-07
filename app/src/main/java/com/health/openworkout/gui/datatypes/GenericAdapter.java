@@ -25,6 +25,7 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
     private static OnGenericClickListener onDeleteClickListener;
     private static OnGenericClickListener onReorderClickListener;
     private static OnGenericClickListener onDuplicateClickListener;
+    private static OnGenericClickListener onExportClickListener;
 
     public GenericAdapter(Context aContext) {
         this.mode = GenericFragment.FRAGMENT_MODE.VIEW;
@@ -77,6 +78,10 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
 
     public void setOnItemDuplicateClickListener(OnGenericClickListener onDuplicateClickListener) {
         this.onDuplicateClickListener = onDuplicateClickListener;
+    }
+
+    public void setOnItemExportClickListener(OnGenericClickListener onExportClickListener) {
+        this.onExportClickListener = onExportClickListener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItemClickListener {
@@ -145,6 +150,11 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
                 case R.id.duplicate:
                     if (onDuplicateClickListener != null) {
                         onDuplicateClickListener.onItemClick(getAdapterPosition(), null);
+                    }
+                    return true;
+                case R.id.export:
+                    if (onExportClickListener != null) {
+                        onExportClickListener.onItemClick(getAdapterPosition(), null);
                     }
                     return true;
             }
