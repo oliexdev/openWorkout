@@ -6,6 +6,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/importData"
+        android:title="@string/label_import"
+        android:icon="@drawable/ic_import"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/add"
         android:title="@string/label_add"
         android:icon="@drawable/ic_add"

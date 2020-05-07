@@ -15,6 +15,7 @@ import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import timber.log.Timber;
@@ -38,7 +40,17 @@ public class PackageUtils {
         gson = new Gson();
     }
 
-    public void exportTrainingPlan(TrainingPlan exportTrainingPlan) {
+    public void importTrainingPlan(Uri zipFileUri) {
+        Timber.d("Import training plan");
+
+        try {
+            unzipFile(zipFileUri);
+        } catch (IOException ex) {
+            Timber.e(ex);
+        }
+    }
+
+    public void exportTrainingPlan(TrainingPlan exportTrainingPlan, Uri zipFileUri) {
         TrainingPlan trainingPlan = exportTrainingPlan.clone();
 
         Timber.d("Export training plan " + trainingPlan.getName());
@@ -53,7 +65,7 @@ public class PackageUtils {
             trainingVideoDir.mkdir();
 
             File outputDir = context.getFilesDir();
-            File zipFile = new File(outputDir, trainingPlan.getName()+ ".zip");
+            //File zipFile = new File(outputDir, trainingPlan.getName()+ ".zip");
 
             if (trainingPlan.isImagePathExternal()) {
                 trainingPlan.setImagePath(copyImageToInternalStorage(trainingPlan.getImagePath()));
@@ -78,7 +90,7 @@ public class PackageUtils {
             jsonOut.close();
             Timber.d("Written database.json");
 
-            zipDirectory(trainingDir, zipFile);
+            zipDirectory(trainingDir, zipFileUri);
             Timber.d("Zipped " + trainingPlan.getName());
             //deleteDirectory(trainingDir);
         }catch (IOException ex) {
@@ -150,19 +162,15 @@ public class PackageUtils {
         return fileName;
     }
 
-    public void zipDirectory(File directoryToCompress, File outputFile)  {
-        try {
-            FileOutputStream dest = new FileOutputStream(outputFile);
-            ZipOutputStream zipOutputStream = new ZipOutputStream(dest);
+    public void zipDirectory(File directoryToCompress, Uri outputFile) throws IOException {
+        OutputStream dest = context.getContentResolver().openOutputStream(outputFile);
+        ZipOutputStream zipOutputStream = new ZipOutputStream(dest);
 
-            zipDirectoryHelper(directoryToCompress, directoryToCompress, zipOutputStream);
-            zipOutputStream.close();
-        } catch (Exception ex) {
-            Timber.e(ex);
-        }
+        compressDirectory(directoryToCompress, directoryToCompress, zipOutputStream);
+        zipOutputStream.close();
     }
 
-    private void zipDirectoryHelper(File rootDirectory, File currentDirectory, ZipOutputStream out) throws Exception {
+    private void compressDirectory(File rootDirectory, File currentDirectory, ZipOutputStream out) throws IOException {
         byte[] data = new byte[2048];
 
         File[] files = currentDirectory.listFiles();
@@ -170,7 +178,7 @@ public class PackageUtils {
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
-                    zipDirectoryHelper(rootDirectory, file, out);
+                    compressDirectory(rootDirectory, file, out);
                 } else {
                     FileInputStream fi = new FileInputStream(file);
                     // creating structure and avoiding duplicate file names
@@ -187,6 +195,46 @@ public class PackageUtils {
                 }
             }
         }
+    }
+
+    public void unzipFile(Uri zipFileUri) throws IOException {
+        InputStream in = context.getContentResolver().openInputStream(zipFileUri);
+        String displayName = getDisplayName(zipFileUri);
+        ZipInputStream zipIn = new ZipInputStream(in);
+
+        File rootDir = new File(context.getFilesDir(),  displayName);
+        rootDir.mkdir();
+
+        ZipEntry entry = zipIn.getNextEntry();
+        // iterates over entries in the zip file
+        while (entry != null) {
+            File zipOut = new File(context.getFilesDir(),  displayName + entry.getName());
+
+            if (!entry.isDirectory()) {
+                zipOut.getParentFile().mkdir();
+                // if the entry is a file, extracts it
+                extractFile(zipIn, zipOut);
+                Timber.d("Extract file " + entry.getName());
+            } else {
+                zipOut.mkdir();
+                Timber.d("Extract folder " + entry.getName());
+            }
+            zipIn.closeEntry();
+
+            entry = zipIn.getNextEntry();
+        }
+        zipIn.close();
+    }
+
+    private void extractFile(ZipInputStream zipIn, File fileOutput) throws IOException {
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(fileOutput));
+        byte[] bytesIn = new byte[2048];
+        int read = 0;
+        while ((read = zipIn.read(bytesIn)) != -1) {
+            bos.write(bytesIn, 0, read);
+        }
+        bos.flush();
+        bos.close();
     }
 
     private void deleteDirectory(File fileOrDirectory) {

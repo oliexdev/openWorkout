@@ -4,8 +4,13 @@
 
 package com.health.openworkout.gui.datatypes;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,11 +26,17 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.health.openworkout.R;
+import com.health.openworkout.core.utils.PackageUtils;
 
 import java.util.Collections;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public abstract class GenericFragment extends Fragment {
+    private final int REQUEST_IMPORT_FILE_PERMISSION = 7;
+    private final int REQUEST_IMPORT_FILE_DIALOG = 8;
+
     @Keep
     public enum FRAGMENT_MODE {VIEW, EDIT}
 
@@ -203,6 +214,9 @@ public abstract class GenericFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.importData:
+                openImportFileDialog();
+                return true;
             case R.id.add:
                 onAddClick();
                 return true;
@@ -260,6 +274,61 @@ public abstract class GenericFragment extends Fragment {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void openImportFileDialog() {
+        if (checkPermissionForReadExternalStorage()) {
+            Intent intent = new Intent()
+                    .setType("application/zip")
+                    .setAction(Intent.ACTION_OPEN_DOCUMENT);
+
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_image_file)), REQUEST_IMPORT_FILE_DIALOG);
+        } else {
+            requestPermissionForReadExternalStorage();
+        }
+    }
+
+    protected boolean checkPermissionForReadExternalStorage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int result = getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED;
+        }
+        return false;
+    }
+
+    protected void requestPermissionForReadExternalStorage() {
+        try {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_IMPORT_FILE_PERMISSION);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_IMPORT_FILE_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openImportFileDialog();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMPORT_FILE_DIALOG) {
+                Uri uri = data.getData();
+
+                PackageUtils packageUtils = new PackageUtils(getContext());
+
+                packageUtils.importTrainingPlan(uri);
+            }
         }
     }
 }

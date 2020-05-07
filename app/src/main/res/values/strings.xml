@@ -64,6 +64,7 @@
     <string name="label_reset">Reset</string>
     <string name="label_delete">Delete</string>
     <string name="label_export">Export</string>
+    <string name="label_import">Import</string>
     <string name="label_add">Add</string>
     <string name="label_duplicate">Duplicate</string>
 
