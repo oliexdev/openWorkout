@@ -6,6 +6,7 @@ package com.health.openworkout.core.datatypes;
 
 import android.content.Context;
 
+import androidx.annotation.Keep;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -14,6 +15,7 @@ import androidx.room.PrimaryKey;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 
+@Keep
 @Entity
 public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
     @PrimaryKey(autoGenerate = true)

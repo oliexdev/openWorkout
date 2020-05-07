@@ -4,10 +4,12 @@
 
 package com.health.openworkout.core.datatypes;
 
+import androidx.annotation.Keep;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+@Keep
 @Entity
 public class User {
     @PrimaryKey(autoGenerate = true)
