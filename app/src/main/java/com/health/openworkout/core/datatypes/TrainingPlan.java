@@ -35,7 +35,7 @@ public class TrainingPlan implements Comparable<TrainingPlan>, Cloneable {
     @Ignore
     private List<WorkoutSession> workoutSessions;
     @Ignore
-    private final Context context;
+    private transient final Context context;
 
     public TrainingPlan() {
         context = OpenWorkout.getInstance().getContext();

@@ -51,7 +51,7 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
     private boolean finished;
 
     @Ignore
-    private final Context context;
+    private transient final Context context;
 
     public WorkoutItem() {
         context = OpenWorkout.getInstance().getContext();

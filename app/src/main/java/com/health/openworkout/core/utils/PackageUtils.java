@@ -9,7 +9,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.google.gson.Gson;
 import com.health.openworkout.core.datatypes.TrainingPlan;
+import com.health.openworkout.core.datatypes.WorkoutItem;
+import com.health.openworkout.core.datatypes.WorkoutSession;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -25,43 +28,96 @@ import timber.log.Timber;
 
 public class PackageUtils {
     private Context context;
+    private Gson gson;
+    private File trainingDir;
+    private File trainingImageDir;
+    private File trainingVideoDir;
 
     public PackageUtils(Context context) {
         this.context = context;
+        gson = new Gson();
     }
 
-    public void exportTrainingPlan(TrainingPlan trainingPlan) {
-        Timber.d("EXPORT TRAINING PLAN " + trainingPlan.getName());
+    public void exportTrainingPlan(TrainingPlan exportTrainingPlan) {
+        TrainingPlan trainingPlan = exportTrainingPlan.clone();
+
+        Timber.d("Export training plan " + trainingPlan.getName());
 
         try {
-            File trainingDir = new File(context.getFilesDir(), trainingPlan.getName());
-            File trainingImageDir = new File(context.getFilesDir(), trainingPlan.getName()+"/image");
-            File trainingVideoDir = new File(context.getFilesDir(), trainingPlan.getName()+ "/video");
+            trainingDir = new File(context.getFilesDir(), trainingPlan.getName());
+            trainingImageDir = new File(context.getFilesDir(), trainingPlan.getName()+"/image");
+            trainingVideoDir = new File(context.getFilesDir(), trainingPlan.getName()+ "/video");
 
             trainingDir.mkdir();
             trainingImageDir.mkdir();
             trainingVideoDir.mkdir();
 
             File outputDir = context.getFilesDir();
-            File zipFile = new File(outputDir, "myzip.zip");
+            File zipFile = new File(outputDir, trainingPlan.getName()+ ".zip");
 
             if (trainingPlan.isImagePathExternal()) {
-                Uri fileUri = Uri.parse(trainingPlan.getImagePath());
-                String displayName = getDisplayName(fileUri);
-                File trainingImg = new File(trainingImageDir, displayName);
+                trainingPlan.setImagePath(copyImageToInternalStorage(trainingPlan.getImagePath()));
 
-                InputStream in = context.getContentResolver().openInputStream(fileUri);
-                FileOutputStream out = new FileOutputStream(trainingImg);
+                for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {
+                    for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
+                       if (workoutItem.isImagePathExternal()) {
+                           workoutItem.setImagePath(copyImageToInternalStorage(workoutItem.getImagePath()));
+                       }
 
-                copyFile(in, out);
-
-                Timber.d("Copied file " + displayName + " to internal storage");
-
-                zipDirectory(trainingDir, zipFile);
+                       if (workoutItem.isVideoPathExternal()) {
+                           workoutItem.setVideoPath(copyVideoToInternalStorage(workoutItem.getVideoPath()));
+                       }
+                    }
+                }
             }
+
+            String jsonString = gson.toJson(trainingPlan);
+            File trainingDatabase = new File(trainingDir, "database.json");
+            FileOutputStream jsonOut = new FileOutputStream(trainingDatabase);
+            jsonOut.write(jsonString.getBytes());
+            jsonOut.close();
+            Timber.d("Written database.json");
+
+            zipDirectory(trainingDir, zipFile);
+            Timber.d("Zipped " + trainingPlan.getName());
+            //deleteDirectory(trainingDir);
         }catch (IOException ex) {
             Timber.e(ex);
         }
+    }
+
+    private String copyImageToInternalStorage(String imagePath) throws IOException {
+        Uri fileUri = Uri.parse(imagePath);
+        String displayName = getDisplayName(fileUri);
+        File trainingImg = new File(trainingImageDir, displayName);
+
+        if (!trainingImg.exists()) {
+            InputStream in = context.getContentResolver().openInputStream(fileUri);
+            FileOutputStream out = new FileOutputStream(trainingImg);
+
+            copyFile(in, out);
+
+            Timber.d("Copied file " + displayName + " to internal storage");
+        }
+
+        return Uri.fromFile(trainingImg).toString();
+    }
+
+    private String copyVideoToInternalStorage(String videoPath) throws IOException {
+        Uri fileUri = Uri.parse(videoPath);
+        String displayName = getDisplayName(fileUri);
+        File trainingVideo = new File(trainingVideoDir, displayName);
+
+        if (!trainingVideo.exists()) {
+            InputStream in = context.getContentResolver().openInputStream(fileUri);
+            FileOutputStream out = new FileOutputStream(trainingVideo);
+
+            copyFile(in, out);
+
+            Timber.d("Copied file " + displayName + " to internal storage");
+        }
+
+        return Uri.fromFile(trainingVideo).toString();
     }
 
     private void copyFile(InputStream in, OutputStream out) throws IOException {
@@ -131,5 +187,13 @@ public class PackageUtils {
                 }
             }
         }
+    }
+
+    private void deleteDirectory(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteDirectory(child);
+
+        fileOrDirectory.delete();
     }
 }
