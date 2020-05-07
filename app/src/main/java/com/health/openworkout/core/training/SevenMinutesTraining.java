@@ -12,7 +12,7 @@ public class SevenMinutesTraining extends TrainingPlan {
     public SevenMinutesTraining() {
         super();
 
-        setName(getContext().getString(R.string.training_seven_minutes_workout));
+        setName(getContext().getString(R.string.training_seven_minutes_workout_training));
         setImagePath("sevenMinutesTraining.png");
 
         for (int i=1; i<=30; i++) {

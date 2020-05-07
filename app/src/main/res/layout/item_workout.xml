@@ -70,8 +70,10 @@
 
             <TextView
                 android:id="@+id/detailedView"
-                android:layout_width="194dp"
-                android:layout_height="25dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:singleLine="false"
                 android:text="TextView"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/editView"

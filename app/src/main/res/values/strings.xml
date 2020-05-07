@@ -144,6 +144,7 @@
     <string name="workout_description_cross_jump">Stand upright with your feet close together then bend your elbows and bring your palms close to your chest. Slightly bend your knees and then jump to the right then jump forward and jump to the left then jump back and continue jumping in a circle.</string>
     <string name="workout_description_air_squad_bent_arms">no description</string>
 
-    <string name="training_seven_minutes_workout">Seven minutes workout</string>
-    <string name="training_beginners_workout">Beginners workout</string>
+    <string name="training_seven_minutes_workout_training">Seven minutes workout training</string>
+    <string name="training_beginners_training">Beginners training</string>
+    <string name="training_abdominal_muscle_training">Abdominal muscle training</string>
 </resources>
