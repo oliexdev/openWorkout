@@ -10,17 +10,20 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.google.gson.Gson;
+import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -44,15 +47,40 @@ public class PackageUtils {
         Timber.d("Import training plan");
 
         try {
+            String displayName = getDisplayName(zipFileUri);
             unzipFile(zipFileUri);
+
+            File trainingDatabase = new File(context.getFilesDir(), displayName + "/database.json");
+
+            StringBuilder result;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(trainingDatabase)));
+            result = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+
+            reader.close();
+
+            TrainingPlan gsonTrainingPlan = gson.fromJson(result.toString(), TrainingPlan.class);
+            Timber.d("Read training database " + gsonTrainingPlan.getName());
+            OpenWorkout.getInstance().insertTrainingPlan(gsonTrainingPlan);
+
+            File rootDir = new File(context.getFilesDir(), displayName);
+            File renamedRootDir = new File(context.getFilesDir(), gsonTrainingPlan.getName());
+
+            if (renamedRootDir.exists()) {
+                deleteDirectory(renamedRootDir);
+            }
+
+            rootDir.renameTo(renamedRootDir);
+
         } catch (IOException ex) {
             Timber.e(ex);
         }
     }
 
-    public void exportTrainingPlan(TrainingPlan exportTrainingPlan, Uri zipFileUri) {
-        TrainingPlan trainingPlan = exportTrainingPlan.clone();
-
+    public void exportTrainingPlan(TrainingPlan trainingPlan, Uri zipFileUri) {
         Timber.d("Export training plan " + trainingPlan.getName());
 
         try {
@@ -68,10 +96,14 @@ public class PackageUtils {
             //File zipFile = new File(outputDir, trainingPlan.getName()+ ".zip");
 
             if (trainingPlan.isImagePathExternal()) {
+                trainingPlan.setTrainingPlanId(0);
                 trainingPlan.setImagePath(copyImageToInternalStorage(trainingPlan.getImagePath()));
 
                 for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {
+                    workoutSession.setWorkoutSessionId(0);
+
                     for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
+                        workoutItem.setWorkoutItemId(0);
                        if (workoutItem.isImagePathExternal()) {
                            workoutItem.setImagePath(copyImageToInternalStorage(workoutItem.getImagePath()));
                        }
