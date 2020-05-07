@@ -55,12 +55,7 @@ public class WorkoutsDatabaseAdapter extends RecyclerView.Adapter<WorkoutsDataba
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         WorkoutItem workoutItem = workoutItemList.get(position);
         holder.nameView.setText(workoutItem.getName());
-
-        if (workoutItem.isTimeMode()) {
-            holder.detailedView.setText(String.format(context.getString(R.string.label_work_duration_item_info), workoutItem.getWorkoutTime()));
-        } else {
-            holder.detailedView.setText(String.format(context.getString(R.string.label_repetition_item_info), workoutItem.getRepetitionCount()));
-        }
+        holder.detailedView.setText(workoutItem.getDescription());
 
         if (workoutItem.isImagePathExternal()) {
             Bitmap img = BitmapFactory.decodeFile(workoutItem.getImagePath());

@@ -50,10 +50,11 @@
 
             <TextView
                 android:id="@+id/detailedView"
-                android:layout_width="194dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
                 android:text="TextView"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@+id/nameView"
                 app:layout_constraintTop_toBottomOf="@+id/nameView" />
 

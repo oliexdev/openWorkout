@@ -55,8 +55,8 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
 
     public WorkoutItem() {
         context = OpenWorkout.getInstance().getContext();
-        name = "<" + context.getString(R.string.label_blank) + ">";
-        description = "<" + context.getString(R.string.label_blank) + ">";
+        name = "<" + context.getString(R.string.label_new_workout_item) + ">";
+        description = "<" + context.getString(R.string.label_new_workout_item) + ">";
         orderNr = -1L;
         prepTime = 5;
         workoutTime = 30;

@@ -72,7 +72,8 @@
     <string name="label_reset_toast">%s reset</string>
     <string name="label_save_toast">%s saved</string>
 
-    <string name="label_blank">Empty</string>
+    <string name="label_new_training_plan">New training plan</string>
+    <string name="label_new_workout_item">New workout item</string>
     <string name="label_name">Name</string>
     <string name="label_description">Description</string>
     <string name="label_preparation_time">Preparation time</string>

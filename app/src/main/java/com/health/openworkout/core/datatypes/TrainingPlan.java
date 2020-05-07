@@ -44,7 +44,7 @@ public class TrainingPlan implements Comparable<TrainingPlan>, Cloneable {
         countFinishedTraining = 0;
         workoutSessions = new ArrayList<>();
         isImagePathExternal = false;
-        name = "<" + context.getString(R.string.label_blank) + ">";
+        name = "<" + context.getString(R.string.label_new_training_plan) + ">";
         imagePath = "defaultTraining.png";
     }
 
