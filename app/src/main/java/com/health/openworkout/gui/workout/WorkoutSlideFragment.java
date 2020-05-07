@@ -30,11 +30,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
@@ -43,6 +41,8 @@ import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.utils.SoundUtils;
 
 import java.util.Calendar;
+
+import timber.log.Timber;
 
 public class WorkoutSlideFragment extends Fragment {
     private enum WORKOUT_STATE {INIT, PREPARE, START, BREAK, FINISH};
@@ -74,15 +74,22 @@ public class WorkoutSlideFragment extends Fragment {
                              final ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workoutslide, container, false);
 
-        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-
         adView = root.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                Timber.d("Ad successful loaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Timber.e("Ad failed to load with error code " + errorCode);
+            }
+
+        });
 
         constraintLayout = root.findViewById(R.id.constraintLayout);
         nameView = root.findViewById(R.id.nameView);

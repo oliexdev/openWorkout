@@ -17,6 +17,7 @@ import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.core.training.BeginnersTraining;
 import com.health.openworkout.core.training.SevenMinutesTraining;
+import com.health.openworkout.core.workout.WorkoutFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,8 +77,13 @@ public class OpenWorkout {
         List<TrainingPlan> trainingPlanList = appDB.trainingPlanDAO().getAll();
 
         if (trainingPlanList.isEmpty()) {
+            appDB.workoutItemDAO().clear();
+
             insertTrainingPlan(new BeginnersTraining());
             long trainingPlanId = insertTrainingPlan(new SevenMinutesTraining());
+
+            WorkoutFactory workoutFactory = new WorkoutFactory();
+            appDB.workoutItemDAO().insertAll(workoutFactory.getAllWorkoutItems());
 
             user = new User();
             user.setTrainingsPlanId(trainingPlanId);

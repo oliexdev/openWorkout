@@ -109,6 +109,16 @@
     <string name="workout_name_lunge">Lunge</string>
     <string name="workout_name_push_up_rotation">Push up rotation</string>
     <string name="workout_name_side_plank">Side plank</string>
+    <string name="workout_name_cross_jump_rotation">Cross jump rotations</string>
+    <string name="workout_name_quick_steps">Quick steps</string>
+    <string name="workout_name_jump_push_ups">Jump push ups</string>
+    <string name="workout_name_bicycle_crunch">Bicycle crunch</string>
+    <string name="workout_name_burpee">Burpee</string>
+    <string name="workout_name_box_jump">Box jump</string>
+    <string name="workout_name_circle_crunch">Circle crunch</string>
+    <string name="workout_name_pike_walk">Pike walk</string>
+    <string name="workout_name_cross_jump">Cross jump</string>
+    <string name="workout_name_air_squad_bent_arms">Air squad bent arms</string>
 
     <string name="workout_description_jumping_jack">Stand up with your legs spread and your hands touching overhead. Then as you jump, bring your legs back together and put your arms to your sides. You can speed these up or slow them down to suit your fitness level.</string>
     <string name="workout_description_wall_sit">Stand with your back to a wall, feet hip-width apart and slightly in front of you. Lean back into the wall, and slide down like you’re sitting down into a chair. Your knees should finish above your ankles, bent at 90 degrees.</string>
@@ -122,6 +132,16 @@
     <string name="workout_description_lunge">Stand with your feet together. Step forward on your right foot, dropping your pelvis down toward the floor (not forward), lowering yourself until both front and back knees are bent as close to a 90-degree angle as possible. Then push back with the front leg and return to your starting position. Switch legs.</string>
     <string name="workout_description_push_up_rotation">Start in a standard push-up position. Begin a traditional push-up, but as you come back up, shift your weight onto your left side. Rotate your upper body and extend your right arm straight up toward the ceiling. Return to your starting position, then repeat with right side.</string>
     <string name="workout_description_side_plank">Lie on your right side on a mat, with your legs straight and your left leg stacked directly on top of the right. Keeping your ankles, knees, hips, and trunk in a straight line, push your weight up on your bent right elbow, which should be directly under your shoulder. Lift your hips, knees, and trunk off the mat. Hold the position for 15 seconds. Then switch sides.</string>
+    <string name="workout_description_cross_jump_rotation">no description</string>
+    <string name="workout_description_quick_steps">Stand in front of three- to six-inch high step. Step up with right foot, then left. Step down with right foot, then left. Repeat pattern as quickly as possible </string>
+    <string name="workout_description_jump_push_ups">no description</string>
+    <string name="workout_description_bicycle_crunch">Lie flat on the floor with your lower back pressed to the ground (pull your navel in to also target your deep abs). Put your hands behind your head, then bring your knees in towards your chest and lift your shoulder blades off the ground, but be sure not to pull on your neck. Straighten your right leg out to about a 45-degree angle to the ground while turning your upper body to the left, bringing your right elbow towards the left knee. Make sure your rib cage is moving and not just your elbows. Now switch sides and do the same motion on the other side to complete one rep.</string>
+    <string name="workout_description_burpee">Begin in a standing position. Move into a squat position with your hands on the ground. Kick your feet back into a plank position, while keeping your arms extended. Immediately return your feet into squat position. Stand up from the squat position</string>
+    <string name="workout_description_box_jump">Stand in front of the box with your feet shoulder-width apart. Bend into a quarter squat and swing your arms back, then swing them forward and explode up off the ground. Land on the box as softly as possible. You’re aiming to mimic your take-off position on landing – feet flat and knees slightly bent (don’t let them collapse inwards). If you land in a deep squat rather than a quarter squat, it’s a sign that you’ve picked too high a box. Then jump back down. Again, you’re aiming to land as softly as possible. You can also opt to step down slowly one leg at a time, which will work the glutes even more and safeguard your joints.</string>
+    <string name="workout_description_circle_crunch">Lie face up with your knees bent and feet flat on the floor, hands behind your head with light fingers. Lift your shoulders off the floor until you feel a tight contraction, and curl your torso around in a small, clockwise circular motion (starting from 6 to 9 to 12 to 3 and back down to 6)</string>
+    <string name="workout_description_pike_walk">Start standing straight up and with your feet about shoulder width apart. Bend over at the waist put your hands on the floor. Keep your legs straight. Begin walking your hands forward. Walk your hands out as far as you can and then back in to your feet. You do not need to stand back up every time.</string>
+    <string name="workout_description_cross_jump">Stand upright with your feet close together then bend your elbows and bring your palms close to your chest. Slightly bend your knees and then jump to the right then jump forward and jump to the left then jump back and continue jumping in a circle.</string>
+    <string name="workout_description_air_squad_bent_arms">no description</string>
 
     <string name="training_seven_minutes_workout">Seven minutes workout</string>
     <string name="training_beginners_workout">Beginners workout</string>

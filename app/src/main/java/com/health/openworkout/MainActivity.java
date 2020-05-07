@@ -21,8 +21,16 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.AdapterStatus;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 import com.health.openworkout.core.OpenWorkout;
+
+import java.util.Map;
+
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.START);
 
                 return true;
+            }
+        });
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+                for (Map.Entry<String, AdapterStatus> adNetwork : initializationStatus.getAdapterStatusMap().entrySet()) {
+                    Timber.d("Ad sense " + adNetwork.getKey() + " initialization status " + adNetwork.getValue().getInitializationState() + " (" + adNetwork.getValue().getDescription() + ")");
+                }
             }
         });
 

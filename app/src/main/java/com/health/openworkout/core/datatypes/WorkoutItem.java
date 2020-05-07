@@ -60,7 +60,7 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
         orderNr = -1L;
         prepTime = 5;
         workoutTime = 30;
-        breakTime = 20;
+        breakTime = 30;
         repetitionCount = 5;
         isTimeMode = true;
         finished = false;

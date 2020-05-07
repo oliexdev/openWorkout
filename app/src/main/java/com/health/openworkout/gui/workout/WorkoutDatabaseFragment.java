@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.WorkoutItem;
-import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 import com.health.openworkout.gui.datatypes.GenericSettingsFragment;
 
@@ -26,7 +25,6 @@ import java.util.List;
 
 public class WorkoutDatabaseFragment extends Fragment {
     private RecyclerView workoutsView;
-    private WorkoutSession workoutSession;
     private List<WorkoutItem> workoutItemList;
 
     private WorkoutsDatabaseAdapter workoutsDatabaseAdapter;

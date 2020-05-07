@@ -19,11 +19,17 @@ public interface WorkoutItemDAO {
     @Insert
     long insert(WorkoutItem workoutItem);
 
+    @Insert
+    void insertAll(List<WorkoutItem> workoutItemList);
+
     @Update
     void update(WorkoutItem workoutItem);
 
     @Delete
     void delete(WorkoutItem workoutItem);
+
+    @Query("DELETE FROM WorkoutItem")
+    void clear();
 
     @Query("DELETE FROM WorkoutItem WHERE workoutSessionId = :workoutSessionId")
     void deleteAll(long workoutSessionId);
