@@ -11,11 +11,15 @@ import android.provider.MediaStore;
 
 import com.health.openworkout.core.datatypes.TrainingPlan;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import timber.log.Timber;
 
@@ -30,12 +34,21 @@ public class PackageUtils {
         Timber.d("EXPORT TRAINING PLAN " + trainingPlan.getName());
 
         try {
-            File trainingDir = context.getDir(trainingPlan.getName(), Context.MODE_PRIVATE);
+            File trainingDir = new File(context.getFilesDir(), trainingPlan.getName());
+            File trainingImageDir = new File(context.getFilesDir(), trainingPlan.getName()+"/image");
+            File trainingVideoDir = new File(context.getFilesDir(), trainingPlan.getName()+ "/video");
+
+            trainingDir.mkdir();
+            trainingImageDir.mkdir();
+            trainingVideoDir.mkdir();
+
+            File outputDir = context.getFilesDir();
+            File zipFile = new File(outputDir, "myzip.zip");
 
             if (trainingPlan.isImagePathExternal()) {
                 Uri fileUri = Uri.parse(trainingPlan.getImagePath());
                 String displayName = getDisplayName(fileUri);
-                File trainingImg = new File(trainingDir, displayName);
+                File trainingImg = new File(trainingImageDir, displayName);
 
                 InputStream in = context.getContentResolver().openInputStream(fileUri);
                 FileOutputStream out = new FileOutputStream(trainingImg);
@@ -43,6 +56,8 @@ public class PackageUtils {
                 copyFile(in, out);
 
                 Timber.d("Copied file " + displayName + " to internal storage");
+
+                zipDirectory(trainingDir, zipFile);
             }
         }catch (IOException ex) {
             Timber.e(ex);
@@ -77,5 +92,44 @@ public class PackageUtils {
         }
 
         return fileName;
+    }
+
+    public void zipDirectory(File directoryToCompress, File outputFile)  {
+        try {
+            FileOutputStream dest = new FileOutputStream(outputFile);
+            ZipOutputStream zipOutputStream = new ZipOutputStream(dest);
+
+            zipDirectoryHelper(directoryToCompress, directoryToCompress, zipOutputStream);
+            zipOutputStream.close();
+        } catch (Exception ex) {
+            Timber.e(ex);
+        }
+    }
+
+    private void zipDirectoryHelper(File rootDirectory, File currentDirectory, ZipOutputStream out) throws Exception {
+        byte[] data = new byte[2048];
+
+        File[] files = currentDirectory.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    zipDirectoryHelper(rootDirectory, file, out);
+                } else {
+                    FileInputStream fi = new FileInputStream(file);
+                    // creating structure and avoiding duplicate file names
+                    String name = file.getAbsolutePath().replace(rootDirectory.getAbsolutePath(), "");
+
+                    ZipEntry entry = new ZipEntry(name);
+                    out.putNextEntry(entry);
+                    int count;
+                    BufferedInputStream origin = new BufferedInputStream(fi, 2048);
+                    while ((count = origin.read(data, 0, 2048)) != -1) {
+                        out.write(data, 0, count);
+                    }
+                    origin.close();
+                }
+            }
+        }
     }
 }
