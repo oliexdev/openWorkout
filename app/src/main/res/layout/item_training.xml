@@ -31,29 +31,6 @@
                 app:layout_constraintTop_toTopOf="@+id/nameView"
                 app:srcCompat="@drawable/ic_reorder" />
 
-            <TextView
-                android:id="@+id/nameView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="TextView"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/editView"
-                app:layout_constraintStart_toEndOf="@+id/roundCardView"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/detailedView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="TextView"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/nameView"
-                app:layout_constraintEnd_toStartOf="@+id/editView"
-                app:layout_constraintStart_toEndOf="@+id/roundCardView"
-                app:layout_constraintTop_toBottomOf="@+id/nameView" />
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/roundCardView"
                 android:layout_width="60dp"
@@ -72,6 +49,29 @@
                     app:srcCompat="@drawable/ic_info" />
 
             </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/nameView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="TextView"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/trophyView"
+                app:layout_constraintStart_toEndOf="@+id/roundCardView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/detailedView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="TextView"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/nameView"
+                app:layout_constraintEnd_toStartOf="@+id/editView"
+                app:layout_constraintStart_toEndOf="@+id/roundCardView"
+                app:layout_constraintTop_toBottomOf="@+id/nameView" />
 
             <TextView
                 android:id="@+id/trophyView"

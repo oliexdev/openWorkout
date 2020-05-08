@@ -5,8 +5,6 @@
 package com.health.openworkout.gui.datatypes;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,8 +21,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.health.openworkout.R;
-import com.health.openworkout.core.utils.PackageUtils;
-import com.health.openworkout.gui.utils.FileDialogHelper;
 
 import java.util.Collections;
 import java.util.List;
@@ -39,12 +35,10 @@ public abstract class GenericFragment extends Fragment {
 
     private MenuItem saveMenu;
     private MenuItem editMenu;
-    private FileDialogHelper fileDialogHelper;
 
     public GenericFragment() {
         setHasOptionsMenu(true);
 
-        fileDialogHelper = new FileDialogHelper(this);
         touchHelper = new ItemTouchHelper(new ItemTouchHelper
                 .SimpleCallback(ItemTouchHelper.DOWN | ItemTouchHelper.UP | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, ItemTouchHelper.ACTION_STATE_IDLE) {
 
@@ -209,9 +203,6 @@ public abstract class GenericFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.importData:
-                fileDialogHelper.openImportFileDialog();
-                return true;
             case R.id.add:
                 onAddClick();
                 return true;
@@ -270,23 +261,5 @@ public abstract class GenericFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        fileDialogHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (fileDialogHelper.onActivityResult(requestCode, resultCode, data)) {
-                Uri uri = data.getData();
-
-                PackageUtils packageUtils = new PackageUtils(getContext());
-
-                packageUtils.importTrainingPlan(uri);
-                loadFromDatabase();
-            }
     }
 }

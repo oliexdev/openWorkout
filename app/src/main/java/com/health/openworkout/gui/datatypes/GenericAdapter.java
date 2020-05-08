@@ -17,6 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.health.openworkout.R;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+import timber.log.Timber;
+
 public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> extends RecyclerView.Adapter<VH> {
     private GenericFragment.FRAGMENT_MODE mode;
     private Context context;
@@ -98,6 +103,7 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
             editView = itemView.findViewById(R.id.editView);
 
             popupMenu = new PopupMenu(itemView.getContext(), optionView);
+            showForcePopupMenuIcons(popupMenu);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.getMenuInflater().inflate(R.menu.item_menu, popupMenu.getMenu());
 
@@ -139,6 +145,10 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
             });
         }
 
+        public void setExportVisible(boolean isVisible) {
+            popupMenu.getMenu().findItem(R.id.export).setVisible(isVisible);
+        }
+
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
@@ -166,5 +176,25 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
 
     public interface OnGenericClickListener {
         public void onItemClick(int position, View v);
+    }
+
+    private static void showForcePopupMenuIcons(PopupMenu popupMenu) {
+        try {
+            Field[] fields = popupMenu.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if ("mPopup".equals(field.getName())) {
+                    field.setAccessible(true);
+                    Object menuPopupHelper = field.get(popupMenu);
+                    Class<?> classPopupHelper = Class.forName(menuPopupHelper
+                            .getClass().getName());
+                    Method setForceIcons = classPopupHelper.getMethod(
+                            "setForceShowIcon", boolean.class);
+                    setForceIcons.invoke(menuPopupHelper, true);
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            Timber.e(ex);
+        }
     }
 }

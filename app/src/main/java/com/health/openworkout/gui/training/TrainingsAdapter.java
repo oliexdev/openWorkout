@@ -125,6 +125,8 @@ public class TrainingsAdapter extends GenericAdapter<TrainingsAdapter.ViewHolder
             nameView = itemView.findViewById(R.id.nameView);
             detailedView = itemView.findViewById(R.id.detailedView);
             trophyView = itemView.findViewById(R.id.trophyView);
+
+            setExportVisible(true);
         }
     }
 

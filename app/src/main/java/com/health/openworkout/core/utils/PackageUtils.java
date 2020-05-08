@@ -96,7 +96,7 @@ public class PackageUtils {
             trainingImageDir.mkdir();
             trainingVideoDir.mkdir();
 
-            File outputDir = context.getFilesDir();
+            //File outputDir = context.getFilesDir();
             //File zipFile = new File(outputDir, trainingPlan.getName()+ ".zip");
 
             if (trainingPlan.isImagePathExternal()) {

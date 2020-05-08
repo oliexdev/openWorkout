@@ -40,7 +40,7 @@ public class FileDialogHelper {
                     .setType("application/zip")
                     .setAction(Intent.ACTION_OPEN_DOCUMENT);
 
-            fragment.startActivityForResult(Intent.createChooser(intent, fragment.getString(R.string.label_select_image_file)), REQUEST_IMPORT_FILE_DIALOG);
+            fragment.startActivityForResult(Intent.createChooser(intent, fragment.getString(R.string.label_select_import_file)), REQUEST_IMPORT_FILE_DIALOG);
         } else {
             requestPermissionForReadExternalStorage(READ_EXTERNAL_STORAGE_PERMISSION_IMPORT);
         }
@@ -52,7 +52,7 @@ public class FileDialogHelper {
                     .setType("application/zip")
                     .setAction(Intent.ACTION_CREATE_DOCUMENT);
 
-            fragment.startActivityForResult(Intent.createChooser(intent, fragment.getString(R.string.label_select_image_file)), REQUEST_EXPORT_FILE_DIALOG);
+            fragment.startActivityForResult(Intent.createChooser(intent, fragment.getString(R.string.label_select_export_file)), REQUEST_EXPORT_FILE_DIALOG);
         } else {
             requestPermissionForWriteExternalStorage(WRITE_EXTERNAL_STORAGE_PERMISSION_EXPORT);
         }
@@ -103,7 +103,7 @@ public class FileDialogHelper {
 
     private boolean checkPermissionForWriteExternalStorage() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int result = fragment.getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            int result = fragment.getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             return result == PackageManager.PERMISSION_GRANTED;
         }
         return false;

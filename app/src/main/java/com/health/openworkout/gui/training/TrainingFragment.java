@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
@@ -33,23 +34,34 @@ import java.util.List;
 
 public class TrainingFragment extends GenericFragment {
     private RecyclerView trainingsView;
+    private FloatingActionButton importButton;
 
     private List<TrainingPlan> trainingPlanList;
     private TrainingPlan exportTrainingPlan;
 
     private TrainingsAdapter trainingsAdapter;
     private FileDialogHelper fileDialogHelper;
+    private boolean isImportDialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_training, container, false);
+
+        fileDialogHelper = new FileDialogHelper(this);
 
         trainingsView = root.findViewById(R.id.trainingsView);
 
         trainingsView.setHasFixedSize(true);
         trainingsView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        fileDialogHelper = new FileDialogHelper(this);
+        importButton = root.findViewById(R.id.importButton);
+        importButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isImportDialog = true;
+                fileDialogHelper.openImportFileDialog();
+            }
+        });
 
         loadFromDatabase();
 
@@ -173,6 +185,7 @@ public class TrainingFragment extends GenericFragment {
 
     @Override
     protected void onExportClick(int position) {
+        isImportDialog = false;
         exportTrainingPlan = trainingPlanList.get(position);
         fileDialogHelper.openExportFileDialog();
     }
@@ -188,9 +201,16 @@ public class TrainingFragment extends GenericFragment {
         if (fileDialogHelper.onActivityResult(requestCode, resultCode, data)) {
             Uri uri = data.getData();
 
-            PackageUtils packageUtils = new PackageUtils(getContext());
+            if (isImportDialog) {
+                PackageUtils packageUtils = new PackageUtils(getContext());
 
-            packageUtils.exportTrainingPlan(exportTrainingPlan, uri);
+                packageUtils.importTrainingPlan(uri);
+                loadFromDatabase();
+            } else {
+                PackageUtils packageUtils = new PackageUtils(getContext());
+
+                packageUtils.exportTrainingPlan(exportTrainingPlan, uri);
+            }
         }
     }
 }

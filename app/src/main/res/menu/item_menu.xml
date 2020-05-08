@@ -19,5 +19,6 @@
         android:id="@+id/export"
         android:title="@string/label_export"
         android:icon="@drawable/ic_export"
+        android:visible="false"
         app:showAsAction="always" />
 </menu>
