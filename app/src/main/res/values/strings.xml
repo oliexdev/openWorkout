@@ -94,6 +94,9 @@
     <string name="label_select_export_file">Export openWorkout training package</string>
     <string name="label_select_import_file">Import openWorkout training package</string>
 
+    <string name="label_info_exported">Training plan %s exported to %s</string>
+    <string name="label_info_imported">Training plan %s imported from %s</string>
+
     <string name="label_input_create_days">How many sessions do you want to insert?</string>
     <string name="label_really_reset_dialog">Do you really want to reset the status of all items?</string>
 

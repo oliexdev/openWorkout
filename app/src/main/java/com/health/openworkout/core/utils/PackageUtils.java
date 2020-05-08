@@ -8,8 +8,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.WorkoutItem;
@@ -74,7 +76,7 @@ public class PackageUtils {
             }
 
             rootDir.renameTo(renamedRootDir);
-
+            Toast.makeText(context, String.format(context.getString(R.string.label_info_imported), gsonTrainingPlan.getName(), displayName), Toast.LENGTH_LONG).show();
         } catch (IOException ex) {
             Timber.e(ex);
         }
@@ -99,23 +101,25 @@ public class PackageUtils {
             //File outputDir = context.getFilesDir();
             //File zipFile = new File(outputDir, trainingPlan.getName()+ ".zip");
 
+            trainingPlan.setTrainingPlanId(0);
+
             if (trainingPlan.isImagePathExternal()) {
-                trainingPlan.setTrainingPlanId(0);
                 trainingPlan.setImagePath(copyImageToInternalStorage(trainingPlan.getImagePath()));
+            }
 
-                for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {
-                    workoutSession.setWorkoutSessionId(0);
+            for (WorkoutSession workoutSession : trainingPlan.getWorkoutSessions()) {
+                workoutSession.setWorkoutSessionId(0);
 
-                    for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
-                        workoutItem.setWorkoutItemId(0);
-                       if (workoutItem.isImagePathExternal()) {
-                           workoutItem.setImagePath(copyImageToInternalStorage(workoutItem.getImagePath()));
-                       }
+                for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
+                    workoutItem.setWorkoutItemId(0);
 
-                       if (workoutItem.isVideoPathExternal()) {
-                           workoutItem.setVideoPath(copyVideoToInternalStorage(workoutItem.getVideoPath()));
-                       }
-                    }
+                   if (workoutItem.isImagePathExternal()) {
+                       workoutItem.setImagePath(copyImageToInternalStorage(workoutItem.getImagePath()));
+                   }
+
+                   if (workoutItem.isVideoPathExternal()) {
+                       workoutItem.setVideoPath(copyVideoToInternalStorage(workoutItem.getVideoPath()));
+                   }
                 }
             }
 
@@ -128,7 +132,8 @@ public class PackageUtils {
 
             zipDirectory(trainingDir, zipFileUri);
             Timber.d("Zipped " + trainingPlan.getName());
-            //deleteDirectory(trainingDir);
+            deleteDirectory(trainingDir);
+            Toast.makeText(context, String.format(context.getString(R.string.label_info_exported), trainingPlan.getName(), getDisplayName(zipFileUri)), Toast.LENGTH_LONG).show();
         }catch (IOException ex) {
             Timber.e(ex);
         }
