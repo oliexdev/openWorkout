@@ -4,11 +4,8 @@
 
 package com.health.openworkout.gui.training;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,21 +27,18 @@ import com.health.openworkout.core.utils.PackageUtils;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 import com.health.openworkout.gui.datatypes.GenericFragment;
 import com.health.openworkout.gui.datatypes.GenericSettingsFragment;
+import com.health.openworkout.gui.utils.FileDialogHelper;
 
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
-
 public class TrainingFragment extends GenericFragment {
-    private final int REQUEST_EXPORT_FILE_DIALOG = 4;
-    private final int REQUEST_EXPORT_FILE_PERMISSION = 5;
-
     private RecyclerView trainingsView;
 
     private List<TrainingPlan> trainingPlanList;
     private TrainingPlan exportTrainingPlan;
 
     private TrainingsAdapter trainingsAdapter;
+    private FileDialogHelper fileDialogHelper;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +48,8 @@ public class TrainingFragment extends GenericFragment {
 
         trainingsView.setHasFixedSize(true);
         trainingsView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        fileDialogHelper = new FileDialogHelper(this);
 
         loadFromDatabase();
 
@@ -178,61 +174,23 @@ public class TrainingFragment extends GenericFragment {
     @Override
     protected void onExportClick(int position) {
         exportTrainingPlan = trainingPlanList.get(position);
-        openExportFileDialog();
-    }
-
-    protected void openExportFileDialog() {
-        if (checkPermissionForWriteExternalStorage()) {
-            Intent intent = new Intent()
-                    .setType("application/zip")
-                    .setAction(Intent.ACTION_CREATE_DOCUMENT);
-
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_image_file)), REQUEST_EXPORT_FILE_DIALOG);
-        } else {
-            requestPermissionForWriteExternalStorage();
-        }
-    }
-
-    protected boolean checkPermissionForWriteExternalStorage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int result = getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            return result == PackageManager.PERMISSION_GRANTED;
-        }
-        return false;
-    }
-
-    protected void requestPermissionForWriteExternalStorage() {
-        try {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_EXPORT_FILE_PERMISSION);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+        fileDialogHelper.openExportFileDialog();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_EXPORT_FILE_PERMISSION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openExportFileDialog();
-                }
-                break;
-        }
+        fileDialogHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_EXPORT_FILE_DIALOG) {
-                Uri uri = data.getData();
+        if (fileDialogHelper.onActivityResult(requestCode, resultCode, data)) {
+            Uri uri = data.getData();
 
-                PackageUtils packageUtils = new PackageUtils(getContext());
+            PackageUtils packageUtils = new PackageUtils(getContext());
 
-                packageUtils.exportTrainingPlan(exportTrainingPlan, uri);
-            }
+            packageUtils.exportTrainingPlan(exportTrainingPlan, uri);
         }
     }
 }

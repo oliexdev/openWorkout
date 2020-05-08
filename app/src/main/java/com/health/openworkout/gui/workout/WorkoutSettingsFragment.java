@@ -4,6 +4,7 @@
 
 package com.health.openworkout.gui.workout;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -25,6 +26,7 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.gui.datatypes.GenericSettingsFragment;
+import com.health.openworkout.gui.utils.FileDialogHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,9 +48,14 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
     private TableRow repetitionCountRow;
     private VideoView videoView;
 
+    private FileDialogHelper fileDialogHelper;
+    private boolean isImageDialogRequest;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workoutsettings, container, false);
+
+        fileDialogHelper = new FileDialogHelper(this);
 
         imgView = root.findViewById(R.id.imgView);
         nameView = root.findViewById(R.id.nameView);
@@ -80,31 +87,22 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openImageFileDialog();
+                isImageDialogRequest = true;
+                fileDialogHelper.openImageFileDialog();
             }
         });
 
         videoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openVideoFileDialog();
+                isImageDialogRequest = false;
+                fileDialogHelper.openVideoFileDialog();
             }
         });
 
         setMode(WorkoutSettingsFragmentArgs.fromBundle(getArguments()).getMode());
 
         return root;
-    }
-
-    @Override
-    protected void onNewImagePath(Uri uri) {
-        imgView.setImageURI(uri);
-    }
-
-    @Override
-    protected void onNewVideoPath(Uri uri) {
-        videoView.setVideoURI(uri);
-        videoView.start();
     }
 
     @Override
@@ -214,16 +212,6 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
             workoutItem.setRepetitionCount(Integer.valueOf(repetitionCountView.getText().toString()));
         }
 
-        if (!getImagePath().isEmpty()) {
-            workoutItem.setImagePath(getImagePath());
-            workoutItem.setImagePathExternal(true);
-        }
-
-        if (!getVideoPath().isEmpty()) {
-            workoutItem.setVideoPath(getVideoPath());
-            workoutItem.setVideoPathExternal(true);
-        }
-
         workoutItem.setTimeMode(timeModeView.isChecked());
 
         switch (mode) {
@@ -240,5 +228,29 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
         }
 
         return checkFormat;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        fileDialogHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (fileDialogHelper.onActivityResult(requestCode, resultCode, data)) {
+            Uri uri = data.getData();
+
+            if (isImageDialogRequest) {
+                imgView.setImageURI(uri);
+                workoutItem.setImagePath(uri.toString());
+                workoutItem.setImagePathExternal(true);
+            } else {
+                videoView.setVideoURI(uri);
+                videoView.start();
+                workoutItem.setVideoPath(uri.toString());
+                workoutItem.setVideoPathExternal(true);
+            }
+        }
     }
 }

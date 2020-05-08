@@ -88,6 +88,10 @@ public class PackageUtils {
             trainingImageDir = new File(context.getFilesDir(), trainingPlan.getName()+"/image");
             trainingVideoDir = new File(context.getFilesDir(), trainingPlan.getName()+ "/video");
 
+            if (trainingDir.exists()) {
+                deleteDirectory(trainingDir);
+            }
+
             trainingDir.mkdir();
             trainingImageDir.mkdir();
             trainingVideoDir.mkdir();
