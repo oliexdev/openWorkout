@@ -24,6 +24,7 @@ import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.User;
 import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
+import com.health.openworkout.core.datatypes.GitHubFile;
 import com.health.openworkout.core.utils.PackageUtils;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 import com.health.openworkout.gui.datatypes.GenericFragment;
@@ -31,6 +32,8 @@ import com.health.openworkout.gui.datatypes.GenericSettingsFragment;
 import com.health.openworkout.gui.utils.FileDialogHelper;
 
 import java.util.List;
+
+import timber.log.Timber;
 
 public class TrainingFragment extends GenericFragment {
     private RecyclerView trainingsView;
@@ -58,8 +61,32 @@ public class TrainingFragment extends GenericFragment {
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isImportDialog = true;
-                fileDialogHelper.openImportFileDialog();
+                PackageUtils packageUtils = new PackageUtils(getContext());
+
+                packageUtils.setOnGitHubCallbackListener(new PackageUtils.OnGitHubCallbackListener() {
+                    @Override
+                    public void onGitHubFileList(List<GitHubFile> gitHubFileList) {
+                        for (GitHubFile gitHubFile : gitHubFileList) {
+                            if (gitHubFile.getDownloadURL() != null) {
+                                packageUtils.downloadFile(gitHubFile.getName(), gitHubFile.getSize(), gitHubFile.getDownloadURL());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onGitHubDownloadFile(String filename) {
+                        Timber.d("succesful downloaded file " + filename);
+                    }
+
+                    @Override
+                    public void onGitHubDownloadProgressUpdate(long bytesDownloaded, long bytesTotal) {
+                        Timber.d("Download byte " + bytesDownloaded + " of " + bytesTotal);
+                    }
+                });
+
+                packageUtils.getGitHubFiles();
+                /*isImportDialog = true;
+                fileDialogHelper.openImportFileDialog();*/
             }
         });
 
