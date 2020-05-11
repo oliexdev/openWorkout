@@ -65,8 +65,15 @@ public class TrainingDatabaseAdapter extends RecyclerView.Adapter<TrainingDataba
         GitHubFile gitHubFile = gitHubFileList.get(position);
 
         holder.nameView.setText(gitHubFile.getName().substring(0, gitHubFile.getName().length() - 4));
-        DecimalFormat sizeFormat = new DecimalFormat("##.00");
-        holder.detailedView.setText("Package size " + sizeFormat.format((gitHubFile.getSize() / 1000000.0f)) + " MBytes");
+        DecimalFormat sizeFormat = new DecimalFormat("##0.00");
+        double fileSize = (gitHubFile.getSize() / 1000000.0f);
+
+        if (fileSize >= 1.0f) {
+            holder.detailedView.setText(String.format(context.getString(R.string.label_package_size_mbytes), sizeFormat.format(fileSize)));
+        } else {
+            fileSize = fileSize * 1000.0f;
+            holder.detailedView.setText(String.format(context.getString(R.string.label_package_size_kbytes), sizeFormat.format(fileSize)));
+        }
 
         String displayName = gitHubFile.getName().substring(0, gitHubFile.getName().length() -4);
         File packageDir = new File(context.getFilesDir(),  displayName);
@@ -99,7 +106,17 @@ public class TrainingDatabaseAdapter extends RecyclerView.Adapter<TrainingDataba
 
     public void downloadCompleted(TrainingPlan trainingPlan) {
         holder.progressBar.setProgress(100);
-        holder.imgView.setImageURI(Uri.parse(trainingPlan.getImagePath()));
+        if (trainingPlan.isImagePathExternal()) {
+            holder.imgView.setImageURI(Uri.parse(trainingPlan.getImagePath()));
+        } else {
+            try {
+                InputStream ims = context.getAssets().open("image/" + trainingPlan.getImagePath());
+                holder.imgView.setImageDrawable(Drawable.createFromStream(ims, null));
+                ims.close();
+            } catch (IOException ex) {
+                Timber.e(ex);
+            }
+        }
         holder.downloadView.setImageResource(R.drawable.ic_download_finished);
         holder.nameView.setEnabled(true);
         holder.detailedView.setEnabled(true);

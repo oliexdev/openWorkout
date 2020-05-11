@@ -74,6 +74,8 @@
     <string name="label_delete_toast">%s deleted</string>
     <string name="label_reset_toast">%s reset</string>
     <string name="label_save_toast">%s saved</string>
+    <string name="label_package_size_mbytes">%s MBytes package size</string>
+    <string name="label_package_size_kbytes">%s kBytes package size</string>
 
     <string name="label_new_training_plan">New training plan</string>
     <string name="label_new_workout_item">New workout item</string>

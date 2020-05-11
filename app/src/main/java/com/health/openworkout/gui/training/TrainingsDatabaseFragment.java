@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,7 @@ import timber.log.Timber;
 
 public class TrainingsDatabaseFragment extends Fragment {
     private RecyclerView trainingsView;
+    private ProgressBar progressBar;
 
     private List<GitHubFile> gitHubFileList;
     private TrainingDatabaseAdapter trainingDatabaseAdapter;
@@ -51,6 +53,9 @@ public class TrainingsDatabaseFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_trainingdatabase, container, false);
 
         trainingsView = root.findViewById(R.id.trainingsView);
+        progressBar = root.findViewById(R.id.progressBar);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         trainingsView.setHasFixedSize(true);
         trainingsView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -74,10 +79,12 @@ public class TrainingsDatabaseFragment extends Fragment {
                     public void onItemClick(int position, View v) {
                         GitHubFile gitHubFile = gitHubFileList.get(position);
                         packageUtils.downloadFile(gitHubFile);
+                        trainingDatabaseAdapter.notifyItemChanged(position);
                     }
                 });
 
                 trainingsView.setAdapter(trainingDatabaseAdapter);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

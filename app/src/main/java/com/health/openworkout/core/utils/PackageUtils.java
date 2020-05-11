@@ -99,7 +99,8 @@ public class PackageUtils {
             Timber.d("Read training database " + gsonTrainingPlan.getName());
             OpenWorkout.getInstance().insertTrainingPlan(gsonTrainingPlan);
 
-            Toast.makeText(context, String.format(context.getString(R.string.label_info_imported), gsonTrainingPlan.getName(), displayName), Toast.LENGTH_LONG).show();
+            zipFile.delete();
+            Toast.makeText(context, String.format(context.getString(R.string.label_info_imported), gsonTrainingPlan.getName(), zipFile.getName()), Toast.LENGTH_LONG).show();
 
             return gsonTrainingPlan;
         } catch (IOException ex) {
