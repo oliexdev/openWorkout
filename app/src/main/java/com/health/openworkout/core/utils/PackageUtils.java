@@ -4,10 +4,14 @@
 
 package com.health.openworkout.core.utils;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
@@ -67,12 +71,17 @@ public class PackageUtils {
         gitHubApi = retrofit.create(GitHubApi.class);
     }
 
-    public void importTrainingPlan(Uri zipFileUri) {
+    public TrainingPlan importTrainingPlan(Uri zipFileUri) {
+        return importTrainingPlan(new File(zipFileUri.getPath()));
+    }
+
+    public TrainingPlan importTrainingPlan(File zipFile) {
         Timber.d("Import training plan");
 
         try {
-            String displayName = getDisplayName(zipFileUri);
-            unzipFile(zipFileUri);
+            String displayName = getDisplayName(zipFile);
+            Timber.d("Display name " + displayName);
+            unzipFile(zipFile);
 
             File trainingDatabase = new File(context.getFilesDir(), displayName + "/database.json");
 
@@ -90,24 +99,22 @@ public class PackageUtils {
             Timber.d("Read training database " + gsonTrainingPlan.getName());
             OpenWorkout.getInstance().insertTrainingPlan(gsonTrainingPlan);
 
-            File rootDir = new File(context.getFilesDir(), displayName);
-            File renamedRootDir = new File(context.getFilesDir(), gsonTrainingPlan.getName());
-
-            if (renamedRootDir.exists()) {
-                deleteDirectory(renamedRootDir);
-            }
-
-            rootDir.renameTo(renamedRootDir);
             Toast.makeText(context, String.format(context.getString(R.string.label_info_imported), gsonTrainingPlan.getName(), displayName), Toast.LENGTH_LONG).show();
+
+            return gsonTrainingPlan;
         } catch (IOException ex) {
             Timber.e(ex);
         }
+
+        return null;
     }
 
     public void exportTrainingPlan(TrainingPlan trainingPlan, Uri zipFileUri) {
         Timber.d("Export training plan " + trainingPlan.getName());
 
         try {
+            String zipFileDisplayName = getDisplayName(zipFileUri);
+
             trainingDir = new File(context.getFilesDir(), trainingPlan.getName());
             trainingImageDir = new File(context.getFilesDir(), trainingPlan.getName()+"/image");
             trainingVideoDir = new File(context.getFilesDir(), trainingPlan.getName()+ "/video");
@@ -155,7 +162,7 @@ public class PackageUtils {
             zipDirectory(trainingDir, zipFileUri);
             Timber.d("Zipped " + trainingPlan.getName());
             deleteDirectory(trainingDir);
-            Toast.makeText(context, String.format(context.getString(R.string.label_info_exported), trainingPlan.getName(), getDisplayName(zipFileUri)), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, String.format(context.getString(R.string.label_info_exported), trainingPlan.getName(), zipFileDisplayName), Toast.LENGTH_LONG).show();
         }catch (IOException ex) {
             Timber.e(ex);
         }
@@ -207,7 +214,17 @@ public class PackageUtils {
         out.close();
     }
 
-    private String getDisplayName(Uri uri) {
+    public String getDisplayName(File file) {
+        String displayName = file.getName();
+
+        if (displayName.endsWith(".zip")) {
+            displayName = displayName.substring(0, displayName.length() - 4);
+        }
+
+        return displayName;
+    }
+
+    public String getDisplayName(Uri uri) {
         String fileName = new String();
         String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
 
@@ -225,7 +242,7 @@ public class PackageUtils {
         return fileName;
     }
 
-    public void zipDirectory(File directoryToCompress, Uri outputFile) throws IOException {
+    private void zipDirectory(File directoryToCompress, Uri outputFile) throws IOException {
         OutputStream dest = context.getContentResolver().openOutputStream(outputFile);
         ZipOutputStream zipOutputStream = new ZipOutputStream(dest);
 
@@ -260,9 +277,9 @@ public class PackageUtils {
         }
     }
 
-    public void unzipFile(Uri zipFileUri) throws IOException {
-        InputStream in = context.getContentResolver().openInputStream(zipFileUri);
-        String displayName = getDisplayName(zipFileUri);
+    private void unzipFile(File zipFile) throws IOException {
+        InputStream in = new FileInputStream(zipFile);
+        String displayName = getDisplayName(zipFile);
         ZipInputStream zipIn = new ZipInputStream(in);
 
         File rootDir = new File(context.getFilesDir(),  displayName);
@@ -332,8 +349,8 @@ public class PackageUtils {
         });
     }
 
-    public void downloadFile(String filename, long fileSize, String url) {
-        Call<ResponseBody> downloadFile = gitHubApi.downloadFile(url);
+    public void downloadFile(GitHubFile gitHubFile) {
+        Call<ResponseBody> downloadFile = gitHubApi.downloadFile(gitHubFile.getDownloadURL());
 
         downloadFile.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -342,18 +359,18 @@ public class PackageUtils {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... voids) {
-                            boolean writtenToDisk = writeResponseBodyToDisk(filename, fileSize, response.body());
+                            boolean writtenToDisk = writeResponseBodyToDisk(gitHubFile.getName(), gitHubFile.getSize(), response.body());
 
                             if (writtenToDisk) {
                                 if (onGitHubCallbackListener != null) {
-                                    onGitHubCallbackListener.onGitHubDownloadFile(filename);
+                                    onGitHubCallbackListener.onGitHubDownloadFile(new File(context.getFilesDir(), gitHubFile.getName()));
                                 }
                             }
                             return null;
                         }
                     }.execute();
                 } else {
-                    Timber.e("Download failed for URL " + url);
+                    Timber.e("Download failed for URL " + gitHubFile.getDownloadURL());
                 }
             }
 
@@ -366,7 +383,7 @@ public class PackageUtils {
 
     private boolean writeResponseBodyToDisk(final String filename, final long fileSize, final ResponseBody body) {
         try {
-            File futureStudioIconFile = new File(context.getFilesDir(), filename);
+            File zipFile = new File(context.getFilesDir(), filename);
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -377,7 +394,7 @@ public class PackageUtils {
                 long fileSizeDownloaded = 0;
 
                 inputStream = body.byteStream();
-                outputStream = new FileOutputStream(futureStudioIconFile);
+                outputStream = new FileOutputStream(zipFile);
 
                 while (true) {
                     int read = inputStream.read(fileReader);
@@ -428,12 +445,12 @@ public class PackageUtils {
 
     public interface OnGitHubCallbackListener {
         public void onGitHubFileList(List<GitHubFile> gitHubFileList);
-        public void onGitHubDownloadFile(String filename);
+        public void onGitHubDownloadFile(File uriFilename);
         public void onGitHubDownloadProgressUpdate(long bytesDownloaded, long bytesTotal);
     }
 
     private interface GitHubApi {
-        @GET("repos/oliexdev/openWorkout/contents/")
+        @GET("repos/oliexdev/openWorkout/contents/pkg")
         Call<List<GitHubFile>> getFileList();
         @Streaming
         @GET

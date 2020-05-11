@@ -11,6 +11,7 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_trainings">Trainings</string>
+    <string name="menu_trainingsdatabase">Training item database</string>
     <string name="menu_sessions">Sessions</string>
     <string name="menu_workout">Workout</string>
     <string name="menu_settings">Settings</string>

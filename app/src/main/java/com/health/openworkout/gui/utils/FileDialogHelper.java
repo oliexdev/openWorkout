@@ -30,6 +30,8 @@ public class FileDialogHelper {
 
     private Fragment fragment;
 
+    private String defaultFilename;
+
     public FileDialogHelper(Fragment fragment) {
         this.fragment = fragment;
     }
@@ -50,12 +52,18 @@ public class FileDialogHelper {
         if (checkPermissionForWriteExternalStorage()) {
             Intent intent = new Intent()
                     .setType("application/zip")
+                    .putExtra(Intent.EXTRA_TITLE, defaultFilename)
                     .setAction(Intent.ACTION_CREATE_DOCUMENT);
 
             fragment.startActivityForResult(Intent.createChooser(intent, fragment.getString(R.string.label_select_export_file)), REQUEST_EXPORT_FILE_DIALOG);
         } else {
             requestPermissionForWriteExternalStorage(WRITE_EXTERNAL_STORAGE_PERMISSION_EXPORT);
         }
+    }
+
+    public void openExportFileDialog(String defaultFilename) {
+        this.defaultFilename = defaultFilename;
+        openExportFileDialog();
     }
 
     public void openImageFileDialog() {

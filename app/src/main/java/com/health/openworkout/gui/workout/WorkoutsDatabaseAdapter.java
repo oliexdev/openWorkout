@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,8 +59,7 @@ public class WorkoutsDatabaseAdapter extends RecyclerView.Adapter<WorkoutsDataba
         holder.detailedView.setText(workoutItem.getDescription());
 
         if (workoutItem.isImagePathExternal()) {
-            Bitmap img = BitmapFactory.decodeFile(workoutItem.getImagePath());
-            holder.imgView.setImageBitmap(img);
+            holder.imgView.setImageURI(Uri.parse(workoutItem.getImagePath()));
         } else {
             try {
                 String subFolder;

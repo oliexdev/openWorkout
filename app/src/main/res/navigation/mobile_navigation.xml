@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_TrainingFragment_to_TrainingSettingsFragment"
             app:destination="@id/nav_trainingsettings" />
+        <action
+            android:id="@+id/action_navTrainingsFragment_to_navTrainingsDatabaseFragment"
+            app:destination="@id/nav_trainingsdatabase" />
     </fragment>
 
     <fragment
@@ -68,6 +71,13 @@
             android:name="title"
             app:argType="string"
             android:defaultValue="training settings"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_trainingsdatabase"
+        android:name="com.health.openworkout.gui.training.TrainingsDatabaseFragment"
+        android:label="@string/menu_trainingsdatabase"
+        tools:layout="@layout/fragment_trainingdatabase">
     </fragment>
 
     <fragment

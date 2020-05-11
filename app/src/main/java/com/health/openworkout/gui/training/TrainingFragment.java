@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,30 +62,8 @@ public class TrainingFragment extends GenericFragment {
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PackageUtils packageUtils = new PackageUtils(getContext());
-
-                packageUtils.setOnGitHubCallbackListener(new PackageUtils.OnGitHubCallbackListener() {
-                    @Override
-                    public void onGitHubFileList(List<GitHubFile> gitHubFileList) {
-                        for (GitHubFile gitHubFile : gitHubFileList) {
-                            if (gitHubFile.getDownloadURL() != null) {
-                                packageUtils.downloadFile(gitHubFile.getName(), gitHubFile.getSize(), gitHubFile.getDownloadURL());
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onGitHubDownloadFile(String filename) {
-                        Timber.d("succesful downloaded file " + filename);
-                    }
-
-                    @Override
-                    public void onGitHubDownloadProgressUpdate(long bytesDownloaded, long bytesTotal) {
-                        Timber.d("Download byte " + bytesDownloaded + " of " + bytesTotal);
-                    }
-                });
-
-                packageUtils.getGitHubFiles();
+                NavDirections action = TrainingFragmentDirections.actionNavTrainingsFragmentToNavTrainingsDatabaseFragment();
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
                 /*isImportDialog = true;
                 fileDialogHelper.openImportFileDialog();*/
             }
@@ -214,7 +193,7 @@ public class TrainingFragment extends GenericFragment {
     protected void onExportClick(int position) {
         isImportDialog = false;
         exportTrainingPlan = trainingPlanList.get(position);
-        fileDialogHelper.openExportFileDialog();
+        fileDialogHelper.openExportFileDialog(exportTrainingPlan.getName());
     }
 
     @Override

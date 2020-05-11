@@ -25,6 +25,8 @@ import com.health.openworkout.R;
 import java.util.Collections;
 import java.util.List;
 
+import timber.log.Timber;
+
 public abstract class GenericFragment extends Fragment {
     @Keep
     public enum FRAGMENT_MODE {VIEW, EDIT}
@@ -150,6 +152,7 @@ public abstract class GenericFragment extends Fragment {
                 public void onItemClick(final int position, View v) {
                     if (position != -1) {
                         getProgressBar().setVisibility(View.VISIBLE);
+                        getAdapter().notifyItemInserted(position+1);
                         new AsyncTask<Void, Void, Void>() {
                             @Override
                             protected Void doInBackground(Void ... params) {
@@ -161,7 +164,6 @@ public abstract class GenericFragment extends Fragment {
                             protected void onPostExecute(Void o) {
                                 if (getProgressBar() != null) {
                                     getProgressBar().setVisibility(View.GONE);
-                                    getAdapter().notifyItemInserted(position+1);
                                 }
                             }
                         }.execute();
