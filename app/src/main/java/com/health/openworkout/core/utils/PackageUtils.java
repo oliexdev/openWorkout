@@ -71,19 +71,26 @@ public class PackageUtils {
         gitHubApi = retrofit.create(GitHubApi.class);
     }
 
-    public TrainingPlan importTrainingPlan(Uri zipFileUri) {
-        return importTrainingPlan(new File(zipFileUri.getPath()));
+    public TrainingPlan importTrainingPlan(File zipFile) {
+        String displayName = getDisplayName(zipFile);
+
+        return importTrainingPlan(Uri.fromFile(zipFile), displayName);
     }
 
-    public TrainingPlan importTrainingPlan(File zipFile) {
+    public TrainingPlan importTrainingPlan(Uri zipFileUri) {
+        String displayName = getDisplayName(zipFileUri);
+
+        return importTrainingPlan(zipFileUri, displayName);
+    }
+
+    public TrainingPlan importTrainingPlan(Uri zipFileUri, String filename) {
         Timber.d("Import training plan");
 
         try {
-            String displayName = getDisplayName(zipFile);
-            Timber.d("Display name " + displayName);
-            unzipFile(zipFile);
+            Timber.d("Display name " + filename);
+            unzipFile(zipFileUri, filename);
 
-            File trainingDatabase = new File(context.getFilesDir(), displayName + "/database.json");
+            File trainingDatabase = new File(context.getFilesDir(), filename + "/database.json");
 
             StringBuilder result;
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(trainingDatabase)));
@@ -99,11 +106,18 @@ public class PackageUtils {
             Timber.d("Read training database " + gsonTrainingPlan.getName());
             OpenWorkout.getInstance().insertTrainingPlan(gsonTrainingPlan);
 
-            zipFile.delete();
-            Toast.makeText(context, String.format(context.getString(R.string.label_info_imported), gsonTrainingPlan.getName(), zipFile.getName()), Toast.LENGTH_LONG).show();
+            File zipFile = new File(context.getFilesDir(), filename + ".zip");
+            if (zipFile.exists()) {
+                Timber.d("Delete unzipped local zip file " + zipFile);
+                zipFile.delete();
+            }
+
+            Toast.makeText(context, String.format(context.getString(R.string.label_info_imported), gsonTrainingPlan.getName(), filename), Toast.LENGTH_LONG).show();
 
             return gsonTrainingPlan;
         } catch (IOException ex) {
+            Toast.makeText(context, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
             Timber.e(ex);
         }
 
@@ -127,9 +141,6 @@ public class PackageUtils {
             trainingDir.mkdir();
             trainingImageDir.mkdir();
             trainingVideoDir.mkdir();
-
-            //File outputDir = context.getFilesDir();
-            //File zipFile = new File(outputDir, trainingPlan.getName()+ ".zip");
 
             trainingPlan.setTrainingPlanId(0);
 
@@ -165,6 +176,8 @@ public class PackageUtils {
             deleteDirectory(trainingDir);
             Toast.makeText(context, String.format(context.getString(R.string.label_info_exported), trainingPlan.getName(), zipFileDisplayName), Toast.LENGTH_LONG).show();
         }catch (IOException ex) {
+            Toast.makeText(context, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
             Timber.e(ex);
         }
     }
@@ -226,21 +239,25 @@ public class PackageUtils {
     }
 
     public String getDisplayName(Uri uri) {
-        String fileName = new String();
+        String displayName = new String();
         String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
 
         Cursor metaCursor = context.getContentResolver().query(uri, projection, null, null, null);
         if (metaCursor != null) {
             try {
                 if (metaCursor.moveToFirst()) {
-                    fileName = metaCursor.getString(0);
+                    displayName = metaCursor.getString(0);
                 }
             } finally {
                 metaCursor.close();
             }
         }
 
-        return fileName;
+        if (displayName.endsWith(".zip")) {
+            displayName = displayName.substring(0, displayName.length() - 4);
+        }
+
+        return displayName;
     }
 
     private void zipDirectory(File directoryToCompress, Uri outputFile) throws IOException {
@@ -278,18 +295,17 @@ public class PackageUtils {
         }
     }
 
-    private void unzipFile(File zipFile) throws IOException {
-        InputStream in = new FileInputStream(zipFile);
-        String displayName = getDisplayName(zipFile);
+    private void unzipFile(Uri zipFileUri, String filename) throws IOException {
+        InputStream in = context.getContentResolver().openInputStream(zipFileUri);
         ZipInputStream zipIn = new ZipInputStream(in);
 
-        File rootDir = new File(context.getFilesDir(),  displayName);
+        File rootDir = new File(context.getFilesDir(),  filename);
         rootDir.mkdir();
 
         ZipEntry entry = zipIn.getNextEntry();
         // iterates over entries in the zip file
         while (entry != null) {
-            File zipOut = new File(context.getFilesDir(),  displayName + entry.getName());
+            File zipOut = new File(context.getFilesDir(),  filename + entry.getName());
 
             if (!entry.isDirectory()) {
                 zipOut.getParentFile().mkdir();

@@ -45,7 +45,6 @@ public class TrainingFragment extends GenericFragment {
 
     private TrainingsAdapter trainingsAdapter;
     private FileDialogHelper fileDialogHelper;
-    private boolean isImportDialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -64,8 +63,6 @@ public class TrainingFragment extends GenericFragment {
             public void onClick(View v) {
                 NavDirections action = TrainingFragmentDirections.actionNavTrainingsFragmentToNavTrainingsDatabaseFragment();
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
-                /*isImportDialog = true;
-                fileDialogHelper.openImportFileDialog();*/
             }
         });
 
@@ -191,7 +188,6 @@ public class TrainingFragment extends GenericFragment {
 
     @Override
     protected void onExportClick(int position) {
-        isImportDialog = false;
         exportTrainingPlan = trainingPlanList.get(position);
         fileDialogHelper.openExportFileDialog(exportTrainingPlan.getName());
     }
@@ -207,16 +203,9 @@ public class TrainingFragment extends GenericFragment {
         if (fileDialogHelper.onActivityResult(requestCode, resultCode, data)) {
             Uri uri = data.getData();
 
-            if (isImportDialog) {
-                PackageUtils packageUtils = new PackageUtils(getContext());
+            PackageUtils packageUtils = new PackageUtils(getContext());
 
-                packageUtils.importTrainingPlan(uri);
-                loadFromDatabase();
-            } else {
-                PackageUtils packageUtils = new PackageUtils(getContext());
-
-                packageUtils.exportTrainingPlan(exportTrainingPlan, uri);
-            }
+            packageUtils.exportTrainingPlan(exportTrainingPlan, uri);
         }
     }
 }

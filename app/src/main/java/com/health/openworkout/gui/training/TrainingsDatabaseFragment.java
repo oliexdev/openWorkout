@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -44,6 +45,9 @@ import timber.log.Timber;
 public class TrainingsDatabaseFragment extends Fragment {
     private RecyclerView trainingsView;
     private ProgressBar progressBar;
+    private Button buttonView;
+
+    private FileDialogHelper fileDialogHelper;
 
     private List<GitHubFile> gitHubFileList;
     private TrainingDatabaseAdapter trainingDatabaseAdapter;
@@ -52,13 +56,23 @@ public class TrainingsDatabaseFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_trainingdatabase, container, false);
 
+        fileDialogHelper = new FileDialogHelper(this);
+
         trainingsView = root.findViewById(R.id.trainingsView);
         progressBar = root.findViewById(R.id.progressBar);
+        buttonView = root.findViewById(R.id.buttonView);
 
         progressBar.setVisibility(View.VISIBLE);
 
         trainingsView.setHasFixedSize(true);
         trainingsView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        buttonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fileDialogHelper.openImportFileDialog();
+            }
+        });
 
         loadFromDatabase();
 
@@ -107,5 +121,23 @@ public class TrainingsDatabaseFragment extends Fragment {
         });
 
         packageUtils.getGitHubFiles();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        fileDialogHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (fileDialogHelper.onActivityResult(requestCode, resultCode, data)) {
+            Uri uri = data.getData();
+
+            PackageUtils packageUtils = new PackageUtils(getContext());
+
+            packageUtils.importTrainingPlan(uri);
+            loadFromDatabase();
+        }
     }
 }

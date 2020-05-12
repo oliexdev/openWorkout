@@ -97,6 +97,7 @@
     <string name="label_select_video_file">Select a video file</string>
     <string name="label_select_export_file">Export openWorkout training package</string>
     <string name="label_select_import_file">Import openWorkout training package</string>
+    <string name="label_import_local_file">Import local file</string>
 
     <string name="label_info_exported">Training plan %s exported to %s</string>
     <string name="label_info_imported">Training plan %s imported from %s</string>
