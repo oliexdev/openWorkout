@@ -83,7 +83,7 @@ public class PackageUtils {
         return importTrainingPlan(zipFileUri, displayName);
     }
 
-    public TrainingPlan importTrainingPlan(Uri zipFileUri, String filename) {
+    private TrainingPlan importTrainingPlan(Uri zipFileUri, String filename) {
         Timber.d("Import training plan");
 
         try {
@@ -228,7 +228,7 @@ public class PackageUtils {
         out.close();
     }
 
-    public String getDisplayName(File file) {
+    private String getDisplayName(File file) {
         String displayName = file.getName();
 
         if (displayName.endsWith(".zip")) {
@@ -238,7 +238,7 @@ public class PackageUtils {
         return displayName;
     }
 
-    public String getDisplayName(Uri uri) {
+    private String getDisplayName(Uri uri) {
         String displayName = new String();
         String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
 
@@ -361,6 +361,7 @@ public class PackageUtils {
 
             @Override
             public void onFailure(Call<List<GitHubFile>> call, Throwable t) {
+                onGitHubCallbackListener.onGitHubFailure(new Exception(context.getString(R.string.error_no_github_connection)));
                 Timber.e("GitHub call failed " + t.getMessage());
             }
         });
@@ -393,6 +394,7 @@ public class PackageUtils {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                onGitHubCallbackListener.onGitHubFailure(new Exception(context.getString(R.string.error_no_github_download) + "(" + t.getMessage() + ")"));
                 Timber.e("Download failed " + t.getMessage());
             }
         });
@@ -461,9 +463,10 @@ public class PackageUtils {
     }
 
     public interface OnGitHubCallbackListener {
-        public void onGitHubFileList(List<GitHubFile> gitHubFileList);
-        public void onGitHubDownloadFile(File uriFilename);
-        public void onGitHubDownloadProgressUpdate(long bytesDownloaded, long bytesTotal);
+        void onGitHubFileList(List<GitHubFile> gitHubFileList);
+        void onGitHubDownloadFile(File uriFilename);
+        void onGitHubDownloadProgressUpdate(long bytesDownloaded, long bytesTotal);
+        void onGitHubFailure(Exception ex);
     }
 
     private interface GitHubApi {

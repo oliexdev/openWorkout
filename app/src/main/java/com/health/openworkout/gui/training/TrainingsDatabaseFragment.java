@@ -118,6 +118,12 @@ public class TrainingsDatabaseFragment extends Fragment {
                 trainingDatabaseAdapter.updateProgressBar(bytesDownloaded, bytesTotal);
                 Timber.d("Download byte " + bytesDownloaded + " of " + bytesTotal);
             }
+
+            @Override
+            public void onGitHubFailure(Exception ex) {
+                Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+            }
         });
 
         packageUtils.getGitHubFiles();
@@ -137,7 +143,7 @@ public class TrainingsDatabaseFragment extends Fragment {
             PackageUtils packageUtils = new PackageUtils(getContext());
 
             packageUtils.importTrainingPlan(uri);
-            loadFromDatabase();
+            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
         }
     }
 }

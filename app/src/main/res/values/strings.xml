@@ -109,6 +109,8 @@
     <string name="error_no_sessions">No workout session in %s found. Please create a workout session.</string>
     <string name="error_no_workout_items">No workout item in %s found. Please create a workout item.</string>
     <string name="error_empty_text">field can\'t be empty</string>
+    <string name="error_no_github_connection">Can\'t connect to GitHub API, make sure you are online</string>
+    <string name="error_no_github_download">Can\'t download file via GitHub API</string>
 
     <string name="workout_name_jumping_jack">Jumping Jack</string>
     <string name="workout_name_wall_sit">Wall sit</string>
