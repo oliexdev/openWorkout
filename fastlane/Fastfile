@@ -53,7 +53,7 @@ platform :android do
     desc "Deploy a new version to GitHub"
     lane :deployGitHubRelease do
         set_github_release(
-            repository_name: "oliexdev/openWorkout",
+            repository_name: "oliexdev/openWorkout-source",
             api_token: ENV["OLIEXDEV_GITHUB_API_TOKEN"],
             name: "openWorkout #{versionName} release",
             tag_name: "v#{versionName}",
