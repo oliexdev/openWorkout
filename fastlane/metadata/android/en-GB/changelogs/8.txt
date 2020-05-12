@@ -1,0 +1,5 @@
+* added a lot new workout items for example russian twist, cross jumps, pike walk, burpee, quick steps, mountaint climbers and many more
+* added abdominal muscle training
+* import/export any self created trainings
+* download avaiable trainings and share training on GitHub
+* added option to enable debug logging to a file
