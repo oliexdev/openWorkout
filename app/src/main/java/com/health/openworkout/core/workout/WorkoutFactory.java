@@ -35,6 +35,10 @@ public class WorkoutFactory {
         workoutItemList.add(new StepUp());
         workoutItemList.add(new TricepsDip());
         workoutItemList.add(new WallSit());
+        workoutItemList.add(new DonkeyKick());
+        workoutItemList.add(new LungeKick());
+        workoutItemList.add(new MountainClimbers());
+        workoutItemList.add(new RussianTwist());
 
         return workoutItemList;
     }

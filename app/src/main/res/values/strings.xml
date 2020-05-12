@@ -134,6 +134,10 @@
     <string name="workout_name_pike_walk">Pike walk</string>
     <string name="workout_name_cross_jump">Cross jump</string>
     <string name="workout_name_air_squad_bent_arms">Air squad bent arms</string>
+    <string name="workout_name_lunge_kick">Lunge kick</string>
+    <string name="workout_name_mountain_climbers">Mountain climbers</string>
+    <string name="workout_name_russian_twist">Russian twist</string>
+    <string name="workout_name_donkey_kick">Donkey kick</string>
 
     <string name="workout_description_jumping_jack">Stand up with your legs spread and your hands touching overhead. Then as you jump, bring your legs back together and put your arms to your sides. You can speed these up or slow them down to suit your fitness level.</string>
     <string name="workout_description_wall_sit">Stand with your back to a wall, feet hip-width apart and slightly in front of you. Lean back into the wall, and slide down like you’re sitting down into a chair. Your knees should finish above your ankles, bent at 90 degrees.</string>
@@ -157,6 +161,10 @@
     <string name="workout_description_pike_walk">Start standing straight up and with your feet about shoulder width apart. Bend over at the waist put your hands on the floor. Keep your legs straight. Begin walking your hands forward. Walk your hands out as far as you can and then back in to your feet. You do not need to stand back up every time.</string>
     <string name="workout_description_cross_jump">Stand upright with your feet close together then bend your elbows and bring your palms close to your chest. Slightly bend your knees and then jump to the right then jump forward and jump to the left then jump back and continue jumping in a circle.</string>
     <string name="workout_description_air_squad_bent_arms">no description</string>
+    <string name="workout_description_lunge_kick">no description</string>
+    <string name="workout_description_mountain_climbers">no description</string>
+    <string name="workout_description_russian_twist">no description</string>
+    <string name="workout_description_donkey_kick">no description</string>
 
     <string name="training_seven_minutes_workout_training">Seven minutes workout training</string>
     <string name="training_beginners_training">Beginners training</string>
