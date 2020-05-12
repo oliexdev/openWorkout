@@ -5,16 +5,21 @@
 package com.health.openworkout.gui.preference;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.health.openworkout.BuildConfig;
@@ -37,6 +42,12 @@ public class MainPreferences extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.main_preferences, rootKey);
+
+        TypedValue typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.colorControlNormal, typedValue, true);
+        int color = ContextCompat.getColor(getContext(), typedValue.resourceId);
+
+        tintIcons(getPreferenceScreen(), color);
 
         fileDialogHelper = new FileDialogHelper(this);
 
@@ -161,6 +172,20 @@ public class MainPreferences extends PreferenceFragmentCompat {
             final long id = Thread.currentThread().getId();
             writer.printf("%s %s [%d] %s: %s\r\n",
                     format.format(new Date()), priorityToString(priority), id, tag, message);
+        }
+    }
+
+    private static void tintIcons(Preference preference, int color) {
+        if (preference instanceof PreferenceGroup) {
+            PreferenceGroup group = ((PreferenceGroup) preference);
+            for (int i = 0; i < group.getPreferenceCount(); i++) {
+                tintIcons(group.getPreference(i), color);
+            }
+        } else {
+            Drawable icon = preference.getIcon();
+            if (icon != null) {
+                DrawableCompat.setTint(icon, color);
+            }
         }
     }
 }

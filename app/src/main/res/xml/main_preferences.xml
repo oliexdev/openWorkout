@@ -8,17 +8,20 @@
     <SwitchPreferenceCompat
         app:key="darkTheme"
         app:title="@string/preference_enable_dark_theme"
+        app:icon="@drawable/ic_dark_mode"
         app:useSimpleSummaryProvider="true"
         app:defaultValue="false"/>
 
     <SwitchPreferenceCompat
         app:key="debugLogging"
         app:title="@string/preference_enable_debug_logging"
+        app:icon="@drawable/ic_debug_logging"
         app:useSimpleSummaryProvider="true"
         app:defaultValue="false"/>
 
     <Preference
         app:key="reminder"
+        app:icon="@drawable/ic_reminder"
         app:title="@string/preference_reminder" />
 
 </PreferenceScreen>
