@@ -28,6 +28,7 @@
     <string name="preference_reminder_time">Time</string>
     <string name="preference_reminder_text">Notification text</string>
     <string name="preference_reminder_default_text">Time for your workout</string>
+    <string name="preference_enable_debug_logging">Enable debug logging</string>
 
     <string name="Monday">Monday</string>
     <string name="Tuesday">Tuesday</string>
@@ -97,6 +98,7 @@
     <string name="label_select_video_file">Select a video file</string>
     <string name="label_select_export_file">Export openWorkout training package</string>
     <string name="label_select_import_file">Import openWorkout training package</string>
+    <string name="label_select_debug_file">Save debug file</string>
     <string name="label_import_local_file">Import local file</string>
 
     <string name="label_info_exported">Training plan %s exported to %s</string>
@@ -111,6 +113,7 @@
     <string name="error_empty_text">field can\'t be empty</string>
     <string name="error_no_github_connection">Can\'t connect to GitHub API, make sure you are online</string>
     <string name="error_no_github_download">Can\'t download file via GitHub API</string>
+    <string name="error_no_valid_training_package">%s is not a valid training package</string>
 
     <string name="workout_name_jumping_jack">Jumping Jack</string>
     <string name="workout_name_wall_sit">Wall sit</string>

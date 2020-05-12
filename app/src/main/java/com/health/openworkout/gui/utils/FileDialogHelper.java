@@ -27,6 +27,7 @@ public class FileDialogHelper {
     private final int REQUEST_OPEN_VIDEO_DIALOG = 20;
     private final int REQUEST_EXPORT_FILE_DIALOG = 30;
     private final int REQUEST_IMPORT_FILE_DIALOG = 40;
+    private final int REQUEST_DEBUG_FILE_DIALOG = 50;
 
     private Fragment fragment;
 
@@ -45,6 +46,19 @@ public class FileDialogHelper {
             fragment.startActivityForResult(Intent.createChooser(intent, fragment.getString(R.string.label_select_import_file)), REQUEST_IMPORT_FILE_DIALOG);
         } else {
             requestPermissionForReadExternalStorage(READ_EXTERNAL_STORAGE_PERMISSION_IMPORT);
+        }
+    }
+
+    public void openDebugFileDialog(String defaultFilename) {
+        if (checkPermissionForWriteExternalStorage()) {
+            Intent intent = new Intent()
+                    .setType("text/plain")
+                    .putExtra(Intent.EXTRA_TITLE, defaultFilename)
+                    .setAction(Intent.ACTION_CREATE_DOCUMENT);
+
+            fragment.startActivityForResult(Intent.createChooser(intent, fragment.getString(R.string.label_select_debug_file)), REQUEST_DEBUG_FILE_DIALOG);
+        } else {
+            requestPermissionForWriteExternalStorage(WRITE_EXTERNAL_STORAGE_PERMISSION_EXPORT);
         }
     }
 
@@ -150,7 +164,8 @@ public class FileDialogHelper {
             if (requestCode == REQUEST_IMPORT_FILE_DIALOG ||
                     requestCode == REQUEST_EXPORT_FILE_DIALOG ||
                     requestCode == REQUEST_OPEN_IMAGE_DIALOG ||
-                    requestCode == REQUEST_OPEN_VIDEO_DIALOG) {
+                    requestCode == REQUEST_OPEN_VIDEO_DIALOG ||
+                    requestCode == REQUEST_DEBUG_FILE_DIALOG) {
                 return true;
             }
         }

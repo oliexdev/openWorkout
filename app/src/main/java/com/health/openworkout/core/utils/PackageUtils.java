@@ -84,10 +84,9 @@ public class PackageUtils {
     }
 
     private TrainingPlan importTrainingPlan(Uri zipFileUri, String filename) {
-        Timber.d("Import training plan");
+        Timber.d("Import training plan " + filename);
 
         try {
-            Timber.d("Display name " + filename);
             unzipFile(zipFileUri, filename);
 
             File trainingDatabase = new File(context.getFilesDir(), filename + "/database.json");
@@ -106,19 +105,18 @@ public class PackageUtils {
             Timber.d("Read training database " + gsonTrainingPlan.getName());
             OpenWorkout.getInstance().insertTrainingPlan(gsonTrainingPlan);
 
+            Toast.makeText(context, String.format(context.getString(R.string.label_info_imported), gsonTrainingPlan.getName(), filename), Toast.LENGTH_LONG).show();
+
+            return gsonTrainingPlan;
+        } catch (IOException ex) {
+            Toast.makeText(context, String.format(context.getString(R.string.error_no_valid_training_package), filename + ".zip"), Toast.LENGTH_LONG).show();
+            Timber.e(ex);
+        } finally {
             File zipFile = new File(context.getFilesDir(), filename + ".zip");
             if (zipFile.exists()) {
                 Timber.d("Delete unzipped local zip file " + zipFile);
                 zipFile.delete();
             }
-
-            Toast.makeText(context, String.format(context.getString(R.string.label_info_imported), gsonTrainingPlan.getName(), filename), Toast.LENGTH_LONG).show();
-
-            return gsonTrainingPlan;
-        } catch (IOException ex) {
-            Toast.makeText(context, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-            Timber.e(ex);
         }
 
         return null;
@@ -349,7 +347,7 @@ public class PackageUtils {
             @Override
             public void onResponse(Call<List<GitHubFile>> call, Response<List<GitHubFile>> response) {
                 if (response.isSuccessful()) {
-                    Timber.d("Successful get File list ");
+                    Timber.d("Successful file list from GitHub received");
 
                     if (onGitHubCallbackListener != null) {
                         onGitHubCallbackListener.onGitHubFileList(response.body());
@@ -381,6 +379,7 @@ public class PackageUtils {
 
                             if (writtenToDisk) {
                                 if (onGitHubCallbackListener != null) {
+                                    Timber.d("Successful " + gitHubFile.getName() + " file downloaded from " + gitHubFile.getDownloadURL());
                                     onGitHubCallbackListener.onGitHubDownloadFile(new File(context.getFilesDir(), gitHubFile.getName()));
                                 }
                             }
@@ -429,8 +428,6 @@ public class PackageUtils {
                     if (onGitHubCallbackListener != null) {
                         onGitHubCallbackListener.onGitHubDownloadProgressUpdate(fileSizeDownloaded, fileSize);
                     }
-
-                    Timber.d("file download: " + fileSizeDownloaded + " of " + fileSize);
                 }
 
                 outputStream.flush();

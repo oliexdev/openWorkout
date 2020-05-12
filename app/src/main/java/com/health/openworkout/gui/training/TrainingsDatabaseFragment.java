@@ -116,7 +116,6 @@ public class TrainingsDatabaseFragment extends Fragment {
             @Override
             public void onGitHubDownloadProgressUpdate(long bytesDownloaded, long bytesTotal) {
                 trainingDatabaseAdapter.updateProgressBar(bytesDownloaded, bytesTotal);
-                Timber.d("Download byte " + bytesDownloaded + " of " + bytesTotal);
             }
 
             @Override

@@ -11,6 +11,12 @@
         app:useSimpleSummaryProvider="true"
         app:defaultValue="false"/>
 
+    <SwitchPreferenceCompat
+        app:key="debugLogging"
+        app:title="@string/preference_enable_debug_logging"
+        app:useSimpleSummaryProvider="true"
+        app:defaultValue="false"/>
+
     <Preference
         app:key="reminder"
         app:title="@string/preference_reminder" />
