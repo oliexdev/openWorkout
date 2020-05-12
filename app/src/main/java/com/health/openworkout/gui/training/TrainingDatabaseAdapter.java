@@ -120,7 +120,7 @@ public class TrainingDatabaseAdapter extends RecyclerView.Adapter<TrainingDataba
         holder.downloadView.setImageResource(R.drawable.ic_download_finished);
         holder.nameView.setEnabled(true);
         holder.detailedView.setEnabled(true);
-        holder.downloadView.setOnClickListener(null);
+        holder.itemView.setOnClickListener(null);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
