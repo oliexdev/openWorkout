@@ -141,7 +141,7 @@ public class TrainingDatabaseAdapter extends RecyclerView.Adapter<TrainingDataba
 
             progressBar.setMax(100);
 
-            downloadView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onItemClick(getAdapterPosition(), v);

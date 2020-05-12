@@ -12,8 +12,8 @@ android {
         applicationId "com.health.openworkout"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 7
-        versionName "0.7"
+        versionCode 8
+        versionName "0.8"
         archivesBaseName = "openWorkout-$versionName"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -105,4 +105,7 @@ dependencies {
 
     // Ad sense
     implementation 'com.google.android.gms:play-services-ads:19.1.0'
+
+    // Google billing
+    implementation 'com.android.billingclient:billing:2.2.0'
 }
