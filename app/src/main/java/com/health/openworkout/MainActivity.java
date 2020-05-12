@@ -5,6 +5,8 @@
 package com.health.openworkout;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.view.Menu;
@@ -61,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
+                    case R.id.nav_help:
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/oliexdev/openWorkout")));
+                        break;
                     case R.id.nav_about:
                         showAboutDialog();
                         break;

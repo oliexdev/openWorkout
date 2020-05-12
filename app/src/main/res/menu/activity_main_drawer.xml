@@ -16,13 +16,17 @@
             android:id="@+id/nav_trainings"
             android:icon="@drawable/ic_goal"
             android:title="@string/menu_trainings" />
-    </group>
-
-    <group android:id="@+id/menu_bottom" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_main_preferences"
             android:icon="@drawable/ic_settings"
             android:title="@string/menu_settings" />
+    </group>
+
+    <group android:id="@+id/menu_bottom" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_help"
+            android:title="@string/label_help" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info"
