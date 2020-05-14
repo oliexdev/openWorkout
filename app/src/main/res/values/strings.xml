@@ -19,6 +19,7 @@
     <string name="menu_workoutslide">Workout slide</string>
     <string name="menu_workoutsettings">Workout settings</string>
     <string name="menu_workoutdatabase">Workout item database</string>
+    <string name="menu_billing">Billing</string>
 
     <string name="preference_reminder_general">General</string>
     <string name="preference_reminder_title">Reminder</string>
@@ -29,6 +30,15 @@
     <string name="preference_reminder_text">Notification text</string>
     <string name="preference_reminder_default_text">Time for your workout</string>
     <string name="preference_enable_debug_logging">Enable debug logging</string>
+    <string name="preference_remove_advertisements">Remove advertisements</string>
+
+    <string name="label_info_remove_permanently">Pay once and remove permanently any advertising from openWorkout</string>
+    <string name="label_info_purchase_for">Purchase now for %s</string>
+    <string name="label_pending_purchase">You have a pending purchase, please complete the purchase order %s</string>
+    <string name="label_already_purchased">You already purchased it</string>
+    <string name="label_successful_purchased">Successful purchased</string>
+    <string name="label_purchase_canceled">Purchase canceled</string>
+    <string name="label_purchase_unexpected_error">Unexpected error abort purchasing</string>
 
     <string name="Monday">Monday</string>
     <string name="Tuesday">Tuesday</string>

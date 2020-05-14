@@ -24,4 +24,9 @@
         app:icon="@drawable/ic_reminder"
         app:title="@string/preference_reminder" />
 
+    <Preference
+        app:key="removeAd"
+        app:icon="@drawable/ic_billing"
+        app:title="@string/preference_remove_advertisements" />
+
 </PreferenceScreen>

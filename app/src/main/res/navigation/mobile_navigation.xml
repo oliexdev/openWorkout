@@ -29,12 +29,21 @@
         <action
             android:id="@+id/action_MainPreferencesFragment_to_ReminderPreferencesFragment"
             app:destination="@id/nav_reminder_preferences" />
+        <action
+            android:id="@+id/action_MainPreferencesFragment_to_BillingFragment"
+            app:destination="@id/nav_billing_fragment" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_reminder_preferences"
         android:name="com.health.openworkout.gui.preference.ReminderPreferences"
         android:label="@string/preference_reminder">
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_billing_fragment"
+        android:name="com.health.openworkout.gui.datatypes.BillingFragment"
+        android:label="@string/menu_billing">
     </fragment>
 
     <fragment

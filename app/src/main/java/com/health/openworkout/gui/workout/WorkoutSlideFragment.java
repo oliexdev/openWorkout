@@ -75,21 +75,26 @@ public class WorkoutSlideFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_workoutslide, container, false);
 
         adView = root.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
 
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                Timber.d("Ad successful loaded");
-            }
+        if (!OpenWorkout.getInstance().isAdRemovalPaid()) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            adView.loadAd(adRequest);
 
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                Timber.e("Ad failed to load with error code " + errorCode);
-            }
+            adView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    Timber.d("Ad successful loaded");
+                }
 
-        });
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    Timber.e("Ad failed to load with error code " + errorCode);
+                }
+
+            });
+        } else {
+            adView.setVisibility(View.GONE);
+        }
 
         constraintLayout = root.findViewById(R.id.constraintLayout);
         nameView = root.findViewById(R.id.nameView);

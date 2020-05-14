@@ -96,6 +96,16 @@ public class MainPreferences extends PreferenceFragmentCompat {
                 return true;
             }
         });
+
+        final Preference prefRemoveAd = findPreference("removeAd");
+        prefRemoveAd.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                NavDirections action = MainPreferencesDirections.actionMainPreferencesFragmentToBillingFragment();
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
+                return true;
+            }
+        });
     }
 
     @Override
