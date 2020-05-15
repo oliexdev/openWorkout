@@ -77,6 +77,7 @@ public class WorkoutSlideFragment extends Fragment {
         adView = root.findViewById(R.id.adView);
 
         if (!OpenWorkout.getInstance().isAdRemovalPaid()) {
+            Timber.d("Show Ad");
             AdRequest adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
 
@@ -93,6 +94,7 @@ public class WorkoutSlideFragment extends Fragment {
 
             });
         } else {
+            Timber.d("Remove Ad");
             adView.setVisibility(View.GONE);
         }
 

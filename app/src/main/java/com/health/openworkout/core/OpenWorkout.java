@@ -15,6 +15,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.android.billingclient.api.AcknowledgePurchaseParams;
+import com.android.billingclient.api.AcknowledgePurchaseResponseListener;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
@@ -45,7 +47,7 @@ import timber.log.Timber;
 public class OpenWorkout {
     public static boolean DEBUG_MODE = false;
     private static final String DATABASE_NAME = "openWorkout.db";
-    private static final String SKU_AD_REMOVAL = "android.test.purchased";
+    private static final String SKU_AD_REMOVAL = "sku_ad_removal";
 
     private static OpenWorkout instance;
     private final Context context;
@@ -61,6 +63,9 @@ public class OpenWorkout {
         context = aContext;
 
         openDB();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().putBoolean("adRemoval", false).commit();
 
         billingClient = BillingClient.newBuilder(context)
                 .setListener(new PurchasesUpdatedListener() {
@@ -344,18 +349,18 @@ public class OpenWorkout {
         if (purchase.getSku().equals(SKU_AD_REMOVAL)) {
             switch (purchase.getPurchaseState()) {
                 case Purchase.PurchaseState.PURCHASED:
-                    Timber.d("ad removal purchased");
+                    Timber.d("Ad removal purchased");
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                     sharedPreferences.edit().putBoolean("adRemoval", true).commit();
 
                     if (!purchase.isAcknowledged()) {
-                        ConsumeParams consumeParams = ConsumeParams.newBuilder()
+                        AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
                                 .setPurchaseToken(purchase.getPurchaseToken())
                                 .build();
 
-                        billingClient.consumeAsync(consumeParams, new ConsumeResponseListener() {
+                        billingClient.acknowledgePurchase(acknowledgePurchaseParams, new AcknowledgePurchaseResponseListener() {
                             @Override
-                            public void onConsumeResponse(BillingResult billingResult, String s) {
+                            public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
                                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                                     Timber.d("Purchase acknowledge successful");
                                 } else {
@@ -366,7 +371,7 @@ public class OpenWorkout {
                     }
                     break;
                 case Purchase.PurchaseState.PENDING:
-                    Timber.e("ad removal purchase is pending " + purchase);
+                    Timber.e("Ad removal purchase is pending " + purchase);
                     Toast.makeText(context, String.format(context.getString(R.string.label_pending_purchase), purchase.getOrderId()), Toast.LENGTH_LONG).show();
                     break;
             }
