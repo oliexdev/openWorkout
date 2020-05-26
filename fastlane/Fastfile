@@ -62,7 +62,7 @@ platform :android do
         )
         APK_LOCATION = "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"        
         set_github_release(
-            repository_name: "oliexdev/openWorkout-source",
+            repository_name: "oliexdev/openWorkout",
             api_token: ENV["OLIEXDEV_GITHUB_API_TOKEN"],
             name: "openWorkout #{versionName} release",
             tag_name: "v#{versionName}",
