@@ -24,7 +24,6 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import com.health.openworkout.BuildConfig;
 import com.health.openworkout.R;
-import com.health.openworkout.core.utils.PackageUtils;
 import com.health.openworkout.gui.utils.FileDialogHelper;
 
 import java.io.IOException;
@@ -106,6 +105,12 @@ public class MainPreferences extends PreferenceFragmentCompat {
                 return true;
             }
         });
+
+        if (BuildConfig.FLAVOR == "fdroid") {
+            prefRemoveAd.setVisible(false);
+        } else {
+            prefRemoveAd.setVisible(true);
+        }
     }
 
     @Override

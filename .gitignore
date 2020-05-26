@@ -55,6 +55,7 @@ captures/
 *.jks
 *.keystore
 /app/src/main/res/values/apikeys.xml
+/app/src/playStore/res/values/apikeys.xml
 /keystore.properties
 /fastlane_secrect_keys.json
 

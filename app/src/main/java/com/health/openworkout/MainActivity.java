@@ -6,17 +6,14 @@ package com.health.openworkout;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -25,24 +22,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.preference.PreferenceManager;
 
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingResult;
-import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.PurchasesUpdatedListener;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.AdapterStatus;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 import com.health.openworkout.core.OpenWorkout;
-import com.health.openworkout.gui.datatypes.BillingFragment;
-
-import java.util.List;
-import java.util.Map;
-
-import timber.log.Timber;
+import com.health.openworkout.core.utils.PlayStoreUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,15 +71,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (!OpenWorkout.getInstance().isAdRemovalPaid()) {
-            MobileAds.initialize(this, new OnInitializationCompleteListener() {
-                @Override
-                public void onInitializationComplete(InitializationStatus initializationStatus) {
-                    for (Map.Entry<String, AdapterStatus> adNetwork : initializationStatus.getAdapterStatusMap().entrySet()) {
-                        Timber.d("Ad sense " + adNetwork.getKey() + " initialization status " + adNetwork.getValue().getInitializationState() + " (" + adNetwork.getValue().getDescription() + ")");
-                    }
-                }
-            });
+        if (!PlayStoreUtils.getInstance().isAdRemovalPaid()) {
+            PlayStoreUtils.getInstance().initMobileAds(this);
         }
 
         OpenWorkout.getInstance().initTrainingPlans();

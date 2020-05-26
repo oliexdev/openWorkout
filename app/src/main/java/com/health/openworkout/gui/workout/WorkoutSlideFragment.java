@@ -27,17 +27,16 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
+import com.health.openworkout.core.utils.PlayStoreUtils;
 import com.health.openworkout.gui.utils.SoundUtils;
 
 import java.util.Calendar;
@@ -58,7 +57,6 @@ public class WorkoutSlideFragment extends Fragment {
     private TextView countdownView;
     private ProgressBar progressView;
     private FloatingActionButton nextWorkoutStepView;
-    private AdView adView;
 
     private CountDownTimer countDownTimer;
     private Calendar startTime;
@@ -74,35 +72,36 @@ public class WorkoutSlideFragment extends Fragment {
                              final ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_workoutslide, container, false);
 
-        adView = root.findViewById(R.id.adView);
-
-        if (!OpenWorkout.getInstance().isAdRemovalPaid()) {
-            Timber.d("Show Ad");
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    Timber.d("Ad successful loaded");
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    Timber.e("Ad failed to load with error code " + errorCode);
-                }
-
-            });
-        } else {
-            Timber.d("Remove Ad");
-            adView.setVisibility(View.GONE);
-        }
-
         constraintLayout = root.findViewById(R.id.constraintLayout);
         nameView = root.findViewById(R.id.nameView);
         videoCardView = root.findViewById(R.id.videoCardView);
         videoView = root.findViewById(R.id.videoView);
         infoView = root.findViewById(R.id.infoView);
+        descriptionView = root.findViewById(R.id.descriptionView);
+        stateInfoView = root.findViewById(R.id.stateInfoView);
+        scrollView = root.findViewById(R.id.scrollView);
+        workoutOverviewView = root.findViewById(R.id.workoutOverviewView);
+        countdownView = root.findViewById(R.id.countdownView);
+        progressView = root.findViewById(R.id.progressView);
+        nextWorkoutStepView = root.findViewById(R.id.nextWorkoutStepView);
+
+        if (!PlayStoreUtils.getInstance().isAdRemovalPaid()) {
+            Timber.d("Show Ad");
+            View adView = PlayStoreUtils.getInstance().getAdView(constraintLayout.getContext());
+            adView.setId(View.generateViewId());
+            ConstraintSet set = new ConstraintSet();
+
+            constraintLayout.addView(adView, 0);
+
+            set.clone(constraintLayout);
+            set.connect(adView.getId(), ConstraintSet.BOTTOM, constraintLayout.getId(), ConstraintSet.BOTTOM, 10);
+            set.connect(adView.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.LEFT, 0);
+            set.connect(adView.getId(), ConstraintSet.RIGHT, constraintLayout.getId(), ConstraintSet.RIGHT, 0);
+            set.connect(progressView.getId(), ConstraintSet.BOTTOM, adView.getId(), ConstraintSet.TOP, 10);
+            set.applyTo(constraintLayout);
+        } else {
+            Timber.d("Remove Ad");
+        }
 
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -136,14 +135,6 @@ public class WorkoutSlideFragment extends Fragment {
             }
         });
 
-        descriptionView = root.findViewById(R.id.descriptionView);
-        stateInfoView = root.findViewById(R.id.stateInfoView);
-        scrollView = root.findViewById(R.id.scrollView);
-        workoutOverviewView = root.findViewById(R.id.workoutOverviewView);
-        countdownView = root.findViewById(R.id.countdownView);
-        progressView = root.findViewById(R.id.progressView);
-
-        nextWorkoutStepView = root.findViewById(R.id.nextWorkoutStepView);
         nextWorkoutStepView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
 import com.health.openworkout.BuildConfig;
+import com.health.openworkout.core.utils.PlayStoreUtils;
 
 import timber.log.Timber;
 
@@ -41,6 +42,9 @@ public class Application extends android.app.Application {
 
         // Create openWorkout instance
         OpenWorkout.createInstance(getApplicationContext());
+
+        // Create playStore utils instance
+        PlayStoreUtils.createInstance(getApplicationContext());
 
         // Hold on to the instance for as long as the application exists
         openWorkout = OpenWorkout.getInstance();

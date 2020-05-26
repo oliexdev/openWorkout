@@ -47,6 +47,23 @@ android {
                 storePassword keystoreProperties['releaseStorePassword']
             }
         }
+
+        playStore {
+            def keystorePlayStorePropertiesFile = rootProject.file("../openWorkout_playstore.keystore")
+            def keystorePlayStoreProperties = new Properties()
+            try {
+                keystorePlayStoreProperties.load(new FileInputStream(keystorePlayStorePropertiesFile))
+            } catch(FileNotFoundException ex) {
+                keystorePlayStoreProperties = null;
+            }
+
+            if (keystorePlayStoreProperties != null) {
+                storeFile file(rootDir.getCanonicalPath() + '/' + keystorePlayStoreProperties['releaseKeyStore'])
+                keyAlias keystorePlayStoreProperties['releaseKeyAlias']
+                keyPassword keystorePlayStoreProperties['releaseKeyPassword']
+                storePassword keystorePlayStoreProperties['releaseStorePassword']
+            }
+        }
     }
 
     buildTypes {
@@ -55,7 +72,24 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+        }
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        fdroid {
+            dimension "default"
             signingConfig signingConfigs.release
+        }
+
+        playStore {
+            dimension "default"
+            signingConfig signingConfigs.playStore
         }
     }
 
@@ -104,8 +138,8 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     // Ad sense
-    implementation 'com.google.android.gms:play-services-ads:19.1.0'
+    playStoreImplementation 'com.google.android.gms:play-services-ads:19.1.0'
 
     // Google billing
-    implementation 'com.android.billingclient:billing:2.2.0'
+    playStoreImplementation 'com.android.billingclient:billing:2.2.1'
 }
