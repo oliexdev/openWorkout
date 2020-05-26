@@ -18,6 +18,12 @@ Simple workout trainer that puts your privacy first
 * Full configuable workout items
 * Optional dark theme selectable
 
+# Donations
+
+If you would like to support this project's further development, the creator of this project or the continuous maintenance of this project, feel free to donate. Your donation is highly appreciated. Thank you!
+
+[![PayPal Donation](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H5KSTQA6TKTE4&source=url)
+
 # Screenshots
 
 <table>
