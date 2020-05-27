@@ -67,7 +67,7 @@ platform :android do
             name: "openWorkout #{versionName} release",
             tag_name: "v#{versionName}",
             description: (File.read("metadata/android/en-GB/changelogs/#{versionCode}.txt") rescue "No changelog provided"),
-            upload_assets: [ #{APK_LOCATION} ]
+            upload_assets: [ "#{APK_LOCATION}" ]
         )
     end
 end
