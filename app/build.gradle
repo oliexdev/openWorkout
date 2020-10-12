@@ -25,8 +25,8 @@ android {
         applicationId "com.health.openworkout"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 11
-        versionName "1.1"
+        versionCode 12
+        versionName "1.2"
         archivesBaseName = "openWorkout-$versionName"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
