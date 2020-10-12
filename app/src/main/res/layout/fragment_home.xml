@@ -79,7 +79,7 @@
 
             <Spinner
                 android:id="@+id/trainingNameView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="TextView" />
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:tint="?attr/colorControlNormal"
+                app:tint="?attr/colorControlNormal"
                 android:src="@drawable/ic_view" />
         </TableRow>
 
