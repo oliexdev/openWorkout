@@ -67,9 +67,9 @@
     <string name="label_session_size_completed">%d of %d sessions completed</string>
     <string name="label_repetition_info">%d x %s repetition</string>
     <string name="label_repetition_item_info">%dx repetition</string>
-    <string name="label_work_duration_item_info">%ds work duration</string>
-    <string name="label_break_duration_item_info">%ds break</string>
-    <string name="label_prep_duration_item_info">%ds preparation</string>
+    <string name="label_work_duration_item_info">%d s work duration</string>
+    <string name="label_break_duration_item_info">%d s break</string>
+    <string name="label_prep_duration_item_info">%d s preparation</string>
 
     <string name="label_congratulation">Congratulation</string>
     <string name="label_info_finished_session">You finished your session in</string>
