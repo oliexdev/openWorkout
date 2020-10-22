@@ -196,8 +196,9 @@ public class WorkoutSlideFragment extends Fragment {
                 break;
             case START:
                 onFinishWorkoutItem();
-                nextWorkout();
                 breakWorkout();
+                nextWorkout();
+                showWorkoutOverview();
                 break;
             case BREAK:
                 prepareWorkout();
@@ -282,7 +283,6 @@ public class WorkoutSlideFragment extends Fragment {
 
     private void breakWorkout() {
         workoutState = WORKOUT_STATE.BREAK;
-        showWorkoutOverview();
 
         stateInfoView.setText(R.string.label_break);
         stateInfoView.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
