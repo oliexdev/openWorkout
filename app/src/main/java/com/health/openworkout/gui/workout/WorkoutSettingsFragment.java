@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.navigation.Navigation;
 
 import com.health.openworkout.R;
@@ -59,6 +60,7 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
     private Switch timeModeView;
     private TableRow workoutTimeRow;
     private TableRow repetitionCountRow;
+    private CardView videoCardView;
     private VideoView videoView;
 
     private FileDialogHelper fileDialogHelper;
@@ -80,6 +82,7 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
         timeModeView = root.findViewById(R.id.timeModeView);
         workoutTimeRow = root.findViewById(R.id.workoutTimeRow);
         repetitionCountRow = root.findViewById(R.id.repetitionCoundRow);
+        videoCardView = root.findViewById(R.id.videoCardView);
         videoView = root.findViewById(R.id.videoView);
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -104,6 +107,15 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
                 fileDialogHelper.openImageFileDialog();
             }
         });
+
+        // support for SDK version <= 23 videoView onClickListener is not called
+        videoCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        isImageDialogRequest = false;
+                        fileDialogHelper.openVideoFileDialog();
+                    }
+                });
 
         videoView.setOnClickListener(new View.OnClickListener() {
             @Override
