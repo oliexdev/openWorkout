@@ -77,6 +77,7 @@ public class WorkoutSlideFragment extends Fragment {
     private SoundUtils soundUtils;
 
     private WorkoutSession workoutSession;
+    private long workoutItemOrderNr;
     private WorkoutItem nextWorkoutItem;
     private WORKOUT_STATE workoutState;
     private long workoutItemIdFromFragment;
@@ -211,12 +212,13 @@ public class WorkoutSlideFragment extends Fragment {
     private void nextWorkout() {
         // if no workout item was selected use the next not finished workout item in the session list
         if (workoutItemIdFromFragment == -1L) {
-            if (workoutSession.getNextWorkoutItem() == null) {
+            workoutItemOrderNr = nextWorkoutItem.getOrderNr();  // Get current orderNr before updating to nextWorkoutItem
+            if (workoutSession.getNextWorkoutItem(workoutItemOrderNr) == null) {
                 onFinishSession();
                 return;
             }
 
-            nextWorkoutItem = workoutSession.getNextWorkoutItem();
+            nextWorkoutItem = workoutSession.getNextWorkoutItem(workoutItemOrderNr);
         } else {
             // otherwise use the workout item as a starting point which was selected in the workout fragment
             for (WorkoutItem workoutItem : workoutSession.getWorkoutItems()) {
