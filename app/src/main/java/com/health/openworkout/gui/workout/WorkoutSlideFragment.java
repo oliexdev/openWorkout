@@ -212,7 +212,12 @@ public class WorkoutSlideFragment extends Fragment {
     private void nextWorkout() {
         // if no workout item was selected use the next not finished workout item in the session list
         if (workoutItemIdFromFragment == -1L) {
-            workoutItemOrderNr = nextWorkoutItem.getOrderNr();  // Get current orderNr before updating to nextWorkoutItem
+            // Get current orderNr before updating to nextWorkoutItem
+            if (nextWorkoutItem == null) {
+                workoutItemOrderNr = 0;
+            } else {
+                workoutItemOrderNr = nextWorkoutItem.getOrderNr();
+            }
             if (workoutSession.getNextWorkoutItem(workoutItemOrderNr) == null) {
                 onFinishSession();
                 return;
