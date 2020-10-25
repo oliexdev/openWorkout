@@ -138,21 +138,21 @@
     <string name="error_no_github_download">Can\'t download file via GitHub API</string>
     <string name="error_no_valid_training_package">%s is not a valid training package</string>
 
-    <string name="workout_name_jumping_jack">Jumping Jack</string>
+    <string name="workout_name_jumping_jack">Jumping jack</string>
     <string name="workout_name_wall_sit">Wall sit</string>
-    <string name="workout_name_push_ups">Push Ups</string>
-    <string name="workout_name_abdominal_crunch">Abdonminal crunch</string>
-    <string name="workout_name_step_up">Step up</string>
+    <string name="workout_name_push_ups">Push-up</string>
+    <string name="workout_name_abdominal_crunch">Abdominal crunch</string>
+    <string name="workout_name_step_up">Step-up</string>
     <string name="workout_name_squat">Squat</string>
     <string name="workout_name_triceps_dip">Triceps dip</string>
     <string name="workout_name_plank">Plank</string>
     <string name="workout_name_high_knees">High knees</string>
     <string name="workout_name_lunge">Lunge</string>
-    <string name="workout_name_push_up_rotation">Push up rotation</string>
+    <string name="workout_name_push_up_rotation">Push-up rotation</string>
     <string name="workout_name_side_plank">Side plank</string>
-    <string name="workout_name_cross_jump_rotation">Cross jump rotations</string>
+    <string name="workout_name_cross_jump_rotation">Cross jump rotation</string>
     <string name="workout_name_quick_steps">Quick steps</string>
-    <string name="workout_name_jump_push_ups">Jump push ups</string>
+    <string name="workout_name_jump_push_ups">Jump push-up</string>
     <string name="workout_name_bicycle_crunch">Bicycle crunch</string>
     <string name="workout_name_burpee">Burpee</string>
     <string name="workout_name_box_jump">Box jump</string>
@@ -161,7 +161,7 @@
     <string name="workout_name_cross_jump">Cross jump</string>
     <string name="workout_name_air_squad_bent_arms">Air squad bent arms</string>
     <string name="workout_name_lunge_kick">Lunge kick</string>
-    <string name="workout_name_mountain_climbers">Mountain climbers</string>
+    <string name="workout_name_mountain_climbers">Mountain climber</string>
     <string name="workout_name_russian_twist">Russian twist</string>
     <string name="workout_name_donkey_kick">Donkey kick</string>
 
