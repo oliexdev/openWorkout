@@ -104,7 +104,13 @@ public class WorkoutSession implements Comparable<WorkoutSession>, Cloneable {
         return workoutItems;
     }
 
-    public WorkoutItem getNextWorkoutItem() {
+    public WorkoutItem getNextWorkoutItem(long workoutItemOrderNr) {
+        // Run two iterations. In the first one check only future workoutItems. In the second one, check also workoutItems at the beginning.
+        for (WorkoutItem workoutItem : workoutItems) {
+            if (!workoutItem.isFinished() && workoutItem.getOrderNr() > workoutItemOrderNr) {
+                return workoutItem;
+            }
+        }
         for (WorkoutItem workoutItem : workoutItems) {
             if (!workoutItem.isFinished()) {
                 return workoutItem;
