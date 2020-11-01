@@ -66,6 +66,7 @@ public class WorkoutSlideFragment extends Fragment {
     private ImageView infoView;
     private TextView descriptionView;
     private TextView stateInfoView;
+    private TextView stateInfoDetailView;
     private ScrollView scrollView;
     private TableLayout workoutOverviewView;
     private TextView countdownView;
@@ -96,6 +97,7 @@ public class WorkoutSlideFragment extends Fragment {
         infoView = root.findViewById(R.id.infoView);
         descriptionView = root.findViewById(R.id.descriptionView);
         stateInfoView = root.findViewById(R.id.stateInfoView);
+        stateInfoDetailView = root.findViewById(R.id.stateInfoDetailView);
         scrollView = root.findViewById(R.id.scrollView);
         workoutOverviewView = root.findViewById(R.id.workoutOverviewView);
         countdownView = root.findViewById(R.id.countdownView);
@@ -290,6 +292,12 @@ public class WorkoutSlideFragment extends Fragment {
 
         stateInfoView.setText(R.string.label_prepare);
         stateInfoView.setTextColor(getContext().getResources().getColor(R.color.colorRed));
+            if (nextWorkoutItem.isTimeMode()) {
+                stateInfoDetailView.setText(nextWorkoutItem.getName() + " (" + nextWorkoutItem.getWorkoutTime() + getContext().getString(R.string.seconds_unit) + ")");
+            } else {
+                stateInfoDetailView.setText(nextWorkoutItem.getName() + " (" + Integer.toString(nextWorkoutItem.getRepetitionCount()) + "x" + ")");
+            }
+        stateInfoDetailView.setTextColor(getContext().getResources().getColor(R.color.colorRed));
         countdownView.setTextColor(getContext().getResources().getColor(R.color.colorRed));
         progressView.setProgressTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed)));
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed)));
@@ -303,6 +311,7 @@ public class WorkoutSlideFragment extends Fragment {
 
         stateInfoView.setText(R.string.label_workout);
         stateInfoView.setTextColor(getContext().getResources().getColor(R.color.colorLightBlue));
+        stateInfoDetailView.setTextColor(getContext().getResources().getColor(R.color.colorLightBlue));
         countdownView.setTextColor(getContext().getResources().getColor(R.color.colorLightBlue));
         progressView.setProgressTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorLightBlue)));
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorLightBlue)));
@@ -314,7 +323,8 @@ public class WorkoutSlideFragment extends Fragment {
             activateCountdownTimer(nextWorkoutItem.getWorkoutTime());
         } else {
             pauseCountdownTimer();
-            countdownView.setText(String.format(getString(R.string.label_repetition_info), nextWorkoutItem.getRepetitionCount(), nextWorkoutItem.getName()));
+            countdownView.setText("");
+            //countdownView.setText(String.format(getString(R.string.label_repetition_info), nextWorkoutItem.getRepetitionCount(), nextWorkoutItem.getName()));
             progressView.setVisibility(View.INVISIBLE);
         }
     }
@@ -322,8 +332,11 @@ public class WorkoutSlideFragment extends Fragment {
     private void breakWorkout() {
         workoutState = WORKOUT_STATE.BREAK;
 
-        stateInfoView.setText(R.string.label_break);
+        stateInfoView.setText("");
         stateInfoView.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
+        stateInfoView.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
+        stateInfoDetailView.setText(R.string.label_break);
+        stateInfoDetailView.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
         countdownView.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
         progressView.setProgressTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorGreen)));
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorGreen)));
