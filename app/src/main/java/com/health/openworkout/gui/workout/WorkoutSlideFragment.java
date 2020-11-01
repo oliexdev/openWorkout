@@ -73,8 +73,10 @@ public class WorkoutSlideFragment extends Fragment {
     private FloatingActionButton nextWorkoutStepView;
 
     private CountDownTimer countDownTimer;
+    private boolean isCountdownTimerStopped;
     private Calendar startTime;
     private int remainingSec;
+    private int halftimeSec;
     private SoundUtils soundUtils;
 
     private WorkoutSession workoutSession;
@@ -157,6 +159,24 @@ public class WorkoutSlideFragment extends Fragment {
             }
         });
 
+        countdownView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // if rep mode and in running workout state then ignore any clicks
+                if (!nextWorkoutItem.isTimeMode() && workoutState == WORKOUT_STATE.START) {
+                    return;
+                }
+
+                if (countDownTimer != null) {
+                    if (isCountdownTimerStopped) {
+                        resumeCountdownTimer();
+                    } else {
+                        pauseCountdownTimer();
+                    }
+                }
+            }
+        });
+
         soundUtils = new SoundUtils();
         initWorkout();
 
@@ -179,6 +199,7 @@ public class WorkoutSlideFragment extends Fragment {
     }
 
     private void initWorkout() {
+        isCountdownTimerStopped = false;
         long workoutSessionId = WorkoutSlideFragmentArgs.fromBundle(getArguments()).getSessionWorkoutId();
         workoutItemIdFromFragment = WorkoutSlideFragmentArgs.fromBundle(getArguments()).getWorkoutItemId();
         workoutSession = OpenWorkout.getInstance().getWorkoutSession(workoutSessionId);
@@ -273,6 +294,7 @@ public class WorkoutSlideFragment extends Fragment {
         progressView.setProgressTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed)));
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed)));
 
+        prepareCountdownTimer(nextWorkoutItem.getPrepTime());
         activateCountdownTimer(nextWorkoutItem.getPrepTime());
     }
 
@@ -288,8 +310,10 @@ public class WorkoutSlideFragment extends Fragment {
         videoView.start();
 
         if (nextWorkoutItem.isTimeMode()) {
+            prepareCountdownTimer(nextWorkoutItem.getWorkoutTime());
             activateCountdownTimer(nextWorkoutItem.getWorkoutTime());
         } else {
+            pauseCountdownTimer();
             countdownView.setText(String.format(getString(R.string.label_repetition_info), nextWorkoutItem.getRepetitionCount(), nextWorkoutItem.getName()));
             progressView.setVisibility(View.INVISIBLE);
         }
@@ -304,6 +328,7 @@ public class WorkoutSlideFragment extends Fragment {
         progressView.setProgressTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorGreen)));
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorGreen)));
 
+        prepareCountdownTimer(nextWorkoutItem.getBreakTime());
         activateCountdownTimer(nextWorkoutItem.getBreakTime());
     }
 
@@ -393,24 +418,40 @@ public class WorkoutSlideFragment extends Fragment {
         }
     }
 
+    private void prepareCountdownTimer(int sec) {
+        remainingSec = sec;
+        progressView.setMax(remainingSec);
+        progressView.setProgress(remainingSec);
+        progressView.setVisibility(View.VISIBLE);
+        countdownView.setText("▶ " + remainingSec + getString(R.string.seconds_unit));
+
+        halftimeSec = remainingSec / 2;
+    }
+
+    private void pauseCountdownTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
+        isCountdownTimerStopped = true;
+        countdownView.setText("\u23EF " + remainingSec + getString(R.string.seconds_unit));
+    }
+
+    private void resumeCountdownTimer() {
+        isCountdownTimerStopped = false;
+        activateCountdownTimer(remainingSec);
+    }
+
     private void activateCountdownTimer(int sec) {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
 
-        remainingSec = sec;
-        progressView.setMax(remainingSec);
-        progressView.setProgress(remainingSec);
-        progressView.setVisibility(View.VISIBLE);
-        countdownView.setText(remainingSec + getString(R.string.seconds_unit));
-
-        final int halftimeSec = remainingSec / 2;
-
         countDownTimer = new CountDownTimer(remainingSec * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 remainingSec = (int)(millisUntilFinished / 1000);
-                countdownView.setText(remainingSec + getString(R.string.seconds_unit));
+                countdownView.setText("▶ " + remainingSec + getString(R.string.seconds_unit));
                 progressView.setProgress(remainingSec);
 
                 switch (workoutState) {
