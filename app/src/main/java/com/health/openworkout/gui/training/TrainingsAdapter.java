@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -66,18 +67,22 @@ public class TrainingsAdapter extends GenericAdapter<TrainingsAdapter.ViewHolder
         TrainingPlan trainingPlan = trainingPlanList.get(position);
         holder.nameView.setText(trainingPlan.getName());
 
-        if (trainingPlan.isImagePathExternal()) {
+        try {
+            if (trainingPlan.isImagePathExternal()) {
                 Uri imgUri = Uri.parse(trainingPlan.getImagePath());
                 holder.imgView.setImageURI(imgUri);
-        } else {
-            try {
-                InputStream ims = context.getAssets().open("image/" + trainingPlan.getImagePath());
-                holder.imgView.setImageDrawable(Drawable.createFromStream(ims, null));
-                ims.close();
+            } else {
+                    InputStream ims = context.getAssets().open("image/" + trainingPlan.getImagePath());
+                    holder.imgView.setImageDrawable(Drawable.createFromStream(ims, null));
+                    ims.close();
+            }
             } catch (IOException ex) {
                 Timber.e(ex);
+            } catch (SecurityException ex) {
+                holder.imgView.setImageResource(0);
+                Toast.makeText(context, context.getString(R.string.error_no_access_to_file) + " " + trainingPlan.getImagePath(), Toast.LENGTH_SHORT).show();
+                Timber.e(ex);
             }
-        }
 
         if (!trainingPlan.getWorkoutSessions().isEmpty() &&
                 trainingPlan.getWorkoutSessionSize() == trainingPlan.finishedSessionSize()) {

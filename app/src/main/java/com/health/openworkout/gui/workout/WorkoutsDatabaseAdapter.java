@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,10 +72,11 @@ public class WorkoutsDatabaseAdapter extends RecyclerView.Adapter<WorkoutsDataba
         holder.nameView.setText(workoutItem.getName());
         holder.detailedView.setText(workoutItem.getDescription());
 
-        if (workoutItem.isImagePathExternal()) {
-            holder.imgView.setImageURI(Uri.parse(workoutItem.getImagePath()));
-        } else {
-            try {
+        try {
+            if (workoutItem.isImagePathExternal()) {
+                holder.imgView.setImageURI(Uri.parse(workoutItem.getImagePath()));
+            } else {
+
                 String subFolder;
                 if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
                     subFolder = "male";
@@ -86,10 +88,14 @@ public class WorkoutsDatabaseAdapter extends RecyclerView.Adapter<WorkoutsDataba
                 holder.imgView.setImageDrawable(Drawable.createFromStream(ims, null));
 
                 ims.close();
-            } catch (IOException ex) {
-                holder.imgView.setImageResource(0);
-                Timber.e(ex);
             }
+        } catch (IOException ex) {
+            holder.imgView.setImageResource(0);
+            Timber.e(ex);
+        } catch (SecurityException ex) {
+            holder.imgView.setImageResource(0);
+            Toast.makeText(context, context.getString(R.string.error_no_access_to_file) + " " + workoutItem.getImagePath(), Toast.LENGTH_SHORT).show();
+            Timber.e(ex);
         }
     }
 

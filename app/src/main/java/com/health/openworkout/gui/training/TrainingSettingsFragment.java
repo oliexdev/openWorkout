@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -87,18 +88,23 @@ public class TrainingSettingsFragment extends GenericSettingsFragment {
                 break;
         }
 
-        if (trainingPlan.isImagePathExternal()) {
-            Uri imgUri = Uri.parse(trainingPlan.getImagePath());
-            imgView.setImageURI(imgUri);
-        } else {
-            try {
+        try {
+            if (trainingPlan.isImagePathExternal()) {
+                Uri imgUri = Uri.parse(trainingPlan.getImagePath());
+                imgView.setImageURI(imgUri);
+            } else {
                 InputStream ims = getContext().getAssets().open("image/" + trainingPlan.getImagePath());
                 imgView.setImageDrawable(Drawable.createFromStream(ims, null));
 
                 ims.close();
-            } catch (IOException ex) {
-                Timber.e(ex);
             }
+        } catch (IOException ex) {
+            Timber.e(ex);
+        }
+          catch (SecurityException ex) {
+            imgView.setImageResource(0);
+            Toast.makeText(getContext(), getContext().getString(R.string.error_no_access_to_file) + " " + trainingPlan.getImagePath(), Toast.LENGTH_SHORT).show();
+            Timber.e(ex);
         }
 
         nameView.setText(trainingPlan.getName());

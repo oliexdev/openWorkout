@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -79,10 +80,10 @@ public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> 
         holder.prepView.setText(String.format(context.getString(R.string.label_prep_duration_item_info), workoutItem.getPrepTime()));
         holder.breakView.setText(String.format(context.getString(R.string.label_break_duration_item_info), workoutItem.getBreakTime()));
 
-        if (workoutItem.isImagePathExternal()) {
-            holder.imgView.setImageURI(Uri.parse(workoutItem.getImagePath()));
-        } else {
-            try {
+        try {
+            if (workoutItem.isImagePathExternal()) {
+                holder.imgView.setImageURI(Uri.parse(workoutItem.getImagePath()));
+            } else {
                 String subFolder;
                 if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
                     subFolder = "male";
@@ -94,10 +95,14 @@ public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> 
                 holder.imgView.setImageDrawable(Drawable.createFromStream(ims, null));
 
                 ims.close();
-            } catch (IOException ex) {
-                holder.imgView.setImageResource(0);
-                Timber.e(ex);
             }
+        } catch (IOException ex) {
+            holder.imgView.setImageResource(0);
+            Timber.e(ex);
+        } catch (SecurityException ex) {
+            holder.imgView.setImageResource(0);
+            Toast.makeText(context, context.getString(R.string.error_no_access_to_file) + " " + workoutItem.getImagePath(), Toast.LENGTH_SHORT).show();
+            Timber.e(ex);
         }
 
         switch (getMode()) {

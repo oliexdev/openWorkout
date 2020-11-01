@@ -137,6 +137,7 @@
     <string name="error_no_github_connection">Can\'t connect to GitHub API, make sure you are online</string>
     <string name="error_no_github_download">Can\'t download file via GitHub API</string>
     <string name="error_no_valid_training_package">%s is not a valid training package</string>
+    <string name="error_no_access_to_file">Can\'t access file</string>
 
     <string name="workout_name_jumping_jack">Jumping jack</string>
     <string name="workout_name_wall_sit">Wall sit</string>

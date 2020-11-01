@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -119,17 +120,22 @@ public class TrainingDatabaseAdapter extends RecyclerView.Adapter<TrainingDataba
 
     public void downloadCompleted(TrainingPlan trainingPlan) {
         holder.progressBar.setProgress(100);
-        if (trainingPlan.isImagePathExternal()) {
-            holder.imgView.setImageURI(Uri.parse(trainingPlan.getImagePath()));
-        } else {
-            try {
+        try {
+            if (trainingPlan.isImagePathExternal()) {
+                holder.imgView.setImageURI(Uri.parse(trainingPlan.getImagePath()));
+            } else {
                 InputStream ims = context.getAssets().open("image/" + trainingPlan.getImagePath());
                 holder.imgView.setImageDrawable(Drawable.createFromStream(ims, null));
                 ims.close();
-            } catch (IOException ex) {
-                Timber.e(ex);
             }
+        } catch (IOException ex) {
+            Timber.e(ex);
+        } catch (SecurityException ex) {
+            holder.imgView.setImageResource(0);
+            Toast.makeText(context, context.getString(R.string.error_no_access_to_file) + " " + trainingPlan.getImagePath(), Toast.LENGTH_SHORT).show();
+            Timber.e(ex);
         }
+
         holder.downloadView.setImageResource(R.drawable.ic_download_finished);
         holder.nameView.setEnabled(true);
         holder.detailedView.setEnabled(true);

@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -153,10 +154,10 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
                 break;
         }
 
-        if (workoutItem.isImagePathExternal()) {
-            imgView.setImageURI(Uri.parse(workoutItem.getImagePath()));
-        } else {
-            try {
+        try {
+            if (workoutItem.isImagePathExternal()) {
+                imgView.setImageURI(Uri.parse(workoutItem.getImagePath()));
+            } else {
                 String subFolder;
                 if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
                     subFolder = "male";
@@ -168,19 +169,29 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
                 imgView.setImageDrawable(Drawable.createFromStream(ims, null));
 
                 ims.close();
-            } catch (IOException ex) {
-                Timber.e(ex);
             }
+        } catch (IOException ex) {
+            Timber.e(ex);
+        } catch (SecurityException ex) {
+            imgView.setImageResource(0);
+            Toast.makeText(getContext(), getContext().getString(R.string.error_no_access_to_file) + " " + workoutItem.getImagePath(), Toast.LENGTH_SHORT).show();
+            Timber.e(ex);
         }
 
-        if (workoutItem.isVideoPathExternal()) {
-            videoView.setVideoURI(Uri.parse(workoutItem.getVideoPath()));
-        } else {
-            if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
-                videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/male/" + workoutItem.getVideoPath());
+        try {
+            if (workoutItem.isVideoPathExternal()) {
+                videoView.setVideoURI(Uri.parse(workoutItem.getVideoPath()));
             } else {
-                videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/female/" + workoutItem.getVideoPath());
+                if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
+                    videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/male/" + workoutItem.getVideoPath());
+                } else {
+                    videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/female/" + workoutItem.getVideoPath());
+                }
             }
+        } catch (SecurityException ex) {
+            videoView.setVideoURI(null);
+            Toast.makeText(getContext(), getContext().getString(R.string.error_no_access_to_file) + " " + workoutItem.getVideoPath(), Toast.LENGTH_SHORT).show();
+            Timber.e(ex);
         }
 
         videoView.start();

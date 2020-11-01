@@ -35,6 +35,7 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -240,14 +241,20 @@ public class WorkoutSlideFragment extends Fragment {
 
         nameView.setText(nextWorkoutItem.getName() + " (" + workoutItemPos + "/" + workoutSession.getWorkoutItems().size() + ")");
 
-        if (nextWorkoutItem.isVideoPathExternal()) {
-            videoView.setVideoURI(Uri.parse(nextWorkoutItem.getVideoPath()));
-        } else {
-            if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
-                videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/male/" + nextWorkoutItem.getVideoPath());
+        try {
+            if (nextWorkoutItem.isVideoPathExternal()) {
+                videoView.setVideoURI(Uri.parse(nextWorkoutItem.getVideoPath()));
             } else {
-                videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/female/" + nextWorkoutItem.getVideoPath());
+                if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
+                    videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/male/" + nextWorkoutItem.getVideoPath());
+                } else {
+                    videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/female/" + nextWorkoutItem.getVideoPath());
+                }
             }
+        } catch (SecurityException ex) {
+            videoView.setVideoURI(null);
+            Toast.makeText(getContext(), getContext().getString(R.string.error_no_access_to_file) + " " + nextWorkoutItem.getVideoPath(), Toast.LENGTH_SHORT).show();
+            Timber.e(ex);
         }
 
         videoCardView.animate().alpha(1.0f);
