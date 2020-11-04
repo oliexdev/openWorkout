@@ -18,6 +18,7 @@
 package com.health.openworkout.gui.workout;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
@@ -44,6 +45,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.health.openworkout.R;
@@ -79,6 +81,8 @@ public class WorkoutSlideFragment extends Fragment {
     private int remainingSec;
     private int halftimeSec;
     private SoundUtils soundUtils;
+    private boolean isSpeechCountdown;
+    private boolean isSpeechWorkoutState;
 
     private WorkoutSession workoutSession;
     private long workoutItemOrderNr;
@@ -103,6 +107,10 @@ public class WorkoutSlideFragment extends Fragment {
         countdownView = root.findViewById(R.id.countdownView);
         progressView = root.findViewById(R.id.progressView);
         nextWorkoutStepView = root.findViewById(R.id.nextWorkoutStepView);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        isSpeechCountdown = sharedPreferences.getBoolean("speechCountdown", false);
+        isSpeechWorkoutState = sharedPreferences.getBoolean("speechWorkoutState", false);
 
         if (!PlayStoreUtils.getInstance().isAdRemovalPaid()) {
             Timber.d("Show Ad");
@@ -179,7 +187,7 @@ public class WorkoutSlideFragment extends Fragment {
             }
         });
 
-        soundUtils = new SoundUtils();
+        soundUtils = OpenWorkout.getInstance().getSoundUtils();
         initWorkout();
 
         return root;
@@ -196,8 +204,6 @@ public class WorkoutSlideFragment extends Fragment {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-
-        soundUtils.release();
     }
 
     private void initWorkout() {
@@ -211,6 +217,8 @@ public class WorkoutSlideFragment extends Fragment {
     }
 
     private void nextWorkoutState() {
+        soundUtils.flush();
+
         switch (workoutState) {
             case INIT:
                 nextWorkout();
@@ -264,6 +272,10 @@ public class WorkoutSlideFragment extends Fragment {
 
         nameView.setText(nextWorkoutItem.getName() + " (" + workoutItemPos + "/" + workoutSession.getWorkoutItems().size() + ")");
 
+        if (isSpeechWorkoutState && workoutState != WORKOUT_STATE.INIT) {
+            soundUtils.textToSpeech(getContext().getString(R.string.speak_next_workout) + " " + nextWorkoutItem.getName());
+        }
+
         try {
             if (nextWorkoutItem.isVideoPathExternal()) {
                 videoView.setVideoURI(Uri.parse(nextWorkoutItem.getVideoPath()));
@@ -302,6 +314,10 @@ public class WorkoutSlideFragment extends Fragment {
         progressView.setProgressTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed)));
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed)));
 
+        if (isSpeechWorkoutState) {
+            soundUtils.textToSpeech(getContext().getString(R.string.label_prepare) + " " + nextWorkoutItem.getName());
+        }
+
         prepareCountdownTimer(nextWorkoutItem.getPrepTime());
         activateCountdownTimer(nextWorkoutItem.getPrepTime());
     }
@@ -317,6 +333,10 @@ public class WorkoutSlideFragment extends Fragment {
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorLightBlue)));
 
         videoView.start();
+
+        if (isSpeechWorkoutState) {
+            soundUtils.textToSpeech(getContext().getString(R.string.label_workout) + " " + nextWorkoutItem.getName());
+        }
 
         if (nextWorkoutItem.isTimeMode()) {
             prepareCountdownTimer(nextWorkoutItem.getWorkoutTime());
@@ -340,6 +360,10 @@ public class WorkoutSlideFragment extends Fragment {
         countdownView.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
         progressView.setProgressTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorGreen)));
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorGreen)));
+
+        if (isSpeechWorkoutState) {
+            soundUtils.textToSpeech(getContext().getString(R.string.label_break));
+        }
 
         prepareCountdownTimer(nextWorkoutItem.getBreakTime());
         activateCountdownTimer(nextWorkoutItem.getBreakTime());
@@ -469,16 +493,55 @@ public class WorkoutSlideFragment extends Fragment {
 
                 switch (workoutState) {
                     case PREPARE:
-                        if ((remainingSec == 3) || (remainingSec == 2) || (remainingSec == 1)) {
-                            soundUtils.playSound(SoundUtils.SOUND.WORKOUT_COUNT_BEFORE_START);
+                        if (isSpeechCountdown) {
+                            switch (remainingSec) {
+                                case 5:
+                                    soundUtils.textToSpeechNoInterrupt(getContext().getString(R.string.speak_five));
+                                    break;
+                                case 4:
+                                    soundUtils.textToSpeechNoInterrupt(getContext().getString(R.string.speak_four));
+                                    break;
+                                case 3:
+                                    soundUtils.textToSpeechNoInterrupt(getContext().getString(R.string.speak_three));
+                                    break;
+                                case 2:
+                                    soundUtils.textToSpeechNoInterrupt(getContext().getString(R.string.speak_two));
+                                    break;
+                                case 1:
+                                    soundUtils.textToSpeechNoInterrupt(getContext().getString(R.string.speak_one));
+                                    break;
+                            }
+                        } else {
+                            if ((remainingSec == 3) || (remainingSec == 2) || (remainingSec == 1)) {
+                                soundUtils.playSound(SoundUtils.SOUND.WORKOUT_COUNT_BEFORE_START);
+                            }
                         }
                         break;
                     case START:
                         if (remainingSec == halftimeSec) {
                             soundUtils.textToSpeech(getContext().getString(R.string.speak_halftime));
-                        } else if ((remainingSec == 3) || (remainingSec == 2) || (remainingSec == 1)) {
-                            soundUtils.playSound(SoundUtils.SOUND.WORKOUT_COUNT_BEFORE_START);
-                        }
+                        } else if (isSpeechCountdown) {
+                                switch (remainingSec) {
+                                    case 5:
+                                        soundUtils.textToSpeechNoInterrupt(getContext().getString(R.string.speak_five));
+                                        break;
+                                    case 4:
+                                        soundUtils.textToSpeechNoInterrupt(getContext().getString(R.string.speak_four));
+                                        break;
+                                    case 3:
+                                        soundUtils.textToSpeechNoInterrupt(getContext().getString(R.string.speak_three));
+                                        break;
+                                    case 2:
+                                        soundUtils.textToSpeechNoInterrupt(getContext().getString(R.string.speak_two));
+                                        break;
+                                    case 1:
+                                        soundUtils.textToSpeechNoInterrupt(getContext().getString(R.string.speak_one));
+                                        break;
+                                }
+                            } else {
+                                if ((remainingSec == 3) || (remainingSec == 2) || (remainingSec == 1))
+                                    soundUtils.playSound(SoundUtils.SOUND.WORKOUT_COUNT_BEFORE_START);
+                            }
                         break;
                 }
             }

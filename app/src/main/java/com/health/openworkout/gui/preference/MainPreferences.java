@@ -86,6 +86,16 @@ public class MainPreferences extends PreferenceFragmentCompat {
             }
         });
 
+        final Preference prefSound= findPreference("sound");
+        prefSound.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                NavDirections action = MainPreferencesDirections.actionMainPreferencesFragmentToSoundPreferencesFragment();
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
+                return true;
+            }
+        });
+
         final SwitchPreferenceCompat prefDebugLogging = findPreference("debugLogging");
         prefDebugLogging.setChecked(getEnabledFileDebugTree() != null);
         prefDebugLogging.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

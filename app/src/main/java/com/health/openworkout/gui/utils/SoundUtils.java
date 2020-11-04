@@ -24,8 +24,6 @@ import android.content.res.AssetManager;
 import android.media.SoundPool;
 import android.speech.tts.TextToSpeech;
 
-import com.health.openworkout.core.OpenWorkout;
-
 import java.io.IOException;
 import java.util.Locale;
 
@@ -47,11 +45,9 @@ public class SoundUtils {
 
     private int soundIdBeforeStart, soundIdWorkoutStart, soundIdWorkoutStop, soundIdSessionCompleted;
 
-    private Context context;
     private AssetManager assetManager;
 
-    public SoundUtils() {
-        context = OpenWorkout.getInstance().getContext();
+    public SoundUtils(Context context) {
         soundPool = new SoundPool.Builder()
                 .setMaxStreams(NUMBER_OF_SIMULTANEOUS_SOUNDS)
                 .build();
@@ -112,7 +108,21 @@ public class SoundUtils {
 
     public void textToSpeech(final String speech) {
         if (ttsInit) {
-            ttS.speak(speech, TextToSpeech.QUEUE_FLUSH, null, "textToSpeech");
+            ttS.speak(speech, TextToSpeech.QUEUE_ADD, null, "textToSpeech");
+        }
+    }
+
+    public void textToSpeechNoInterrupt(final String speech) {
+        if (ttsInit) {
+            if (!ttS.isSpeaking()) {
+                ttS.speak(speech, TextToSpeech.QUEUE_ADD, null, "textToSpeech");
+            }
+        }
+    }
+
+    public void flush() {
+        if (ttsInit) {
+            ttS.stop();
         }
     }
 

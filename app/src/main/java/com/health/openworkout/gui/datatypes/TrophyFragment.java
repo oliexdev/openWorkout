@@ -66,7 +66,7 @@ public class TrophyFragment extends Fragment {
 
         elapsedTimeView.setText(dateFormatter.format(elapsedCalendar.getTime()));
 
-        soundUtils = new SoundUtils();
+        soundUtils = OpenWorkout.getInstance().getSoundUtils();
         soundUtils.playSound(SoundUtils.SOUND.SESSION_COMPLETED);
 
         okView.setOnClickListener(new View.OnClickListener() {

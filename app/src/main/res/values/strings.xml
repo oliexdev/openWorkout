@@ -44,6 +44,10 @@
     <string name="preference_reminder_default_text">Time for your workout</string>
     <string name="preference_enable_debug_logging">Enable debug logging</string>
     <string name="preference_remove_advertisements">Remove advertisements</string>
+    <string name="preference_sound">Sound</string>
+    <string name="preference_speech_countdown">Speech countdown</string>
+    <string name="preference_speech_workout_state">Speech workout state</string>
+
 
     <string name="label_info_remove_permanently">Pay once and remove permanently any advertising from openWorkout</string>
     <string name="label_info_purchase_for">Purchase now for %s</string>
@@ -78,7 +82,13 @@
     <string name="label_break">Take a break</string>
     <string name="label_prepare">Prepare your workout</string>
     <string name="label_workout">Do your workout</string>
+    <string name="speak_next_workout">Your next workout is</string>
     <string name="speak_halftime">halftime</string>
+    <string name="speak_five">five</string>
+    <string name="speak_four">four</string>
+    <string name="speak_three">three</string>
+    <string name="speak_two">two</string>
+    <string name="speak_one">one</string>
 
     <string name="label_about">About</string>
     <string name="label_about_info" translatable="false">Copyright (C) 2020 olie.xdev@googlemail.com\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program.  If not, see http://www.gnu.org/licenses/</string>

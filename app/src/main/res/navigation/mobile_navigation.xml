@@ -43,6 +43,9 @@
             android:id="@+id/action_MainPreferencesFragment_to_ReminderPreferencesFragment"
             app:destination="@id/nav_reminder_preferences" />
         <action
+            android:id="@+id/action_MainPreferencesFragment_to_SoundPreferencesFragment"
+            app:destination="@id/nav_sound_preferences" />
+        <action
             android:id="@+id/action_MainPreferencesFragment_to_BillingFragment"
             app:destination="@id/nav_billing_fragment" />
     </fragment>
@@ -51,6 +54,12 @@
         android:id="@+id/nav_reminder_preferences"
         android:name="com.health.openworkout.gui.preference.ReminderPreferences"
         android:label="@string/preference_reminder">
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_sound_preferences"
+        android:name="com.health.openworkout.gui.preference.SoundPreferences"
+        android:label="@string/preference_sound">
     </fragment>
 
     <fragment

@@ -32,6 +32,7 @@ import com.health.openworkout.core.training.AbdominalMuscleTraining;
 import com.health.openworkout.core.training.BeginnersTraining;
 import com.health.openworkout.core.training.SevenMinutesTraining;
 import com.health.openworkout.core.workout.WorkoutFactory;
+import com.health.openworkout.gui.utils.SoundUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +49,11 @@ public class OpenWorkout {
     private AppDatabase appDB;
     private User user;
 
+    private SoundUtils soundUtils;
+
     private OpenWorkout(Context aContext) {
         context = aContext;
+        soundUtils = new SoundUtils(aContext);
 
         openDB();
     }
@@ -240,5 +244,9 @@ public class OpenWorkout {
 
     public void updateUser(User user) {
         appDB.userDAO().update(user);
+    }
+
+    public SoundUtils getSoundUtils() {
+        return soundUtils;
     }
 }
