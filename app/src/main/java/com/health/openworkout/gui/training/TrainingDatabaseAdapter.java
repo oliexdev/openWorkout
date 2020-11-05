@@ -35,11 +35,7 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.GitHubFile;
 import com.health.openworkout.core.datatypes.TrainingPlan;
-import com.health.openworkout.core.datatypes.WorkoutItem;
-import com.health.openworkout.core.datatypes.WorkoutSession;
-import com.health.openworkout.core.utils.PackageUtils;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
-import com.health.openworkout.gui.workout.WorkoutsDatabaseAdapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -131,7 +127,7 @@ public class TrainingDatabaseAdapter extends RecyclerView.Adapter<TrainingDataba
         } catch (IOException ex) {
             Timber.e(ex);
         } catch (SecurityException ex) {
-            holder.imgView.setImageResource(0);
+            holder.imgView.setImageResource(R.drawable.ic_no_file);
             Toast.makeText(context, context.getString(R.string.error_no_access_to_file) + " " + trainingPlan.getImagePath(), Toast.LENGTH_SHORT).show();
             Timber.e(ex);
         }

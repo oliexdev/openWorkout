@@ -102,7 +102,7 @@ public class TrainingSettingsFragment extends GenericSettingsFragment {
             Timber.e(ex);
         }
           catch (SecurityException ex) {
-            imgView.setImageResource(0);
+            imgView.setImageResource(R.drawable.ic_no_file);
             Toast.makeText(getContext(), getContext().getString(R.string.error_no_access_to_file) + " " + trainingPlan.getImagePath(), Toast.LENGTH_SHORT).show();
             Timber.e(ex);
         }

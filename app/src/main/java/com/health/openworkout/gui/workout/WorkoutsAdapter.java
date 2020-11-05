@@ -97,10 +97,10 @@ public class WorkoutsAdapter extends GenericAdapter<WorkoutsAdapter.ViewHolder> 
                 ims.close();
             }
         } catch (IOException ex) {
-            holder.imgView.setImageResource(0);
+            holder.imgView.setImageResource(R.drawable.ic_no_file);
             Timber.e(ex);
         } catch (SecurityException ex) {
-            holder.imgView.setImageResource(0);
+            holder.imgView.setImageResource(R.drawable.ic_no_file);
             Toast.makeText(context, context.getString(R.string.error_no_access_to_file) + " " + workoutItem.getImagePath(), Toast.LENGTH_SHORT).show();
             Timber.e(ex);
         }
