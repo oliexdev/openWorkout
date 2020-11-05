@@ -1,0 +1,6 @@
+* added options for voice indications
+* show time/rep of workout item during preparation time
+* added pause and resume function
+* show image in workout slide if no video is selected
+* support for changing video files for SDK <= 23
+* fixed some minor bugs
