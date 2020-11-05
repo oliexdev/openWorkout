@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,6 +56,8 @@ import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.core.utils.PlayStoreUtils;
 import com.health.openworkout.gui.utils.SoundUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 
 import timber.log.Timber;
@@ -65,6 +68,7 @@ public class WorkoutSlideFragment extends Fragment {
     private TextView nameView;
     private CardView videoCardView;
     private VideoView videoView;
+    private ImageView videoImageView;
     private ImageView infoView;
     private TextView descriptionView;
     private TextView stateInfoView;
@@ -99,6 +103,7 @@ public class WorkoutSlideFragment extends Fragment {
         nameView = root.findViewById(R.id.nameView);
         videoCardView = root.findViewById(R.id.videoCardView);
         videoView = root.findViewById(R.id.videoView);
+        videoImageView = root.findViewById(R.id.videoImageView);
         infoView = root.findViewById(R.id.infoView);
         descriptionView = root.findViewById(R.id.descriptionView);
         stateInfoView = root.findViewById(R.id.stateInfoView);
@@ -280,24 +285,56 @@ public class WorkoutSlideFragment extends Fragment {
             soundUtils.textToSpeech(getContext().getString(R.string.speak_next_workout) + " " + nextWorkoutItem.getName());
         }
 
-        try {
-            if (nextWorkoutItem.isVideoPathExternal()) {
-                videoView.setVideoURI(Uri.parse(nextWorkoutItem.getVideoPath()));
-            } else {
-                if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
-                    videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/male/" + nextWorkoutItem.getVideoPath());
-                } else {
-                    videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/female/" + nextWorkoutItem.getVideoPath());
-                }
-            }
-        } catch (SecurityException ex) {
-            videoView.setVideoURI(null);
-            Toast.makeText(getContext(), getContext().getString(R.string.error_no_access_to_file) + " " + nextWorkoutItem.getVideoPath(), Toast.LENGTH_SHORT).show();
-            Timber.e(ex);
-        }
+        if (nextWorkoutItem.isVideoMode()) {
+            videoView.setVisibility(View.VISIBLE);
+            videoImageView.setVisibility(View.GONE);
 
-        videoCardView.animate().alpha(1.0f);
-        videoView.seekTo(100);
+            try {
+                if (nextWorkoutItem.isVideoPathExternal()) {
+                    videoView.setVideoURI(Uri.parse(nextWorkoutItem.getVideoPath()));
+                } else {
+                    if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
+                        videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/male/" + nextWorkoutItem.getVideoPath());
+                    } else {
+                        videoView.setVideoPath("content://com.health.openworkout.videoprovider/video/female/" + nextWorkoutItem.getVideoPath());
+                    }
+                }
+            } catch (SecurityException ex) {
+                videoView.setVideoURI(null);
+                Toast.makeText(getContext(), getContext().getString(R.string.error_no_access_to_file) + " " + nextWorkoutItem.getVideoPath(), Toast.LENGTH_SHORT).show();
+                Timber.e(ex);
+            }
+
+            videoCardView.animate().alpha(1.0f);
+            videoView.seekTo(100);
+        } else {
+            videoView.setVisibility(View.GONE);
+            videoImageView.setVisibility(View.VISIBLE);
+
+            try {
+                if (nextWorkoutItem.isImagePathExternal()) {
+                    videoImageView.setImageURI(Uri.parse(nextWorkoutItem.getImagePath()));
+                } else {
+                    String subFolder;
+                    if (OpenWorkout.getInstance().getCurrentUser().isMale()) {
+                        subFolder = "male";
+                    } else {
+                        subFolder = "female";
+                    }
+
+                    InputStream ims = getContext().getAssets().open("image/" + subFolder + "/" + nextWorkoutItem.getImagePath());
+                    videoImageView.setImageDrawable(Drawable.createFromStream(ims, null));
+
+                    ims.close();
+                }
+            } catch (IOException ex) {
+                Timber.e(ex);
+            } catch (SecurityException ex) {
+                videoImageView.setImageResource(R.drawable.ic_no_file);
+                Toast.makeText(getContext(), getContext().getString(R.string.error_no_access_to_file) + " " + nextWorkoutItem.getImagePath(), Toast.LENGTH_SHORT).show();
+                Timber.e(ex);
+            }
+        }
 
         descriptionView.setText(nextWorkoutItem.getDescription());
     }

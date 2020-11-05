@@ -88,6 +88,7 @@ public class OpenWorkout {
                         db.setForeignKeyConstraintsEnabled(true);
                     }
                 })
+                .addMigrations(AppDatabase.MIGRATION_1_2)
                 .build();
     }
 

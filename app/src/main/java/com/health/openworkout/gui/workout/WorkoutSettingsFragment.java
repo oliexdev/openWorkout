@@ -61,6 +61,8 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
     private Switch timeModeView;
     private TableRow workoutTimeRow;
     private TableRow repetitionCountRow;
+    private Switch videoModeView;
+    private TableRow videoCardRow;
     private CardView videoCardView;
     private VideoView videoView;
 
@@ -82,7 +84,9 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
         repetitionCountView = root.findViewById(R.id.repetitionCountView);
         timeModeView = root.findViewById(R.id.timeModeView);
         workoutTimeRow = root.findViewById(R.id.workoutTimeRow);
-        repetitionCountRow = root.findViewById(R.id.repetitionCoundRow);
+        repetitionCountRow = root.findViewById(R.id.repetitionCountRow);
+        videoModeView = root.findViewById(R.id.videoModeView);
+        videoCardRow = root.findViewById(R.id.videoCardRow);
         videoCardView = root.findViewById(R.id.videoCardView);
         videoView = root.findViewById(R.id.videoView);
 
@@ -98,6 +102,14 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 workoutItem.setTimeMode(isChecked);
                 refreshTimeModeState();
+            }
+        });
+
+        videoModeView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                workoutItem.setVideoMode(isChecked);
+                refreshVideoModeState();
             }
         });
 
@@ -202,9 +214,11 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
         workoutTimeView.setText(Integer.toString(workoutItem.getWorkoutTime()));
         breakTimeView.setText(Integer.toString(workoutItem.getBreakTime()));
         repetitionCountView.setText(Integer.toString(workoutItem.getRepetitionCount()));
+        videoModeView.setChecked(workoutItem.isVideoMode());
         timeModeView.setChecked(workoutItem.isTimeMode());
 
         refreshTimeModeState();
+        refreshVideoModeState();
     }
 
     private void refreshTimeModeState() {
@@ -214,6 +228,14 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
         } else {
             workoutTimeRow.setVisibility(View.GONE);
             repetitionCountRow.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void refreshVideoModeState() {
+        if (workoutItem.isVideoMode()) {
+            videoCardRow.setVisibility(View.VISIBLE);
+        } else {
+            videoCardRow.setVisibility(View.GONE);
         }
     }
 
@@ -249,6 +271,7 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
         }
 
         workoutItem.setTimeMode(timeModeView.isChecked());
+        workoutItem.setVideoMode(videoModeView.isChecked());
 
         switch (mode) {
             case ADD:

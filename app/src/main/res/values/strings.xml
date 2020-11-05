@@ -121,6 +121,7 @@
     <string name="label_break_time">Break time</string>
     <string name="label_repetition_count">Repetition count</string>
     <string name="label_time_mode">Time mode</string>
+    <string name="label_video_mode">Video mode</string>
     <string name="label_video">Video</string>
     <string name="label_image">Image</string>
 

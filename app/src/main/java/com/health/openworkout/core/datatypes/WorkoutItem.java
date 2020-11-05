@@ -49,6 +49,8 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
     @ColumnInfo
     private boolean isImagePathExternal;
     @ColumnInfo
+    private boolean isVideoMode;
+    @ColumnInfo
     private String videoPath;
     @ColumnInfo
     private boolean isVideoPathExternal;
@@ -79,6 +81,7 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
         repetitionCount = 5;
         isTimeMode = true;
         finished = false;
+        isVideoMode = true;
         isVideoPathExternal = false;
         videoPath = "idle.mp4";
         isImagePathExternal = false;
@@ -168,6 +171,14 @@ public class WorkoutItem implements Comparable<WorkoutItem>, Cloneable {
 
     public void setImagePathExternal(boolean imagePathExternal) {
         isImagePathExternal = imagePathExternal;
+    }
+
+    public boolean isVideoMode() {
+        return isVideoMode;
+    }
+
+    public void setVideoMode(boolean videoMode) {
+        isVideoMode = videoMode;
     }
 
     public String getVideoPath() {

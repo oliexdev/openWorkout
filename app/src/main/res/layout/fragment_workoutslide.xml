@@ -42,9 +42,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:alpha="0"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/guideline"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameView">
@@ -53,6 +53,14 @@
             android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/videoImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_no_file"
+            android:visibility="gone" />
 
     </androidx.cardview.widget.CardView>
 
@@ -67,6 +75,13 @@
         android:translationZ="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/videoCardView"
         app:layout_constraintEnd_toEndOf="@+id/videoCardView" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50" />
 
     <TextView
         android:id="@+id/countdownView"
@@ -170,13 +185,6 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
 
     <ImageView
         android:id="@+id/playPauseView"
