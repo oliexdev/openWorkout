@@ -178,4 +178,14 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
+    <ImageView
+        android:id="@+id/playPauseView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_play"
+        app:layout_constraintBottom_toBottomOf="@+id/stateInfoDetailView"
+        app:layout_constraintEnd_toStartOf="@+id/stateInfoDetailView"
+        app:layout_constraintTop_toTopOf="@+id/stateInfoDetailView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

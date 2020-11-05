@@ -69,6 +69,7 @@ public class WorkoutSlideFragment extends Fragment {
     private TextView descriptionView;
     private TextView stateInfoView;
     private TextView stateInfoDetailView;
+    private ImageView playResumeView;
     private ScrollView scrollView;
     private TableLayout workoutOverviewView;
     private TextView countdownView;
@@ -102,6 +103,7 @@ public class WorkoutSlideFragment extends Fragment {
         descriptionView = root.findViewById(R.id.descriptionView);
         stateInfoView = root.findViewById(R.id.stateInfoView);
         stateInfoDetailView = root.findViewById(R.id.stateInfoDetailView);
+        playResumeView = root.findViewById(R.id.playPauseView);
         scrollView = root.findViewById(R.id.scrollView);
         workoutOverviewView = root.findViewById(R.id.workoutOverviewView);
         countdownView = root.findViewById(R.id.countdownView);
@@ -169,7 +171,7 @@ public class WorkoutSlideFragment extends Fragment {
             }
         });
 
-        countdownView.setOnClickListener(new View.OnClickListener() {
+        playResumeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // if rep mode and in running workout state then ignore any clicks
@@ -217,6 +219,8 @@ public class WorkoutSlideFragment extends Fragment {
     }
 
     private void nextWorkoutState() {
+        isCountdownTimerStopped = false;
+        playResumeView.setImageResource(R.drawable.ic_play);
         soundUtils.flush();
 
         switch (workoutState) {
@@ -313,6 +317,7 @@ public class WorkoutSlideFragment extends Fragment {
         countdownView.setTextColor(getContext().getResources().getColor(R.color.colorRed));
         progressView.setProgressTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed)));
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed)));
+        playResumeView.setColorFilter(getContext().getResources().getColor(R.color.colorRed));
 
         if (isSpeechWorkoutState) {
             soundUtils.textToSpeech(getContext().getString(R.string.label_prepare) + " " + nextWorkoutItem.getName());
@@ -331,6 +336,7 @@ public class WorkoutSlideFragment extends Fragment {
         countdownView.setTextColor(getContext().getResources().getColor(R.color.colorLightBlue));
         progressView.setProgressTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorLightBlue)));
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorLightBlue)));
+        playResumeView.setColorFilter(getContext().getResources().getColor(R.color.colorLightBlue));
 
         videoView.start();
 
@@ -360,6 +366,7 @@ public class WorkoutSlideFragment extends Fragment {
         countdownView.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
         progressView.setProgressTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorGreen)));
         nextWorkoutStepView.setBackgroundTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorGreen)));
+        playResumeView.setColorFilter(getContext().getResources().getColor(R.color.colorGreen));
 
         if (isSpeechWorkoutState) {
             soundUtils.textToSpeech(getContext().getString(R.string.label_break));
@@ -460,7 +467,7 @@ public class WorkoutSlideFragment extends Fragment {
         progressView.setMax(remainingSec);
         progressView.setProgress(remainingSec);
         progressView.setVisibility(View.VISIBLE);
-        countdownView.setText("▶ " + remainingSec + getString(R.string.seconds_unit));
+        countdownView.setText(remainingSec + getString(R.string.seconds_unit));
 
         halftimeSec = remainingSec / 2;
     }
@@ -471,12 +478,13 @@ public class WorkoutSlideFragment extends Fragment {
         }
 
         isCountdownTimerStopped = true;
-        countdownView.setText("\u23EF " + remainingSec + getString(R.string.seconds_unit));
+        playResumeView.setImageResource(R.drawable.ic_pause);
     }
 
     private void resumeCountdownTimer() {
         isCountdownTimerStopped = false;
         activateCountdownTimer(remainingSec);
+        playResumeView.setImageResource(R.drawable.ic_play);
     }
 
     private void activateCountdownTimer(int sec) {
@@ -488,7 +496,7 @@ public class WorkoutSlideFragment extends Fragment {
 
             public void onTick(long millisUntilFinished) {
                 remainingSec = (int)(millisUntilFinished / 1000);
-                countdownView.setText("▶ " + remainingSec + getString(R.string.seconds_unit));
+                countdownView.setText(remainingSec + getString(R.string.seconds_unit));
                 progressView.setProgress(remainingSec);
 
                 switch (workoutState) {
