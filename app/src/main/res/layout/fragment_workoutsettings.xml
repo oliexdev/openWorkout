@@ -141,7 +141,8 @@
                     <Switch
                         android:id="@+id/timeModeView"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start" />
                 </TableRow>
 
                 <TableRow
@@ -193,7 +194,8 @@
                     <Switch
                         android:id="@+id/videoModeView"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start" />
                 </TableRow>
 
                 <TableRow
