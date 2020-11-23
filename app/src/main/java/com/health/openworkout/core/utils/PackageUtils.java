@@ -17,14 +17,10 @@
 
 package com.health.openworkout.core.utils;
 
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
@@ -316,7 +312,7 @@ public class PackageUtils {
         ZipEntry entry = zipIn.getNextEntry();
         // iterates over entries in the zip file
         while (entry != null) {
-            File zipOut = new File(context.getFilesDir(),  filename + entry.getName());
+            File zipOut = new File(context.getFilesDir(),  filename + "/" + entry.getName());
 
             if (!entry.isDirectory()) {
                 zipOut.getParentFile().mkdir();
