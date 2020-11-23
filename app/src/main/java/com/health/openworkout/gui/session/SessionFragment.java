@@ -147,9 +147,11 @@ public class SessionFragment extends GenericFragment {
                         WorkoutSession workoutSession = new WorkoutSession();
                         workoutSession.setName(String.format(getString(R.string.day_unit), nr));
                         workoutSession.setTrainingPlanId(trainingPlan.getTrainingPlanId());
+                        workoutSession.setOrderNr(nr);
                         trainingPlan.addWorkoutSession(workoutSession);
                         OpenWorkout.getInstance().insertWorkoutSession(workoutSession);
                         getAdapter().notifyItemInserted(nr);
+                        sessionsView.scrollToPosition(startNr);
                     }
 
                     loadFromDatabase();
