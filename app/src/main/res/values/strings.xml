@@ -101,6 +101,7 @@
     <string name="label_delete">Delete</string>
     <string name="label_export">Export</string>
     <string name="label_add">Add</string>
+    <string name="label_add_from_database">Add from database</string>
     <string name="label_duplicate">Duplicate</string>
 
     <string name="label_training_plans">training plans</string>

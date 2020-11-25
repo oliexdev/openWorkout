@@ -56,7 +56,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/expandableButton"
+        app:layout_constraintBottom_toTopOf="@+id/addFromDatabaseLayout"
         app:layout_constraintEnd_toEndOf="@+id/expandableButton">
 
         <TextView
@@ -72,6 +72,35 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:src="@drawable/ic_add"
+            android:tint="#ffff"
+            app:fabSize="mini" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/addFromDatabaseLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/expandableButton"
+        app:layout_constraintEnd_toEndOf="@+id/expandableButton">
+
+        <TextView
+            android:id="@+id/addFromDatabaseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/label_add_from_database" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addFromDatabaseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/ic_database"
             android:tint="#ffff"
             app:fabSize="mini" />
     </LinearLayout>

@@ -58,9 +58,6 @@ public class WorkoutDatabaseFragment extends Fragment {
 
     protected void loadFromDatabase() {
         workoutItemList = OpenWorkout.getInstance().getAllUniqueWorkoutItems();
-        WorkoutItem emptyWorkout = new WorkoutItem();
-        emptyWorkout.setWorkoutItemId(-1L);
-        workoutItemList.add(0, emptyWorkout);
 
         workoutsDatabaseAdapter = new WorkoutsDatabaseAdapter(getContext(), workoutItemList);
 
