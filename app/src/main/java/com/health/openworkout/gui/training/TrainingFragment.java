@@ -23,6 +23,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,7 +41,6 @@ import com.health.openworkout.core.datatypes.TrainingPlan;
 import com.health.openworkout.core.datatypes.User;
 import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
-import com.health.openworkout.core.datatypes.GitHubFile;
 import com.health.openworkout.core.utils.PackageUtils;
 import com.health.openworkout.gui.datatypes.GenericAdapter;
 import com.health.openworkout.gui.datatypes.GenericFragment;
@@ -47,12 +49,15 @@ import com.health.openworkout.gui.utils.FileDialogHelper;
 
 import java.util.List;
 
-import timber.log.Timber;
-
 public class TrainingFragment extends GenericFragment {
     private RecyclerView trainingsView;
-    private FloatingActionButton importButton;
-
+    private FloatingActionButton expandableButton;
+    private FloatingActionButton addButton;
+    private FloatingActionButton cloudImportButton;
+    private FloatingActionButton localImportButton;
+    private LinearLayout addLayout, localImportLayout, cloudImportLayout;
+    private Animation animFabOpen, animFabClose, animFabClock, animFabAntiClock;
+    private boolean isExpandable;
     private List<TrainingPlan> trainingPlanList;
     private TrainingPlan exportTrainingPlan;
 
@@ -70,12 +75,68 @@ public class TrainingFragment extends GenericFragment {
         trainingsView.setHasFixedSize(true);
         trainingsView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        importButton = root.findViewById(R.id.importButton);
-        importButton.setOnClickListener(new View.OnClickListener() {
+        isExpandable = false;
+
+        expandableButton = root.findViewById(R.id.expandableButton);
+        addButton = root.findViewById(R.id.addButton);
+        addLayout = root.findViewById(R.id.addLayout);
+        cloudImportButton = root.findViewById(R.id.cloudlImportButton);
+        cloudImportLayout = root.findViewById(R.id.cloudImportLayout);
+        localImportButton = root.findViewById(R.id.locallImportButton);
+        localImportLayout = root.findViewById(R.id.localImportLayout);
+
+        animFabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+        animFabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
+        animFabClock = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_clock);
+        animFabAntiClock = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_anticlock);
+
+        expandableButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isExpandable) {
+                    addLayout.setVisibility(View.GONE);
+                    cloudImportLayout.setVisibility(View.GONE);
+                    localImportLayout.setVisibility(View.GONE);
+                    addLayout.startAnimation(animFabClose);
+                    cloudImportLayout.startAnimation(animFabClose);
+                    localImportLayout.startAnimation(animFabClose);
+                    expandableButton.startAnimation(animFabAntiClock);
+                    isExpandable = false;
+                } else {
+                    addLayout.setVisibility(View.VISIBLE);
+                    cloudImportLayout.setVisibility(View.VISIBLE);
+                    localImportLayout.setVisibility(View.VISIBLE);
+                    addLayout.startAnimation(animFabOpen);
+                    cloudImportLayout.startAnimation(animFabOpen);
+                    localImportLayout.startAnimation(animFabOpen);
+                    expandableButton.startAnimation(animFabClock);
+                    isExpandable = true;
+                }
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TrainingFragmentDirections.ActionTrainingFragmentToTrainingSettingsFragment action = TrainingFragmentDirections.actionTrainingFragmentToTrainingSettingsFragment();
+                action.setMode(GenericSettingsFragment.SETTING_MODE.ADD);
+                action.setTitle(getString(R.string.label_add));
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
+            }
+        });
+
+        cloudImportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavDirections action = TrainingFragmentDirections.actionNavTrainingsFragmentToNavTrainingsDatabaseFragment();
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
+            }
+        });
+
+        localImportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fileDialogHelper.openImportFileDialog();
             }
         });
 
@@ -172,14 +233,6 @@ public class TrainingFragment extends GenericFragment {
     }
 
     @Override
-    protected void onAddClick() {
-        TrainingFragmentDirections.ActionTrainingFragmentToTrainingSettingsFragment action = TrainingFragmentDirections.actionTrainingFragmentToTrainingSettingsFragment();
-        action.setMode(GenericSettingsFragment.SETTING_MODE.ADD);
-        action.setTitle(getString(R.string.label_add));
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
-    }
-
-    @Override
     protected void onResetClick() {
         for (TrainingPlan trainingPlan : trainingPlanList) {
             trainingPlan.setCountFinishedTraining(0);
@@ -215,10 +268,19 @@ public class TrainingFragment extends GenericFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (fileDialogHelper.onActivityResult(requestCode, resultCode, data)) {
             Uri uri = data.getData();
-
             PackageUtils packageUtils = new PackageUtils(getContext());
 
-            packageUtils.exportTrainingPlan(exportTrainingPlan, uri);
+            switch (requestCode) {
+                case FileDialogHelper.REQUEST_IMPORT_FILE_DIALOG:
+                    packageUtils.importTrainingPlan(uri);
+                    break;
+                case FileDialogHelper.REQUEST_EXPORT_FILE_DIALOG:
+                    packageUtils.exportTrainingPlan(exportTrainingPlan, uri);
+                    break;
+
+            }
+
+
         }
     }
 }

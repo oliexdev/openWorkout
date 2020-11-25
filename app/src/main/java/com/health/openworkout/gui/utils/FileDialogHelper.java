@@ -32,15 +32,15 @@ import static android.app.Activity.RESULT_OK;
 
 public class FileDialogHelper {
 
-    private final int READ_EXTERNAL_STORAGE_PERMISSION_IMPORT = 1;
-    private final int WRITE_EXTERNAL_STORAGE_PERMISSION_EXPORT = 2;
-    private final int READ_EXTERNAL_STORAGE_PERMISSION_OPEN_IMAGE = 3;
-    private final int READ_EXTERNAL_STORAGE_PERMISSION_OPEN_VIDEO = 4;
-    private final int REQUEST_OPEN_IMAGE_DIALOG = 10;
-    private final int REQUEST_OPEN_VIDEO_DIALOG = 20;
-    private final int REQUEST_EXPORT_FILE_DIALOG = 30;
-    private final int REQUEST_IMPORT_FILE_DIALOG = 40;
-    private final int REQUEST_DEBUG_FILE_DIALOG = 50;
+    private final static int READ_EXTERNAL_STORAGE_PERMISSION_IMPORT = 1;
+    private final static int WRITE_EXTERNAL_STORAGE_PERMISSION_EXPORT = 2;
+    private final static int READ_EXTERNAL_STORAGE_PERMISSION_OPEN_IMAGE = 3;
+    private final static int READ_EXTERNAL_STORAGE_PERMISSION_OPEN_VIDEO = 4;
+    public final static int REQUEST_OPEN_IMAGE_DIALOG = 10;
+    public final static int REQUEST_OPEN_VIDEO_DIALOG = 20;
+    public final static int REQUEST_EXPORT_FILE_DIALOG = 30;
+    public final static int REQUEST_IMPORT_FILE_DIALOG = 40;
+    public final static int REQUEST_DEBUG_FILE_DIALOG = 50;
 
     private Fragment fragment;
 

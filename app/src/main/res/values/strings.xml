@@ -100,7 +100,6 @@
     <string name="label_reset">Reset</string>
     <string name="label_delete">Delete</string>
     <string name="label_export">Export</string>
-    <string name="label_import">Import</string>
     <string name="label_add">Add</string>
     <string name="label_duplicate">Duplicate</string>
 
@@ -133,7 +132,8 @@
     <string name="label_select_export_file">Export openWorkout training package</string>
     <string name="label_select_import_file">Import openWorkout training package</string>
     <string name="label_select_debug_file">Save debug file</string>
-    <string name="label_import_local_file">Import local file</string>
+    <string name="label_local_import">Local import</string>
+    <string name="label_cloud_import">Cloud import</string>
 
     <string name="label_info_exported">Training plan %s exported to %s</string>
     <string name="label_info_imported">Training plan %s imported from %s</string>

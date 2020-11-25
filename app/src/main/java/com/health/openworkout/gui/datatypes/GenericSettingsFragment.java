@@ -61,9 +61,6 @@ public abstract class GenericSettingsFragment extends Fragment {
         MenuItem editMenu = menu.findItem(R.id.edit);
         editMenu.setVisible(false);
 
-        MenuItem addMenu = menu.findItem(R.id.add);
-        addMenu.setVisible(false);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 

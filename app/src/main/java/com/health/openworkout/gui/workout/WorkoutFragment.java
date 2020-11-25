@@ -21,6 +21,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +31,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.WorkoutItem;
@@ -43,6 +47,12 @@ public class WorkoutFragment extends GenericFragment {
     private WorkoutSession workoutSession;
     private List<WorkoutItem> workoutItemList;
 
+    private FloatingActionButton expandableButton;
+    private FloatingActionButton addButton;
+    private LinearLayout addLayout;
+    private Animation animFabOpen, animFabClose, animFabClock, animFabAntiClock;
+    private boolean isExpandable;
+
     private WorkoutsAdapter workoutsAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,6 +63,43 @@ public class WorkoutFragment extends GenericFragment {
 
         workoutsView.setHasFixedSize(true);
         workoutsView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        isExpandable = false;
+
+        expandableButton = root.findViewById(R.id.expandableButton);
+        addButton = root.findViewById(R.id.addButton);
+        addLayout = root.findViewById(R.id.addLayout);
+
+        animFabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+        animFabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
+        animFabClock = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_clock);
+        animFabAntiClock = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_anticlock);
+
+        expandableButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isExpandable) {
+                    addLayout.setVisibility(View.GONE);
+                    addLayout.startAnimation(animFabClose);
+                    expandableButton.startAnimation(animFabAntiClock);
+                    isExpandable = false;
+                } else {
+                    addLayout.setVisibility(View.VISIBLE);
+                    addLayout.startAnimation(animFabOpen);
+                    expandableButton.startAnimation(animFabClock);
+                    isExpandable = true;
+                }
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WorkoutFragmentDirections.ActionWorkoutFragmentToWorkoutDatabaseFragment action = WorkoutFragmentDirections.actionWorkoutFragmentToWorkoutDatabaseFragment();
+                action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
+            }
+        });
 
         loadFromDatabase();
 
@@ -140,13 +187,6 @@ public class WorkoutFragment extends GenericFragment {
 
         long workoutItemId = OpenWorkout.getInstance().insertWorkoutItem(duplicatedWorkoutItem);
         duplicatedWorkoutItem.setWorkoutItemId(workoutItemId);
-    }
-
-    @Override
-    protected void onAddClick() {
-        WorkoutFragmentDirections.ActionWorkoutFragmentToWorkoutDatabaseFragment action = WorkoutFragmentDirections.actionWorkoutFragmentToWorkoutDatabaseFragment();
-        action.setSessionWorkoutId(workoutSession.getWorkoutSessionId());
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(action);
     }
 
     @Override
