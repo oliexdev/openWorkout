@@ -91,6 +91,7 @@ public abstract class GenericFragment extends Fragment {
     protected abstract void onDuplicateCallback(int position);
     protected abstract void onDeleteCallback(int position);
     protected abstract void onResetClick();
+    protected void onPublishClick(int position) {};
     protected void onExportClick(int position) {};
 
     private ProgressBar getProgressBar() {
@@ -197,6 +198,15 @@ public abstract class GenericFragment extends Fragment {
                 public void onItemClick(int position, View v) {
                     if (position != -1) {
                         touchHelper.startDrag(getRecyclerView().findViewHolderForLayoutPosition(position));
+                    }
+                }
+            });
+
+            getAdapter().setOnItemPublishClickListener(new GenericAdapter.OnGenericClickListener() {
+                @Override
+                public void onItemClick(int position, View v) {
+                    if (position != -1) {
+                        onPublishClick(position);
                     }
                 }
             });

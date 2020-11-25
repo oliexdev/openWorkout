@@ -43,6 +43,7 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
     private static OnGenericClickListener onDeleteClickListener;
     private static OnGenericClickListener onReorderClickListener;
     private static OnGenericClickListener onDuplicateClickListener;
+    private static OnGenericClickListener onPublishClickListener;
     private static OnGenericClickListener onExportClickListener;
 
     public GenericAdapter(Context aContext) {
@@ -96,6 +97,10 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
 
     public void setOnItemDuplicateClickListener(OnGenericClickListener onDuplicateClickListener) {
         this.onDuplicateClickListener = onDuplicateClickListener;
+    }
+
+    public void setOnItemPublishClickListener(OnGenericClickListener onPublishClickListener) {
+        this.onPublishClickListener = onPublishClickListener;
     }
 
     public void setOnItemExportClickListener(OnGenericClickListener onExportClickListener) {
@@ -158,6 +163,10 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
             });
         }
 
+        public void setPublishVisible(boolean isVisible) {
+            popupMenu.getMenu().findItem(R.id.publish).setVisible(isVisible);
+        }
+
         public void setExportVisible(boolean isVisible) {
             popupMenu.getMenu().findItem(R.id.export).setVisible(isVisible);
         }
@@ -173,6 +182,11 @@ public abstract class GenericAdapter<VH extends GenericAdapter.ViewHolder> exten
                 case R.id.duplicate:
                     if (onDuplicateClickListener != null) {
                         onDuplicateClickListener.onItemClick(getAdapterPosition(), null);
+                    }
+                    return true;
+                case R.id.publish:
+                    if (onPublishClickListener != null) {
+                        onPublishClickListener.onItemClick(getAdapterPosition(), null);
                     }
                     return true;
                 case R.id.export:

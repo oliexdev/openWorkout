@@ -17,18 +17,23 @@
 
 package com.health.openworkout.gui.training;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -250,6 +255,27 @@ public class TrainingFragment extends GenericFragment {
 
             OpenWorkout.getInstance().updateTrainingPlan(trainingPlan);
         }
+    }
+
+    @Override
+    protected void onPublishClick(int position) {
+        exportTrainingPlan = trainingPlanList.get(position);
+
+        final AlertDialog infoDialog = new AlertDialog.Builder(getContext())
+                .setIcon(R.drawable.ic_export)
+                .setTitle(getString(R.string.label_publish) + " " + exportTrainingPlan.getName())
+                .setMessage(Html.fromHtml(getString(R.string.label_publish_message)))
+                //.setMessage(publishMessage)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        fileDialogHelper.openExportFileDialog(exportTrainingPlan.getName());
+                    }
+                })
+                .create();
+        infoDialog.show();
+
+        ((TextView)infoDialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
