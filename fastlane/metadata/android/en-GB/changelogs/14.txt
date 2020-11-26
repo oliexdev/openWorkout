@@ -1,0 +1,3 @@
+* fixed correct database path
+* retain workout status on screen rotation
+* added floating action buttons for adding new items
