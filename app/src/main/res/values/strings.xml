@@ -101,10 +101,13 @@
     <string name="label_delete">Delete</string>
     <string name="label_export_local">Export</string>
     <string name="label_publish">Publish</string>
-    <string name="label_publish_message">For publishing your training, please save and upload the exported training file via a pull request on the <![CDATA[<a href="https://github.com/oliexdev/openWorkout">openWorkout GitHub</a>]]> project page.
+    <string name="label_publish_message">For publishing your training plan, please save and upload the exported training file via a pull request on the <![CDATA[<a href="https://github.com/oliexdev/openWorkout">openWorkout GitHub</a>]]> project page.
         <![CDATA[<br><br>]]>
         For more information visit the <![CDATA[<a href="https://github.com/oliexdev/openWorkout/wiki">openWorkout wikipage</a>]]>.</string>
     <string name="label_add">Add</string>
+    <string name="label_add_session">Add new session</string>
+    <string name="label_add_training">Add new training</string>
+    <string name="label_add_workout">Add new workout</string>
     <string name="label_add_from_database">Add from database</string>
     <string name="label_duplicate">Duplicate</string>
 

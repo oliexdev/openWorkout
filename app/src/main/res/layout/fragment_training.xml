@@ -66,7 +66,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/label_add" />
+            android:textColor="#ffff"
+            android:background="@drawable/button_flat_selector"
+            android:text="@string/label_add_training"  />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addButton"
@@ -95,6 +97,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:textColor="#ffff"
+            android:background="@drawable/button_flat_selector"
             android:text="@string/label_cloud_import" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -124,6 +128,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:textColor="#ffff"
+            android:background="@drawable/button_flat_selector"
             android:text="@string/label_local_import" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
