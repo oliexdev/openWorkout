@@ -75,7 +75,7 @@
     <string name="label_break_duration_item_info">%d s break</string>
     <string name="label_prep_duration_item_info">%d s preparation</string>
 
-    <string name="label_congratulation">Congratulation</string>
+    <string name="label_congratulation">Congratulations!</string>
     <string name="label_info_finished_session">You finished your session in</string>
 
     <string name="label_start">Start</string>
