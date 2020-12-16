@@ -16,21 +16,14 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/reset"
-        android:title="@string/label_reset"
-        android:icon="@drawable/ic_reset"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/edit"
-        android:title="@string/label_edit"
-        android:icon="@drawable/ic_edit"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/save"
-        android:title="@string/label_save"
-        android:icon="@drawable/ic_save"
-        app:showAsAction="always" />
-</menu>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true">
+    <rotate xmlns:android="http://schemas.android.com/apk/res/android"
+        android:fromDegrees="0"
+        android:toDegrees="45"
+        android:interpolator="@android:anim/linear_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:duration="300" >
+    </rotate>
+</set>

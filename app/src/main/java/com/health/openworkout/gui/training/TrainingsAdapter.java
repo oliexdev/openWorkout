@@ -145,6 +145,7 @@ public class TrainingsAdapter extends GenericAdapter<TrainingsAdapter.ViewHolder
             trophyView = itemView.findViewById(R.id.trophyView);
 
             setExportVisible(true);
+            setPublishVisible(true);
         }
     }
 

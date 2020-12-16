@@ -29,9 +29,16 @@
         android:icon="@drawable/ic_duplicate"
         app:showAsAction="always" />
     <item
-        android:id="@+id/export"
-        android:title="@string/label_export"
+        android:id="@+id/publish"
+        android:title="@string/label_publish"
         android:icon="@drawable/ic_export"
         android:visible="false"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/export"
+        android:title="@string/label_export_local"
+        android:icon="@drawable/ic_local_export"
+        android:visible="false"
+        app:showAsAction="always" />
+
 </menu>

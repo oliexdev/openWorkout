@@ -38,8 +38,6 @@ import com.health.openworkout.R;
 import java.util.Collections;
 import java.util.List;
 
-import timber.log.Timber;
-
 public abstract class GenericFragment extends Fragment {
     @Keep
     public enum FRAGMENT_MODE {VIEW, EDIT}
@@ -92,8 +90,8 @@ public abstract class GenericFragment extends Fragment {
     protected abstract void onEditCallback(int position);
     protected abstract void onDuplicateCallback(int position);
     protected abstract void onDeleteCallback(int position);
-    protected abstract void onAddClick();
     protected abstract void onResetClick();
+    protected void onPublishClick(int position) {};
     protected void onExportClick(int position) {};
 
     private ProgressBar getProgressBar() {
@@ -204,6 +202,15 @@ public abstract class GenericFragment extends Fragment {
                 }
             });
 
+            getAdapter().setOnItemPublishClickListener(new GenericAdapter.OnGenericClickListener() {
+                @Override
+                public void onItemClick(int position, View v) {
+                    if (position != -1) {
+                        onPublishClick(position);
+                    }
+                }
+            });
+
             getAdapter().setOnItemExportClickListener(new GenericAdapter.OnGenericClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
@@ -218,9 +225,6 @@ public abstract class GenericFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.add:
-                onAddClick();
-                return true;
             case R.id.edit:
                 mode = GenericFragment.FRAGMENT_MODE.EDIT;
                 getAdapter().setMode(mode);

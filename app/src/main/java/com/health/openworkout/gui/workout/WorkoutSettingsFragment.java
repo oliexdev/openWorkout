@@ -278,6 +278,7 @@ public class WorkoutSettingsFragment extends GenericSettingsFragment {
                 long workoutSessionId = WorkoutSettingsFragmentArgs.fromBundle(getArguments()).getSessionWorkoutId();
 
                 workoutItem.setWorkoutSessionId(workoutSessionId);
+                workoutItem.setOrderNr(OpenWorkout.getInstance().getWorkoutSession(workoutSessionId).getWorkoutItems().size()+1);
                 OpenWorkout.getInstance().insertWorkoutItem(workoutItem);
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
                 break;
