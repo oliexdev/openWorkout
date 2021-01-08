@@ -120,6 +120,7 @@ public class HomeFragment extends Fragment {
 
                 user.setTrainingsPlanId(selectedTrainingPlan.getTrainingPlanId());
                 openWorkout.updateUser(user);
+                updateProgressBar(selectedTrainingPlan);
             }
 
             @Override
@@ -133,15 +134,6 @@ public class HomeFragment extends Fragment {
                 trainingNameView.setSelection(i);
             }
         }
-
-        sessionView.setText("(" + Integer.toString(userTrainingPlan.finishedSessionSize()) + "/" + userTrainingPlan.getWorkoutSessionSize()+")");
-        sessionProgressBar.setMax(userTrainingPlan.getWorkoutSessionSize());
-        sessionProgressBar.post(new Runnable() {
-            @Override
-            public void run() {
-                sessionProgressBar.setProgress(userTrainingPlan.finishedSessionSize());
-            }
-        });
 
         avatarGroup = root.findViewById(R.id.avatarGroup);
 
@@ -177,6 +169,19 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        updateProgressBar(userTrainingPlan);
+
         return root;
+    }
+
+    private void updateProgressBar(TrainingPlan trainingPlan) {
+        sessionView.setText("(" + Integer.toString(trainingPlan.finishedSessionSize()) + "/" + trainingPlan.getWorkoutSessionSize()+")");
+        sessionProgressBar.setMax(trainingPlan.getWorkoutSessionSize());
+        sessionProgressBar.post(new Runnable() {
+            @Override
+            public void run() {
+                sessionProgressBar.setProgress(trainingPlan.finishedSessionSize());
+            }
+        });
     }
 }
