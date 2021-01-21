@@ -54,7 +54,7 @@ public class AbdominalMuscleSession extends WorkoutSession {
             case 1:
                 addWorkoutTime(new JumpingJack(), 15);
                 addWorkoutRep(new AbdominalCrunch(), 10);
-                addWorkoutRep(new SidePlank(), 3);
+                addWorkoutTime(new SidePlank(), 5);
                 addWorkoutTime(new HighKnees(), 15);
                 addWorkoutRep(new CircleCrunch(), 10);
                 addWorkoutTime(new Plank(), 10);
