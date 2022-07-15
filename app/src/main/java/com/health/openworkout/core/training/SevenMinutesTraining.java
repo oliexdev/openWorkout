@@ -28,7 +28,7 @@ public class SevenMinutesTraining extends TrainingPlan {
         setName(getContext().getString(R.string.training_seven_minutes_workout_training));
         setImagePath("sevenMinutesTraining.png");
 
-        for (int i=1; i<=30; i++) {
+        for (int i=1; i<=7; i++) {
             SevenMinutesSession session = new SevenMinutesSession();
 
             session.setName(String.format(getContext().getString(R.string.day_unit), i));
