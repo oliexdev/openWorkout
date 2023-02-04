@@ -91,3 +91,4 @@ lint/tmp/
 
 /app/release/output.json
 /.idea/.name
+/.idea/

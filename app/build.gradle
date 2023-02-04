@@ -89,6 +89,14 @@ android {
 
         debug {
             debuggable true
+            // don't include version number into the apk filename for debug build type so GitHub CI can find it
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    if (variant.buildType.name == "debug") {
+                        outputFileName = "openWorkout-debug.apk"
+                    }
+                }
+            }
         }
     }
 
