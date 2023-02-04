@@ -17,6 +17,7 @@
 
 package com.health.openworkout.core.session;
 
+import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
 import com.health.openworkout.core.workout.AbdominalCrunch;
 import com.health.openworkout.core.workout.HighKnees;
@@ -46,5 +47,8 @@ public class SevenMinutesSession extends WorkoutSession {
         addWorkout(new Lunge());
         addWorkout(new PushUpRotation());
         addWorkout(new SidePlank());
+        for (WorkoutItem w : this.getWorkoutItems()){
+            w.setBreakTime(10);
+        }
     }
 }
