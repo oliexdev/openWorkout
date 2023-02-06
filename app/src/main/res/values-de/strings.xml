@@ -1,0 +1,218 @@
+<!--
+  ~ Copyright (C) 2020 olie.xdev <olie.xdev@googlemail.com>
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>
+  -->
+
+<resources>
+    <string name="app_name" translatable="false">openWorkout</string>
+    <string name="navigation_drawer_open">Navigationsschublade öffnen</string>
+    <string name="navigation_drawer_close">Navigationsschublade schließen</string>
+    <string name="nav_header_desc">Navigation Kopfzeile</string>
+    <string name="action_settings">Einstellungen</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_trainings">Trainings</string>
+    <string name="menu_trainingsdatabase">Datenbank für Übungen</string>
+    <string name="menu_sessions">Sitzungen</string>
+    <string name="menu_workout">Workout</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="menu_trophy">Trophäe</string>
+    <string name="menu_workoutslide">Workout slide</string>
+    <string name="menu_workoutsettings">Workout-Einstellungen</string>
+    <string name="menu_workoutdatabase">Datenbank der Trainingseinheiten</string>
+    <string name="menu_billing">Billing</string>
+
+    <string name="preference_reminder_general">Allgemein</string>
+    <string name="preference_reminder_title">Erinnerung</string>
+    <string name="preference_enable_dark_theme">Dunkler Themenmodus</string>
+    <string name="preference_reminder">Erinnerung</string>
+    <string name="preference_reminder_days">Tage</string>
+    <string name="preference_reminder_time">Zeit</string>
+    <string name="preference_reminder_text">Benachrichtigungstext</string>
+    <string name="preference_reminder_default_text">Zeit für dein Training</string>
+    <string name="preference_enable_debug_logging">Debug-Protokollierung einschalten</string>
+    <string name="preference_remove_advertisements">Werbung entfernen</string>
+    <string name="preference_sound">Ton</string>
+    <string name="preference_speech_countdown">Countdown für die Ansprache</string>
+    <string name="preference_speech_workout_state">Speech workout state</string>
+
+
+    <string name="label_info_remove_permanently">Zahlen Sie einmal und entfernen Sie dauerhaft jegliche Werbung von openWorkout</string>
+    <string name="label_info_purchase_for">Jetzt kaufen für %s</string>
+    <string name="label_pending_purchase">Sie haben einen offenen Kauf, bitte füllen Sie die Bestellung aus %s</string>
+    <string name="label_already_purchased">Du hast es bereits gekauft</string>
+    <string name="label_successful_purchased">Erfolgreich gekauft</string>
+    <string name="label_purchase_canceled">Kauf storniert</string>
+    <string name="label_purchase_unexpected_error">Unerwarteter Fehler Abbruch des Einkaufs</string>
+
+    <string name="Monday">Montag</string>
+    <string name="Tuesday">Dienstag</string>
+    <string name="Wednesday">Mittwoch</string>
+    <string name="Thursday">Donnerstag</string>
+    <string name="Friday">Freitag</string>
+    <string name="Saturday">Sonnabend</string>
+    <string name="Sunday">Sonntag</string>
+
+    <string name="seconds_unit">s</string>
+    <string name="day_unit">%d. Tag</string>
+
+    <string name="label_session_size_completed">%d von %d abgeschlossenen Sitzungen</string>
+    <string name="label_repetition_info">%d x %s Wiederholungen</string>
+    <string name="label_repetition_item_info">%d x Wiederholung</string>
+    <string name="label_work_duration_item_info">%d s Workout-Dauer</string>
+    <string name="label_break_duration_item_info">%d s Pausen</string>
+    <string name="label_prep_duration_item_info">%d s Wiederholungen</string>
+
+    <string name="label_congratulation">Herzlichen Glückwunsch!</string>
+    <string name="label_info_finished_session">Du hast deine Sitzung in</string>
+
+    <string name="label_start">Start</string>
+    <string name="label_break">Eine Pause einlegen</string>
+    <string name="label_prepare">Bereite dein Training vor</string>
+    <string name="label_workout">Mach dein Training</string>
+    <string name="speak_next_workout">Dein nächstes Workout ist</string>
+    <string name="speak_halftime">Halbzeit</string>
+    <string name="speak_five">Fünf</string>
+    <string name="speak_four">Vier</string>
+    <string name="speak_three">Drei</string>
+    <string name="speak_two">Zwei</string>
+    <string name="speak_one">Eins</string>
+
+    <string name="label_about">Über</string>
+    <string name="label_about_info" translatable="false">Copyright (C) 2020 olie.xdev@googlemail.com\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program.  If not, see http://www.gnu.org/licenses/</string>
+    <string name="label_help">Hilfe</string>
+    <string name="label_ok">OK</string>
+    <string name="label_cancel">Abbrechen</string>
+    <string name="label_save">Speichern</string>
+    <string name="label_edit">Bearbeiten</string>
+    <string name="label_reset">Zurücksetzen</string>
+    <string name="label_delete">Löschen</string>
+    <string name="label_export_local">Exportieren</string>
+    <string name="label_publish">Veröffentlichen</string>
+    <string name="label_publish_message">Um Ihren Trainingsplan zu veröffentlichen, speicher bitte die exportierte Trainingsdatei und lade sie über einen Pull-Request auf der Projektseite <![CDATA[<a href="https://github.com/oliexdev/openWorkout">openWorkout GitHub</a>]]> hoch.
+        <![CDATA[<br><br>]]>
+        Weitere Informationen findet man auf <![CDATA[<a href="https://github.com/oliexdev/openWorkout/wiki">openWorkout wikipage</a>]]>.</string>
+    <string name="label_add">Hinzufügen</string>
+    <string name="label_add_session">Neue Sitzung hinzufügen</string>
+    <string name="label_add_training">Neues Training hinzufügen</string>
+    <string name="label_add_workout">Neues Workout hinzufügen</string>
+    <string name="label_add_from_database">Aus der Datenbank hinzufügen</string>
+    <string name="label_duplicate">Duplizieren</string>
+
+    <string name="label_training_plans">Trainingspläne</string>
+    <string name="label_add_toast">%s Hinzugefügt</string>
+    <string name="label_delete_toast">%s gelöscht</string>
+    <string name="label_reset_toast">%s zurückgesetzt</string>
+    <string name="label_save_toast">%s gespeichert</string>
+    <string name="label_package_size_mbytes">%s MBytes Paketgröße</string>
+    <string name="label_package_size_kbytes">%s kBytes Paketgröße</string>
+
+    <string name="label_new_training_plan">Neuer Trainingsplan</string>
+    <string name="label_new_workout_item">Neues Trainingselement</string>
+    <string name="label_name">Name</string>
+    <string name="label_description">Beschreibung</string>
+    <string name="label_preparation_time">Vorbereitungszeit</string>
+    <string name="label_workout_time">Zeit für das Training</string>
+    <string name="label_break_time">Pausenzeit</string>
+    <string name="label_repetition_count">Anzahl der Wiederholungen</string>
+    <string name="label_time_mode">Zeitmodus</string>
+    <string name="label_video_mode">Videomodus</string>
+    <string name="label_video">Video</string>
+    <string name="label_image">Bild</string>
+
+    <string name="label_male">Männlich</string>
+    <string name="label_female">Weiblich</string>
+
+    <string name="label_select_image_file">Wähle eine Bilddatei</string>
+    <string name="label_select_video_file">Wählen eine Videodatei</string>
+    <string name="label_select_export_file">Exportiere openWorkout Trainingspaket</string>
+    <string name="label_select_import_file">Importiere openWorkout Trainingspaket</string>
+    <string name="label_select_debug_file">Debug-Datei speichern</string>
+    <string name="label_local_import">Lokal Import</string>
+    <string name="label_cloud_import">Cloud-Import</string>
+
+    <string name="label_info_exported">Trainingsplan %s exportiert nach %s</string>
+    <string name="label_info_imported">Trainingsplan %s importiert von %s</string>
+
+    <string name="label_input_create_days">Wie viele Sitzungen möchtest Du einfügen?</string>
+    <string name="label_really_reset_dialog">Möchtest Du wirklich den Status aller Artikel zurücksetzen?</string>
+
+    <string name="error_no_trainings">Keine Workout-Trainings gefunden. Bitte erstelle ein Workout-Training.</string>
+    <string name="error_no_sessions">Keine Trainingssitzung in %s gefunden. Bitte erstelle eine Trainingssitzung.</string>
+    <string name="error_no_workout_items">Kein Workout-Element in %s gefunden. Bitte erstelle ein Trainingselement.</string>
+    <string name="error_empty_text">Feld darf nicht leer sein</string>
+    <string name="error_no_github_connection">Kann keine Verbindung zur GitHub-API herstellen, stelle sicher, dass du online bist</string>
+    <string name="error_no_github_download">Datei kann nicht über GitHub-API heruntergeladen werden</string>
+    <string name="error_no_valid_training_package">%s ist kein gültiges Trainingspaket</string>
+    <string name="error_no_access_to_file">Kann nicht auf Datei zugreifen</string>
+
+    <string name="workout_name_jumping_jack">Hampelmann (Jumping jack)</string>
+    <string name="workout_name_wall_sit">Wall sit</string>
+    <string name="workout_name_push_ups">Push-up</string>
+    <string name="workout_name_abdominal_crunch">Abdominal crunch</string>
+    <string name="workout_name_step_up">Step-up</string>
+    <string name="workout_name_squat">Hocke (Squat)</string>
+    <string name="workout_name_triceps_dip">Triceps dip</string>
+    <string name="workout_name_plank">Plank</string>
+    <string name="workout_name_high_knees">High knees</string>
+    <string name="workout_name_lunge">Lunge</string>
+    <string name="workout_name_push_up_rotation">Push-up rotation</string>
+    <string name="workout_name_side_plank">Side plank</string>
+    <string name="workout_name_cross_jump_rotation">Cross jump rotation</string>
+    <string name="workout_name_quick_steps">Quick steps</string>
+    <string name="workout_name_jump_push_ups">Jump push-up</string>
+    <string name="workout_name_bicycle_crunch">Bicycle crunch</string>
+    <string name="workout_name_burpee">Burpee</string>
+    <string name="workout_name_box_jump">Box jump</string>
+    <string name="workout_name_circle_crunch">Circle crunch</string>
+    <string name="workout_name_pike_walk">Hechtsprung (Pike walk)</string>
+    <string name="workout_name_cross_jump">Kreuzsprung (Cross jump)</string>
+    <string name="workout_name_air_squad_bent_arms">Air squad bent arms</string>
+    <string name="workout_name_lunge_kick">Ausfallschritt (Lunge kick)</string>
+    <string name="workout_name_mountain_climbers">Bergsteiger|in (Mountain climber)</string>
+    <string name="workout_name_russian_twist">Russian twist</string>
+    <string name="workout_name_donkey_kick">Eselstritt (Donkey kick)</string>
+
+    <string name="workout_description_jumping_jack">Stelle dich mit gespreizten Beinen auf und berühren deine Hände über dem Kopf. Wenn du springst, führe die Beine wieder zusammen und lege die Arme an die Seite. Du kannst diese Übungen beschleunigen oder verlangsamen, je nach deinem Fitnesslevel.</string>
+    <string name="workout_description_wall_sit">Stelle dich mit dem Rücken an eine Wand, die Füße hüftbreit auseinander und leicht vor dich. Lehne dich mit dem Rücken an die Wand und lasse dich nach unten gleiten, als ob du dich auf einen Stuhl setzen würdest. Deine Knie sollten oberhalb der Knöchel enden und im 90-Grad-Winkel gebeugt sein.</string>
+    <string name="workout_description_push_ups">Stell dich auf den Boden oder eine Matte, die Füße zusammen, die Zehen angezogen, die Hände flach unter die Schultern gelegt. Beuge langsam die Ellbogen und senke deinen Körper so weit wie möglich nach unten, wobei dein Rücken und Hüfte gerade gehalten wird. Dann wieder hochdrücken und wiederholen.</string>
+    <string name="workout_description_abdominal_crunch">Beginne mit einem einfachen Crunch: Lege dich flach auf den Rücken, beuge die Knie und stell die Füße auf den Boden. Spann deinen Kern an. Drücke den unteren Rücken auf die Matte und strecke die Knie nach oben. Kehre in die Ausgangsposition zurück, aber halte die Körpermitte angespannt und wiederhole die Übung.</string>
+    <string name="workout_description_step_up">Stell dich vor einen stabilen Stuhl oder eine Bank. Steigen Sie mit dem linken Bein auf den Stuhl oder die Bank und stell sich mit beiden Füßen ganz darauf. Gehe dann wieder nach unten und komme wieder hoch, diesmal mit dem rechten Bein.</string>
+    <string name="workout_description_squat">Stell dich mit den Füßen schulterbreit auseinander und den Zehen nach vorne. Beuge die Knie in den Hüften und schiebe sie nach hinten und unten, als ob du dich auf einen Stuhl setzen willst. Senke dich so weit ab, wie es dir möglich ist, und verlager dabei den größten Teil deines Gewichts auf deine Fersen. Steh wieder auf.</string>
+    <string name="workout_description_triceps_dip">Setze dich auf die Vorderkante eines stabilen Stuhls oder einer Bank und lege deine Handflächen auf die Kante, wobei die Finger nach vorne oder leicht zu dir zeigen. Steige vom Stuhl ab und stütze dein Gewicht auf deine Fersen und deine Handflächen. Beugen langsam die Ellbogen, während du dich zum Boden absenkst, und drücken dich dann wieder hoch.</string>
+    <string name="workout_description_plank">Lege dich auf den Bauch auf eine Gymnastikmatte und stütze die Ellbogen seitlich ab, wobei die Handflächen nach unten und die Finger nach vorne zeigen. Hebe den Oberkörper und die Oberschenkel vom Boden ab und halte deinen Körper gerade. Stützen dein Gewicht auf die Ellenbogen und die Füße, wobei die Zehen zu den Schienbeinen zeigen. Spannen deine Rumpfmuskeln an und bleibe in dieser Position.</string>
+    <string name="workout_description_high_knees">Laufe auf der Stelle und hebe die Knie bei jedem Schritt so weit wie möglich an. Konzentriere dich darauf, die Knie schnell hoch und runter zu heben. Versuche, die Handflächen in Hüfthöhe vor dir zu halten und bei jedem Schritt das Knie in die Handfläche zu "klatschen".</string>
+    <string name="workout_description_lunge">Stelle deine Füßen zusammen. Trete mit dem rechten Fuß nach vorne und lassen das Becken in Richtung Boden fallen (nicht nach vorne). Senken dich ab, bis die vorderen und hinteren Knie so weit wie möglich im 90-Grad-Winkel gebeugt sind. Drücke dich dann mit dem vorderen Bein zurück und kehre in deine Ausgangsposition zurück. Wechsel die Beine.</string>
+    <string name="workout_description_push_up_rotation">Beginn in einer normalen Liegestützposition. Beginne in einen traditionellen Liegestütz, verlagere dein Gewicht jedoch auf die linke Seite, wenn du wieder nach oben kommst. Drehe deinen Oberkörper und strecke den rechten Arm gerade nach oben zur Decke. Kehre in die Ausgangsposition zurück, und wiederhole die Übung mit der rechten Seite.</string>
+    <string name="workout_description_side_plank">Lege dich mit der rechten Seite auf eine Matte, die Beine sind gestreckt und das linke Bein liegt direkt über dem rechten. Halte Knöchel, Knie, Hüfte und Rumpf in einer geraden Linie und stütze dein Gewicht auf den gebeugten rechten Ellbogen, der sich direkt unter Ihrer Schulter befinden sollte. Hebe die Hüfte, Knie und Rumpf von der Matte ab. Halte die Position für 15 Sekunden. Wechseln Sie dann die Seite.</string>
+    <string name="workout_description_cross_jump_rotation">Stell dich aufrecht hin, mit den Füßen dicht nebeneinander, beuge die Ellbogen und lege die Handflächen an die Brust. Beuge leicht die Knie und springe dann nach rechts, springe nach vorne und nach links, springe zurück und springe weiter im Kreis. Führe diese Übung so lange wie angegeben durch.</string>
+    <string name="workout_description_quick_steps">Stell dich vor eine drei bis sechs Zentimeter hohe Stufe. Schritt nach oben mit dem rechten Fuß, dann mit dem linken. Mit dem rechten Fuß abwärts treten, dann mit dem linken. Wiederholen Sie das Muster so schnell wie möglich.</string>
+    <string name="workout_description_jump_push_ups">no description</string>
+    <string name="workout_description_bicycle_crunch">Lege dich flach auf den Boden und drücke den unteren Rücken auf den Boden (ziehe den Bauchnabel nach innen, um auch die tiefen Bauchmuskeln zu trainieren). Verschränke die Hände hinter dem Kopf, ziehe die Knie zur Brust und hebe die Schulterblätter vom Boden ab, aber achte darauf, nicht am Nacken zu ziehen. Strecke dein rechtes Bein in einem 45-Grad-Winkel zum Boden aus, während der Oberkörper nach links dreht und der rechte Ellbogen zum linken Knie geführt wird. Achte darauf, dass sich dein Brustkorb bewegt und nicht nur dein Ellbogen. Wechsel nun die Seite und führe die gleiche Bewegung auf der anderen Seite aus, um eine Wiederholung zu absolvieren.</string>
+    <string name="workout_description_burpee">Beginn in einer stehenden Position. Geh in die Hocke und lege die Hände auf den Boden. Tritt mit den Füßen zurück in die Plank-Position und halte dabei die Arme gestreckt. Stell die Füße sofort wieder in die Hocke. Steh aus der Hocke auf.</string>
+    <string name="workout_description_box_jump">Stell dich mit schulterbreit auseinander stehenden Füßen vor den Kasten. Beuge dich in eine viertel Hocke und schwing die Arme nach hinten, dann nach vorne und hebe Sie vom Boden ab. Lande so sanft wie möglich auf dem Kasten. Bei der Landung solltest du deine Startposition nachahmen - die Füße sind flach und die Knie leicht gebeugt (lasse sie nicht nach innen kippen). Wenn du eher in einer tiefen Hocke als in einer Viertelhocke landest, ist das ein Zeichen dafür, dass du einen zu hohen Kasten gewählt hast. Springe dann wieder ab. Hier ist es dein Ziel, so weich wie möglich zu landen. Du kannst auch langsam mit einem Bein nach dem anderen absteigen, was die Gesäßmuskulatur noch mehr trainiert und deine Gelenke schont.</string>
+    <string name="workout_description_circle_crunch">Lege dich mit dem Gesicht nach oben, mit gebeugten Knien und flachen Füßen auf den Boden, die Hände hinter dem Kopf mit leichten Fingern. Hebe die Schultern vom Boden ab, bis du eine feste Kontraktion spürst, und krümm deinen Oberkörper in einer kleinen Kreisbewegung im Uhrzeigersinn (von 6 über 9 zu 12 zu 3 und wieder zurück zu 6).</string>
+    <string name="workout_description_pike_walk">Stell dich aufrecht hin und stelle die Füße etwa schulterbreit auseinander. Beuge dich in der Taille und lege die Hände auf den Boden. Halte die Beine gerade. Beginne die Hände nach vorne zu führen. Gehe mit den Händen so weit wie möglich nach außen und dann wieder zurück zu den Füßen. Du brauchst nicht jedes Mal wieder aufzustehen.</string>
+    <string name="workout_description_cross_jump">Stell dich aufrecht hin, die Füße eng beieinander, beuge die Ellbogen und lege die Handflächen an die Brust. Beugen deine Knie leicht und springe dann nach rechts, spring nach vorne und nach links, springen zurück und springen Sie weiter im Kreis.</string>
+    <string name="workout_description_air_squad_bent_arms">no description</string>
+    <string name="workout_description_lunge_kick">Stell die Füße zusammen, gehe mit dem rechten Bein einen Schritt zurück und mache einen Ausfallschritt. Wenn du hochkommst, drücke das rechte Bein nach oben. Kehre in die Ausgangsposition zurück und wiederhole die Übung mit dem linken Bein. Wechsel die Beine ab, bis der Satz beendet ist. Für die richtige Form und Atmung stelle dich gerade hin, schaue nach vorn, halten deinen Oberkörper angespannt und deinen Rücken flach. Halte beim Ausfallschritt das vordere Knie in einer Linie mit dem Knöchel und belaste deine vordere Ferse mit deinem Gewicht. Atme aus, wenn du dich abstößt, und kehre in die Ausgangsposition zurück oder gehe direkt in einen neuen Ausfallschritt über.</string>
+    <string name="workout_description_mountain_climbers">Dies ist eine Herz-Kreislauf-Übung, die die Gesundheit des Herzens fördert und Kalorien verbrennt. Während du die Bewegung ausführst, arbeiten deine Schultern, Arme und Brust daran, deinen Oberkörper zu stabilisieren, während deine Körpermitte den Rest deines Körpers stabilisiert. Als Hauptantriebskraft erhalten auch deine Quads ein Training. Nehme eine Plank-Position ein und achte darauf, das Gewicht gleichmäßig auf Hände und Zehen zu verteilen. Überprüfe deine Form - Ihre Hände sollten etwa schulterbreit auseinander stehen, dein Rücken flach, deine Bauchmuskeln angespannt und dein Kopf in einer Linie sein. Ziehe dein rechtes Knie so weit wie möglich zur Brust. Wechsel die Beine, indem du ein Knie nach außen zieht und das andere Knie nach innen bringst. Halte die Hüfte gesenkt und ziehe die Knie so weit und so schnell wie möglich ein und aus. Atme bei jedem Beinwechsel abwechselnd ein und aus.</string>
+    <string name="workout_description_russian_twist">Um die russische Drehung auszuführen, setze dich auf den Boden und beugen deine beide Knie, während die Füße zusammen und leicht über dem Boden (oder unter einer stabilen Oberfläche) halten. Idealerweise halte den Oberkörper gerade, während sich der Rücken in einem 45-Grad-Winkel vom Boden abhebt. Die Arme werden gerade vom Körper weg gehalten, und die Hände werden wie ein Ball verschränkt (man kann ein Gewicht halten, um den Schwierigkeitsgrad zu erhöhen). Anschließend werden die Arme in einer Drehbewegung von einer Seite zur anderen geschwungen, wobei jeder Schwung zu einer Seite als eine Wiederholung gezählt wird. Je langsamer du die Arme von einer Seite zur anderen bewegst, desto härter wird die Übung und desto besser wird dein Bauchmuskeltraining. Wenn du die Arme während der Übung bewegst, ist es wichtig, dass du zwischen den Wiederholungen keine Pausen machst, da sonst der Effekt der Bauchmuskelarbeit verloren geht. Ein gleichmäßiges Ein- und Ausatmen während der Übung ist wichtig, um eine gute Sauerstoffversorgung zu gewährleisten.</string>
+    <string name="workout_description_donkey_kick">Stelle dich auf alle Viere, mit den Händen direkt unter den Schultern und den Knien unter den Hüften. Achte darauf, dass dein Rücken flach ist (stellen dir vor, du balancierst ein Glas Wasser auf deinem unteren Rücken), und neige dein Kinn leicht, sodass dein Nacken zur Decke zeigt. Spanne deine unteren Bauchmuskeln an, ohne die Wirbelsäule zu krümmen. Halte dein rechtes Knie in einer Beugung von 0 oder 90 Grad und heben dein Bein langsam nach hinten und oben zur Decke. Deine maximale Höhe ist erreicht, kurz bevor sich dein Rücken wölbt oder deine Hüfte zu rotieren beginnt. Kehre dann in die Ausgangsposition zurück. Führe alle Wiederholungen auf einer Seite durch und wechsel dann das Bein.</string>
+
+    <string name="training_seven_minutes_workout_training">Sieben Minuten Workout-Training</string>
+    <string name="training_beginners_training">Training für Anfänger</string>
+    <string name="training_abdominal_muscle_training">Training der Bauchmuskeln</string>
+</resources>
