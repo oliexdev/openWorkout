@@ -28,6 +28,10 @@ If you would like to support this project's further development, the creator of 
 
 [![PayPal Donation](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H5KSTQA6TKTE4&source=url)
 
+# Privacy
+
+Please read the full privacy policy of the openScale sync app [here](https://github.com/oliexdev/openWorkout/wiki/openWorkout-Privacy-Policy).
+
 # Screenshots
 
 <table>
