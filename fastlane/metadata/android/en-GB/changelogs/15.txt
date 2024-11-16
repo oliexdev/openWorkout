@@ -1,0 +1,2 @@
+* updated libraries and set android target version to 34
+* removed ads from Google Play Store version
