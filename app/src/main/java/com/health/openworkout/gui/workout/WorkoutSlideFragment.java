@@ -43,7 +43,6 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
@@ -53,7 +52,6 @@ import com.health.openworkout.R;
 import com.health.openworkout.core.OpenWorkout;
 import com.health.openworkout.core.datatypes.WorkoutItem;
 import com.health.openworkout.core.datatypes.WorkoutSession;
-import com.health.openworkout.core.utils.PlayStoreUtils;
 import com.health.openworkout.gui.utils.SoundUtils;
 
 import java.io.IOException;
@@ -118,24 +116,6 @@ public class WorkoutSlideFragment extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         isSpeechCountdown = sharedPreferences.getBoolean("speechCountdown", false);
         isSpeechWorkoutState = sharedPreferences.getBoolean("speechWorkoutState", false);
-
-        if (!PlayStoreUtils.getInstance().isAdRemovalPaid()) {
-            Timber.d("Show Ad");
-            View adView = PlayStoreUtils.getInstance().getAdView(constraintLayout.getContext());
-            adView.setId(View.generateViewId());
-            ConstraintSet set = new ConstraintSet();
-
-            constraintLayout.addView(adView, 0);
-
-            set.clone(constraintLayout);
-            set.connect(adView.getId(), ConstraintSet.BOTTOM, constraintLayout.getId(), ConstraintSet.BOTTOM, 10);
-            set.connect(adView.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.LEFT, 0);
-            set.connect(adView.getId(), ConstraintSet.RIGHT, constraintLayout.getId(), ConstraintSet.RIGHT, 0);
-            set.connect(progressView.getId(), ConstraintSet.BOTTOM, adView.getId(), ConstraintSet.TOP, 10);
-            set.applyTo(constraintLayout);
-        } else {
-            Timber.d("Remove Ad");
-        }
 
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
