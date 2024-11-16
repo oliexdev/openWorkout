@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "zulu" # See 'Supported distributions' for available options
-          java-version: "22"
+          java-version: "21"
       - name: Build APK
         run: ./gradlew assembleFdroidDebug
       - uses: "marvinpinto/action-automatic-releases@latest"
