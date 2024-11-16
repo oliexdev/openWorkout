@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OpenWorkout.getInstance().initTrainingPlans();
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
             PlayStoreUtils.getInstance().initMobileAds(this);
         }
 
-        OpenWorkout.getInstance().initTrainingPlans();
     }
 
     @Override
