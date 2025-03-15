@@ -90,7 +90,7 @@ public class AlarmHandler {
         Intent alarmIntent = new Intent(context, ReminderBootReceiver.class);
         alarmIntent.putExtra(INTENT_EXTRA_ALARM, true);
 
-        return PendingIntent.getBroadcast(context, dayOfWeek, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(context, dayOfWeek, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     public void disableAllAlarms(Context context) {
@@ -110,7 +110,7 @@ public class AlarmHandler {
         Intent notifyIntent = new Intent(context, MainActivity.class);
 
         PendingIntent notifyPendingIntent =
-                PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "openWorkout_notify");
 
