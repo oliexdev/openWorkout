@@ -1,0 +1,13 @@
+<i>openWorkout</i> ist ein einfacher Trainingstrainer, bei dem Ihre Privatsphäre an erster Stelle steht.
+
+<b>Features</b>
+
+* Vorkonfigurierter 7-Minuten-Trainingsplan und Trainingsplan für Anfänger
+* Animierte auswählbare weibliche und männliche Figur
+* Detaillierte Informationen für jede Übung
+* Integrierte Trainingserinnerungsfunktion
+* Sie müssen kein Konto erstellen.
+* Respektiert Ihre Privatsphäre
+* Fügen Sie Ihren individuellen Trainingsplan und Trainingsgegenstände hinzu
+* Vollständig konfigurierbare Trainingselemente
+* Optionales dunkles Thema wählbar
