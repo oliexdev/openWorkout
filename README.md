@@ -1,14 +1,12 @@
-<img align="left" src="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/icon.png" alt="openWorkout logo" width="64" height="64"> openWorkout
+<img align="left" src="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-US/images/icon.png" alt="openWorkout logo" width="64" height="64"> openWorkout
 =========
 
 Simple workout trainer that puts your privacy first 
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/com.health.openworkout/)
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
-     alt="Get it on Google Play"
-     height="80">](https://play.google.com/store/apps/details?id=com.health.openworkout)
+> [!IMPORTANT]
+> This project is no longer actively maintained.<br>
+> I’ve decided to stop further development of openWorkout.<br>
+> Feel free to fork and continue if you’d like.
 
 # Features
 
@@ -22,12 +20,6 @@ Simple workout trainer that puts your privacy first
 * Full configuable workout items
 * Optional dark theme selectable
 
-# Donations
-
-If you would like to support this project's further development, the creator of this project or the continuous maintenance of this project, feel free to donate. Your donation is highly appreciated. Thank you!
-
-[![PayPal Donation](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H5KSTQA6TKTE4&source=url)
-
 # Privacy
 
 Please read the full privacy policy of the openScale sync app [here](https://github.com/oliexdev/openWorkout/wiki/openWorkout-Privacy-Policy).
@@ -37,20 +29,20 @@ Please read the full privacy policy of the openScale sync app [here](https://git
 <table>
   <tr>
     <th>
-        <a href="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/phoneScreenshots/1_en-GB.png" target="_blank">
-        <img src='https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/phoneScreenshots/1_en-GB.png' width='200px' alt='image missing' /> </a>
+        <a href="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1_en-GB.png" target="_blank">
+        <img src='https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1_en-GB.png' width='200px' alt='image missing' /> </a>
     </th>
     <th>
-        <a href="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/phoneScreenshots/2_en-GB.png" target="_blank">
-        <img src='https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/phoneScreenshots/2_en-GB.png' width='200px' alt='image missing' /> </a>
+        <a href="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2_en-GB.png" target="_blank">
+        <img src='https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2_en-GB.png' width='200px' alt='image missing' /> </a>
     </th>
     <th>
-        <a href="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/phoneScreenshots/3_en-GB.png" target="_blank">
-        <img src='https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/phoneScreenshots/3_en-GB.png' width='200px' alt='image missing' /> </a>
+        <a href="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3_en-GB.png" target="_blank">
+        <img src='https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3_en-GB.png' width='200px' alt='image missing' /> </a>
     </th>
     <th>
-        <a href="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/phoneScreenshots/4_en-GB.png" target="_blank">
-        <img src='https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-GB/images/phoneScreenshots/4_en-GB.png' width='200px' alt='image missing' /> </a>
+        <a href="https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4_en-GB.png" target="_blank">
+        <img src='https://github.com/oliexdev/openWorkout/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4_en-GB.png' width='200px' alt='image missing' /> </a>
     </th>
   </tr>
 </table>
