@@ -1,5 +1,11 @@
 <i>openWorkout</i> ist ein einfacher Trainingstrainer, bei dem Ihre Privatsphäre an erster Stelle steht.
 
+<b>Wichtig</b>
+
+Dieses Projekt wird nicht mehr aktiv gepflegt.
+Ich habe beschlossen, die Weiterentwicklung von openWorkout einzustellen.
+Gerne kannst du das Projekt forken und weiterführen, wenn du möchtest.
+
 <b>Features</b>
 
 * Vorkonfigurierter 7-Minuten-Trainingsplan und Trainingsplan für Anfänger
