@@ -1,5 +1,11 @@
 openWorkout is a simple workout trainer that puts your privacy first.
 
+# Important
+
+This project is no longer actively maintained. 
+I’ve decided to stop further development of openWorkout.
+Feel free to fork and continue if you’d like.
+
 # Features
 
 * Pre configured 7 minutes workout plan and beginners training plan
